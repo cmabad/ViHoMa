@@ -25,6 +25,6 @@ hs_err_pid*
 # Eclipse
 .project
 
-target/
+
 bin/
 tmp/
