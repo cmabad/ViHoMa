@@ -69,7 +69,7 @@ public class MainView {
     }
 
     private void drawStatusBar(String message, int status) {
-    	System.out.println(message);
+    	//System.out.println(message);
     	if (null != message) {
     		this.statusBarLabel.setText(message);
     	}
@@ -160,8 +160,6 @@ public class MainView {
     	
 		drawStatusBar(Messages.get("updatingBlockedHostsList"), STATUS_UPDATE);
 		Factory.service.forHost().addHosts(hosts);
-		//TODO quitar el syso
-		System.out.println("acabó añadir" + Factory.service.forConfiguration().getLastUpdateTime());
     	main.fillBlockedHostObservableList();
     	
     	updateHostCountLabel();
