@@ -26,6 +26,5 @@ hs_err_pid*
 .project
 
 target/
-data/*
 bin/
 tmp/
