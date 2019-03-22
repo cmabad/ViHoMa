@@ -5,7 +5,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -26,12 +25,11 @@ public class WebUtil {
 	 * @throws IOException if the http connection fails
 	 */
 	public static List<Host> getHostsFromWeb(long lastUpdate) throws IOException {
-		URL url = new URL(Settings.get("UrlGetWithTime")+lastUpdate);
+		URL url = new URL(Settings.get("urlGetWithTime")+lastUpdate);
     	HttpURLConnection con = (HttpURLConnection) url.openConnection();
     	con.setRequestMethod("GET");
     	con.setConnectTimeout(5000);
 
-    	// 204 si está al día
     	if (200 == con.getResponseCode()) {
 			BufferedReader in = new BufferedReader(
 					  new InputStreamReader(con.getInputStream()));
@@ -72,15 +70,6 @@ public class WebUtil {
     	//con.getInputStream();
     	
     	if (200 == con.getResponseCode()) {
-    		System.out.println(con.getResponseCode());
-    		System.out.println("WebUtil.uploadHostToWeb(): ");
-    		BufferedReader in = new BufferedReader(
-					  new InputStreamReader(con.getInputStream()));
-			String inputLine;
-			while ((inputLine = in.readLine()) != null) {
-				System.out.println(inputLine);
-			}
-			in.close();
     		return true;    		
     	} else {
     		return false;
