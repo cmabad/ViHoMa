@@ -23,7 +23,6 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
 	@Override
 	public void setLastUpdateTime() {
-		System.out.println("ConfigurationServiceImpl():" + System.currentTimeMillis()/1000);
 		Factory.repository.forConfiguration()
 			.setLastUpdateTime(String.valueOf(System.currentTimeMillis()/1000));
 	}

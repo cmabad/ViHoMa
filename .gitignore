@@ -25,7 +25,7 @@ hs_err_pid*
 # Eclipse
 .project
 
-/target/
-/data/*
-/bin/
-/tmp/
+target/
+data/*
+bin/
+tmp/
