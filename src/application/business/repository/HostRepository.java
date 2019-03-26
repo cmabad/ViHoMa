@@ -8,4 +8,5 @@ public interface HostRepository extends Repository<Host>{
 
 	int getHostsCount();
 	void addHosts(List<Host> newHostsList);
+	void toggleHostStatus(String domain);
 }

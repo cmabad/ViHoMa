@@ -11,106 +11,110 @@ import application.util.properties.Messages;
 import application.util.properties.Settings;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.layout.AnchorPane;
 
 public class MainView {
 
 	@FXML
-    private TableView<Host> blockedHostsTable;
+	private TableView<Host> blockedHostsTable;
 	@FXML
-    private TableColumn<Host, String> domainColumn;
-    @FXML
-    private TableColumn<Host, String> categoryColumn;
-    @FXML
-    private TableColumn<Host, Integer> statusColumn;
+	private TableColumn<Host, String> domainColumn;
 	@FXML
-    private TableView<CustomHost> customHostsTable;
+	private TableColumn<Host, String> categoryColumn;
 	@FXML
-    private TableColumn<CustomHost, String> customDomainColumn;
-    @FXML
-    private TableColumn<CustomHost, String> customIpColumn;
+	private TableColumn<Host, Boolean> statusColumn;
+	@FXML
+	private TableView<CustomHost> customHostsTable;
+	@FXML
+	private TableColumn<CustomHost, String> customDomainColumn;
+	@FXML
+	private TableColumn<CustomHost, String> customIpColumn;
 
-    @FXML
-    private TextField newBlockedHostDomain;
-    
-    @FXML
-    private SplitMenuButton newBlockedHostCategory;
-    
-    @FXML
-    private TextField newCustomDomainField;
-    @FXML
-    private TextField newCustomAddressField;
-    
-    @FXML
-    private Label totalBlockedHostsCountLabel;
-    
-    @FXML
-    private AnchorPane statusBar;
-    @FXML
-    private Label statusBarLabel;
-    
-    private Main main;
-    
-    //private int status = 0;
-    private final int STATUS_UPDATE= 1;
-    private final int STATUS_OK = 0;
-    private final int STATUS_ERROR = 2;
+	@FXML
+	private Button deactivateBlockedHostButton; 
+	@FXML
+	private TextField newBlockedHostDomain;
 
-    /**
-     * The constructor.
-     * The constructor is called before the initialize() method.
-     */
-    public MainView() {
-    }
+	@FXML
+	private SplitMenuButton newBlockedHostCategory;
 
-    private void drawStatusBar(String message, int status) {
-    	//System.out.println(message);
-    	if (null != message) {
-    		this.statusBarLabel.setText(message);
-    	}
-    	
-    	if (STATUS_OK == status)
-    		this.statusBar.setStyle(Settings.get("statusBarColorOk"));
-    	else if (STATUS_UPDATE == status)
-    		this.statusBar.setStyle(Settings.get("statusBarColorUpdate"));
-    	else if (STATUS_ERROR == status)
-    		this.statusBar.setStyle(Settings.get("statusBarColorError"));
-    		
-    }
-    
-    /**
-     * Initializes the controller class. This method is automatically called
-     * after the fxml file has been loaded.
-     */
-    @FXML
-    private void initialize() {
-        // Initialize the person table with the two columns.
-        domainColumn.setCellValueFactory(cellData 
-        		-> cellData.getValue().domainProperty());
-        categoryColumn.setCellValueFactory(cellData 
-        		-> cellData.getValue().categoryProperty());
-        statusColumn.setCellValueFactory(cellData 
-        		-> cellData.getValue().statusProperty().asObject());
-        
-        customDomainColumn.setCellValueFactory(cellData -> cellData.getValue().domainProperty());
-        customIpColumn.setCellValueFactory(cellData -> cellData.getValue().addressProperty());
-        
-        updateHostCountLabel();
-       
-        fillBlockedHostsTable(null);
-        fillCustomHostsTable(null);
-        // Listen for selection changes and show the person details when changed.
-        //blockedHostsTable.getSelectionModel().selectedItemProperty().addListener(
-          //      (observable, oldValue, newValue) -> showPersonDetails(newValue));
-    }
+	@FXML
+	private TextField newCustomDomainField;
+	@FXML
+	private TextField newCustomAddressField;
 
-    private void updateHostCountLabel() {
-    	totalBlockedHostsCountLabel.setText(getBlockedHostsCount() + " blocked hosts");		
+	@FXML
+	private Label totalBlockedHostsCountLabel;
+
+	@FXML
+	private AnchorPane statusBar;
+	@FXML
+	private Label statusBarLabel;
+
+	private Main main;
+
+	// private int status = 0;
+	private final int STATUS_UPDATE = 1;
+	private final int STATUS_OK = 0;
+	private final int STATUS_ERROR = 2;
+
+	/**
+	 * The constructor. The constructor is called before the initialize() method.
+	 */
+	public MainView() {
+	}
+
+	private void drawStatusBar(String message, int status) {
+		// System.out.println(message);
+		if (null != message) {
+			this.statusBarLabel.setText(message);
+		}
+
+		if (STATUS_OK == status)
+			this.statusBar.setStyle(Settings.get("statusBarColorOk"));
+		else if (STATUS_UPDATE == status)
+			this.statusBar.setStyle(Settings.get("statusBarColorUpdate"));
+		else if (STATUS_ERROR == status)
+			this.statusBar.setStyle(Settings.get("statusBarColorError"));
+
+	}
+
+	/**
+	 * Initializes the controller class. This method is automatically called after
+	 * the fxml file has been loaded.
+	 */
+	@FXML
+	private void initialize() {
+		// Initialize the person table with the two columns.
+		domainColumn.setCellValueFactory(cellData -> cellData.getValue().domainProperty());
+		categoryColumn.setCellValueFactory(cellData -> cellData.getValue().categoryProperty());
+		// statusColumn.setCellValueFactory(cellData
+		// -> cellData.getValue().statusProperty().asObject());
+		statusColumn.setCellValueFactory(cellData -> cellData.getValue().activeProperty());
+        statusColumn.setCellFactory(param 
+        		-> new CheckBoxTableCell<Host, Boolean>());
+		
+		customDomainColumn.setCellValueFactory(cellData -> cellData.getValue().domainProperty());
+		customIpColumn.setCellValueFactory(cellData -> cellData.getValue().addressProperty());
+
+		updateHostCountLabel();
+
+		fillBlockedHostsTable(null);
+		fillCustomHostsTable(null);
+		// Listen for selection changes and show the person details when changed.
+		// blockedHostsTable.getSelectionModel().selectedItemProperty().addListener(
+		// (observable, oldValue, newValue) -> showPersonDetails(newValue));
+	}
+
+	private void updateHostCountLabel() {
+		totalBlockedHostsCountLabel.setText(getBlockedHostsCount() + " blocked hosts");
 	}
 
 	private int getBlockedHostsCount() {
@@ -118,88 +122,86 @@ public class MainView {
 	}
 
 	private void fillBlockedHostsTable(ObservableList<Host> list) {
-    	blockedHostsTable.setItems(list);
+		blockedHostsTable.setItems(list);
 	}
-    
-    private void fillCustomHostsTable(ObservableList<CustomHost> list) {
-    	customHostsTable.setItems(list);
+
+	private void fillCustomHostsTable(ObservableList<CustomHost> list) {
+		customHostsTable.setItems(list);
 	}
 
 	/**
-     * Is called by the main application to give a reference back to itself.
-     * 
-     * @param mainApp
-     */
-    public void setMainApp(Main mainClass) {
-        this.main = mainClass;
+	 * Is called by the main application to give a reference back to itself.
+	 * 
+	 * @param mainApp
+	 */
+	public void setMainApp(Main mainClass) {
+		this.main = mainClass;
 
-        // Add observable list data to the table
-        fillBlockedHostsTable(main.getBlockedHostsData());
-        fillCustomHostsTable(main.getCustomHostsData());
-    }
-    
-    /**
-     * Called when the user clicks on the delete button.
-     */
-    @FXML
-    private void handleDeletePerson() {
-        int selectedIndex = blockedHostsTable.getSelectionModel().getSelectedIndex();
-        blockedHostsTable.getItems().remove(selectedIndex);
-    }
-    
-    @FXML
-    private void getHostsFromWeb() {
-    	drawStatusBar(Messages.get("checkingNewBlockedHosts"),STATUS_UPDATE);
-    	
-    	List<Host> hosts = Factory.service.forHost().downloadNewBlockedHostsFromWeb();
-    	
-    	if (null == hosts) {
-    		drawStatusBar(Messages.get("webConnectionError"), STATUS_ERROR);
-    		return;
-    	}
-    	
+		// Add observable list data to the table
+		fillBlockedHostsTable(main.getBlockedHostsData());
+		fillCustomHostsTable(main.getCustomHostsData());
+	}
+
+	/**
+	 * Called when the user clicks on the delete button.
+	 */
+	@FXML
+	private void handleDeletePerson() {
+		int selectedIndex = blockedHostsTable.getSelectionModel().getSelectedIndex();
+		blockedHostsTable.getItems().remove(selectedIndex);
+	}
+
+	@FXML
+	private void getHostsFromWeb() {
+		drawStatusBar(Messages.get("checkingNewBlockedHosts"), STATUS_UPDATE);
+
+		List<Host> hosts = Factory.service.forHost().downloadNewBlockedHostsFromWeb();
+
+		if (null == hosts) {
+			drawStatusBar(Messages.get("webConnectionError"), STATUS_ERROR);
+			return;
+		}
+
 		drawStatusBar(Messages.get("updatingBlockedHostsList"), STATUS_UPDATE);
 		Factory.service.forHost().addHosts(hosts);
-    	main.fillBlockedHostObservableList();
-    	
-    	updateHostCountLabel();
-    	
+		main.fillBlockedHostObservableList();
+
+		updateHostCountLabel();
+
 //    	Factory.service.forHost().persistOnHostsFile();
-    	editHostsFile();
-    	drawStatusBar(Messages.get("upToDate"),STATUS_OK);
-    }
-    
-    @FXML
-    private void blockNewHost() {
-    	//TODO: if the user doesn't want to add to the database...
-    	String errorMessage = "";
-    	boolean valid = true;
-    	String domain = newBlockedHostDomain.getText();
-    	
-    	if (null == domain
-    			|| 0 == domain.length()) {
-            valid = false;
-    		errorMessage += "No valid hostname!\n"; 
-        }
-    	
-    	if (valid) {
-    		drawStatusBar(Messages.get("blockNewHostStart") + " " + domain, STATUS_UPDATE);
-    		Factory.service.forHost().addHost(domain,"category");
-    		
-    		//TODO if the user wants to share the blocked domain
-    		uploadNewBlockedHost(domain);
-    		
-    		main.fillBlockedHostObservableList();
-    		updateHostCountLabel();
-    		drawStatusBar(domain + " " + Messages.get("blockNewHostSuccess"), STATUS_OK);
-    	}
-    	else {
-    		drawStatusBar("error adding new host: " + errorMessage, STATUS_ERROR);
-    	}
-    }
-    
-    private void uploadNewBlockedHost(String domain) {
-    	Boolean uploadSuccess = Factory.service.forHost().updateHost(domain);
+		editHostsFile();
+		drawStatusBar(Messages.get("upToDate"), STATUS_OK);
+	}
+
+	@FXML
+	private void blockNewHost() {
+		// TODO: if the user doesn't want to add to the database...
+		String errorMessage = "";
+		boolean valid = true;
+		String domain = newBlockedHostDomain.getText();
+
+		if (null == domain || 0 == domain.length()) {
+			valid = false;
+			errorMessage += "No valid hostname!\n";
+		}
+
+		if (valid) {
+			drawStatusBar(Messages.get("blockNewHostStart") + " " + domain, STATUS_UPDATE);
+			Factory.service.forHost().addHost(domain, "category");
+
+			// TODO if the user wants to share the blocked domain
+			uploadNewBlockedHost(domain);
+
+			main.fillBlockedHostObservableList();
+			updateHostCountLabel();
+			drawStatusBar(domain + " " + Messages.get("blockNewHostSuccess"), STATUS_OK);
+		} else {
+			drawStatusBar("error adding new host: " + errorMessage, STATUS_ERROR);
+		}
+	}
+
+	private void uploadNewBlockedHost(String domain) {
+		Boolean uploadSuccess = Factory.service.forHost().updateHost(domain);
 		if (null == uploadSuccess || !uploadSuccess.booleanValue())
 			System.out.println("the host wasn't uploaded");
 		else {
@@ -209,34 +211,47 @@ public class MainView {
 	}
 
 	@FXML
-    private void addCustomHost() {
-    	String errorMessage = "";
-    	boolean valid = true;
-    	String domain = newCustomDomainField.getText();
-    	String address = newCustomAddressField.getText();
-    	
-    	if (null == domain
-    			|| 0 == domain.length()) {
-            valid = false;
-    		errorMessage += "No valid hostname!\n"; 
-        }
-    	if (null == address
-    			|| 0 == address.length()) {
-            valid = false;
-    		errorMessage += "No valid IP!\n"; 
-        }
-    	
-    	if (valid) {
-    		Factory.service.forCustomHost().add(domain, address);
-    		main.fillCustomHostObservableList();
-    	}
-    	else
-    		drawStatusBar("error adding new host: " + errorMessage, STATUS_ERROR);
-    }
-    
-    @FXML
-    private void editHostsFile() {
-    	//TODO Factory.service.forHosts().editHostsFile();
-    	HostsFileManager.editHostsFile();
-    }
+	private void addCustomHost() {
+		String errorMessage = "";
+		boolean valid = true;
+		String domain = newCustomDomainField.getText();
+		String address = newCustomAddressField.getText();
+
+		if (null == domain || 0 == domain.length()) {
+			valid = false;
+			errorMessage += "No valid hostname!\n";
+		}
+		if (null == address || 0 == address.length()) {
+			valid = false;
+			errorMessage += "No valid IP!\n";
+		}
+
+		if (valid) {
+			Factory.service.forCustomHost().add(domain, address);
+			main.fillCustomHostObservableList();
+		} else
+			drawStatusBar("error adding new host: " + errorMessage, STATUS_ERROR);
+	}
+
+	@FXML
+	private void editHostsFile() {
+		// TODO Factory.service.forHosts().editHostsFile();
+		HostsFileManager.editHostsFile();
+	}
+
+	@FXML
+	private void editBlockedHostActivation() {
+		Host host = blockedHostsTable.getSelectionModel().getSelectedItem();
+		if (null == host)
+			drawStatusBar(Messages.get("noHostSelected"),STATUS_ERROR);
+		else {
+			System.out.println(host.toString());
+			drawStatusBar(host.isActive()? "vamo a desactivar":"vamo a activar", STATUS_UPDATE);
+			Factory.service.forHost().toggleHostStatus(host.getDomain());
+			
+			main.fillBlockedHostObservableList();
+			updateHostCountLabel();
+			drawStatusBar(Messages.get("upToDate"), STATUS_UPDATE);
+		}
+	}
 }

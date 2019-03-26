@@ -1,7 +1,9 @@
 package application.model;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.LongProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -12,6 +14,7 @@ public class Host {
 	private StringProperty domain;
 	private StringProperty category;
 	private IntegerProperty status;
+	private BooleanProperty active;
 	private LongProperty updatedAt;
 	private StringProperty comment;
 	
@@ -27,6 +30,7 @@ public class Host {
 		this.domain = new SimpleStringProperty(domain);
 		this.category = new SimpleStringProperty(category);
 		this.status = new SimpleIntegerProperty(1);
+		this.active = new SimpleBooleanProperty(true);
 		this.updatedAt = new SimpleLongProperty(System.currentTimeMillis()/1000);
 		this.comment = new SimpleStringProperty("Blocked by user");
 	}
@@ -72,6 +76,19 @@ public class Host {
 
 	public void setStatus(Integer status) {
 		this.status.set(status);
+	}
+	
+	public BooleanProperty activeProperty() {
+		return active;
+	}
+	
+	public Boolean isActive() {
+		return (status.get() & 1) == 1;
+	}
+
+	public void setActive(Boolean active) {
+		this.status.set(status.get() | (active? 1:0));
+		this.active.set((status.get() & 1) == 1);
 	}
 
 	public LongProperty UpdatedAtProperty() {

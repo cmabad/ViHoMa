@@ -57,4 +57,12 @@ public class HostServiceImpl implements HostService{
 		HostsFileManager.editHostsFile();
 	}
 
+	@Override
+	public void toggleHostStatus(String domain) {
+		if (null == domain)
+			throw new RuntimeException("no host provided");
+		
+		Factory.repository.forHost().toggleHostStatus(domain);
+	}
+
 }

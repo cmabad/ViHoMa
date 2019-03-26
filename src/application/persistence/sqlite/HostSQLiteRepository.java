@@ -116,4 +116,22 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 		return null;
 	}
 
+	@Override
+	public void toggleHostStatus(String domain) {
+		try {
+			conn = SQLiteJDBC.connect();
+			pstmt = conn.prepareStatement(
+				Settings.get("sqlUpdateHostToggleStatus"));
+			pstmt.setString(1, domain);
+			pstmt.setString(2, domain);
+			pstmt.setString(3, domain);
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			SQLiteJDBC.close(pstmt, conn);
+}
+	}
+
 }
