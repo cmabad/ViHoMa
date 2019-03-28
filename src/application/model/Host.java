@@ -14,7 +14,7 @@ public class Host {
 	private StringProperty domain;
 	private StringProperty category;
 	private IntegerProperty status;
-	private BooleanProperty active;
+//	private BooleanProperty active;
 	private LongProperty updatedAt;
 	private StringProperty comment;
 	
@@ -30,7 +30,7 @@ public class Host {
 		this.domain = new SimpleStringProperty(domain);
 		this.category = new SimpleStringProperty(category);
 		this.status = new SimpleIntegerProperty(1);
-		this.active = new SimpleBooleanProperty(true);
+//		this.active = new SimpleBooleanProperty(true);
 		this.updatedAt = new SimpleLongProperty(System.currentTimeMillis()/1000);
 		this.comment = new SimpleStringProperty("Blocked by user");
 	}

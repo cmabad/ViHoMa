@@ -250,7 +250,10 @@ public class MainView {
 	}
 
 	@FXML
-	private void editBlockedHostActivation() {
+	/**
+	 * activates/deactivates the selected host in the blocked hosts table
+	 */
+	private void toggleBlockedHostStatus() {
 		Host host = blockedHostsTable.getSelectionModel().getSelectedItem();
 //		toggleHostActivation(true);
 
@@ -273,7 +276,10 @@ public class MainView {
 	}
 	
 	@FXML
-	private void editCustomHostActivation() {
+	/**
+	 * activates/deactivates the selected host at the custom hosts table
+	 */
+	private void toggleCustomHostStatus() {
 		CustomHost host = customHostsTable.getSelectionModel().getSelectedItem();
 		
 		if (null == host)
@@ -293,42 +299,7 @@ public class MainView {
 		}
 	}
 
-	/**
-	 * activates/deactivates the selected host
-	 * @param blocked true if the hosts whose state is meant to be toggled 
-	 * is in the blocked hosts list, false if it is in the custom hosts list
-	 */
-	private void toggleHostActivation(boolean blocked) {
-		//TODO: sin usar
-		
-		Host host = blocked? 
-				blockedHostsTable.getSelectionModel().getSelectedItem()
-				: customHostsTable.getSelectionModel().getSelectedItem();
-				
-		if (null == host)
-			drawStatusBar(Messages.get("noHostSelected"),STATUS_ERROR);
-		else {
-			drawStatusBar(host.isActive()? 
-					Messages.get("deactivateBlockedHost")
-					:Messages.get("activateBlockedHost"), STATUS_UPDATE);
-			
-			if(blocked)
-				Factory.service.forHost().toggleStatus(host.getDomain());
-			else
-				Factory.service.forCustomHost().toggleStatus(host.getDomain());
-			
-			host.setActive(!host.isActive());
-			
-			if (blocked) {
-				main.fillBlockedHostObservableList();
-				updateHostCountLabel();
-			}
-			else
-				main.fillCustomHostObservableList();
-			
-			drawStatusBar(Messages.get("upToDate"), STATUS_OK);
-		}
-	}
+
 	
 	@FXML
 	private void changeBlockedHostsActivationButton(){

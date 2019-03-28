@@ -6,7 +6,6 @@ import java.util.List;
 
 import application.business.repository.CustomHostRepository;
 import application.model.CustomHost;
-import application.model.Host;
 import application.persistence.sqlite.util.SQLiteJDBC;
 import application.util.properties.Settings;
 
