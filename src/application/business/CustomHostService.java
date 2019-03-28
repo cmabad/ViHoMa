@@ -9,5 +9,6 @@ public interface CustomHostService {
 	void add(String domain, String address);
 	List<CustomHost> findAll();
 	void toggleStatus(String domain);
+	List<CustomHost> findAllActive();
 
 }

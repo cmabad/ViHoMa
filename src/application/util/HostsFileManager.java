@@ -25,13 +25,13 @@ public class HostsFileManager {
 			sb.append(Settings.get("hostsFileHeader"));
 			
 			sb.append("\r\n# CUSTOM hosts go here:\r\n\r\n");
-			for (CustomHost chost : Factory.service.forCustomHost().findAll()) 
+			for (CustomHost chost : Factory.service.forCustomHost().findAllActive()) 
 				sb.append(chost.getAddress())
 					.append(" ").append(chost.getDomain())
 					.append("\r\n");
 			
 			sb.append("\r\n\r\n# BLOCKED hosts start here:\r\n\r\n");
-			for (Host host : Factory.service.forHost().findAll())
+			for (Host host : Factory.service.forHost().findAllActive())
 				sb.append(blockedAddress)
 					.append(" ").append(host.getDomain())
 					.append("\r\n");

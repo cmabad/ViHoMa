@@ -26,4 +26,9 @@ public class CustomHostServiceImpl implements CustomHostService {
 		Factory.repository.forCustomHost().toggleStatus(domain);
 	}
 
+	@Override
+	public List<CustomHost> findAllActive() {
+		return Factory.repository.forCustomHost().findAllActive();
+	}
+
 }

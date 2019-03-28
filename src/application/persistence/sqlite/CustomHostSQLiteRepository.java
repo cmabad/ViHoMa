@@ -81,4 +81,26 @@ public class CustomHostSQLiteRepository extends BaseSQLiteRepository implements 
 }		
 	}
 
+	@Override
+	public List<CustomHost> findAllActive() {
+		List<CustomHost> hosts = new ArrayList<CustomHost>();
+		try {
+			conn = SQLiteJDBC.connect();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(Settings.get("sqlSelectCustomHostsActive"));
+			// loop through the result set
+			while (rs.next())
+				hosts.add(new CustomHost(
+						(String) rs.getString("domain")
+						, (String) rs.getString("address")
+						, (int) rs.getInt("status"))
+						);
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			SQLiteJDBC.close(rs, stmt, conn);
+		}
+		return hosts;
+	}
+
 }

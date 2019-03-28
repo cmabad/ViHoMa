@@ -65,4 +65,9 @@ public class HostServiceImpl implements HostService{
 		Factory.repository.forHost().toggleHostStatus(domain);
 	}
 
+	@Override
+	public List<Host> findAllActive() {
+		return Factory.repository.forHost().findAllActive();
+	}
+
 }

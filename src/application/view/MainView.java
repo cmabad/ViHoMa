@@ -299,8 +299,6 @@ public class MainView {
 		}
 	}
 
-
-	
 	@FXML
 	private void changeBlockedHostsActivationButton(){
 		Host host = blockedHostsTable.getSelectionModel().getSelectedItem();
