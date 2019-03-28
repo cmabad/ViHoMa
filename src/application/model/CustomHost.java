@@ -35,7 +35,7 @@ public class CustomHost extends Host {
 
 	@Override
 	public String toString() {
-		return "CustomHost [getIP()=" + getAddress() + "]";
+		return "CustomHost [getIP()=" + getAddress() + super.toString() + "]";
 	}
 	
 	

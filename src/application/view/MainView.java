@@ -29,16 +29,22 @@ public class MainView {
 	@FXML
 	private TableColumn<Host, String> categoryColumn;
 	@FXML
-	private TableColumn<Host, Boolean> statusColumn;
+	private TableColumn<Host, Boolean> activeColumn;
+	
 	@FXML
 	private TableView<CustomHost> customHostsTable;
 	@FXML
 	private TableColumn<CustomHost, String> customDomainColumn;
 	@FXML
 	private TableColumn<CustomHost, String> customIpColumn;
-
 	@FXML
-	private Button deactivateBlockedHostButton; 
+	private TableColumn<CustomHost, Boolean> customActiveColumn;
+	
+	@FXML
+	private Button blockedHostsActivationButton; 
+	@FXML
+	private Button customHostsActivationButton;
+	
 	@FXML
 	private TextField newBlockedHostDomain;
 
@@ -97,13 +103,17 @@ public class MainView {
 		categoryColumn.setCellValueFactory(cellData -> cellData.getValue().categoryProperty());
 		// statusColumn.setCellValueFactory(cellData
 		// -> cellData.getValue().statusProperty().asObject());
-		statusColumn.setCellValueFactory(cellData -> cellData.getValue().activeProperty());
-        statusColumn.setCellFactory(param 
+		activeColumn.setCellValueFactory(cellData -> cellData.getValue().activeProperty());
+        activeColumn.setCellFactory(param 
         		-> new CheckBoxTableCell<Host, Boolean>());
 		
+        customActiveColumn.setCellValueFactory(cellData -> cellData.getValue().activeProperty());
+        customActiveColumn.setCellFactory(param 
+        		-> new CheckBoxTableCell<CustomHost, Boolean>());
+        
 		customDomainColumn.setCellValueFactory(cellData -> cellData.getValue().domainProperty());
 		customIpColumn.setCellValueFactory(cellData -> cellData.getValue().addressProperty());
-
+		
 		updateHostCountLabel();
 
 		fillBlockedHostsTable(null);
@@ -242,16 +252,112 @@ public class MainView {
 	@FXML
 	private void editBlockedHostActivation() {
 		Host host = blockedHostsTable.getSelectionModel().getSelectedItem();
+//		toggleHostActivation(true);
+
 		if (null == host)
 			drawStatusBar(Messages.get("noHostSelected"),STATUS_ERROR);
 		else {
-			System.out.println(host.toString());
-			drawStatusBar(host.isActive()? "vamo a desactivar":"vamo a activar", STATUS_UPDATE);
-			Factory.service.forHost().toggleHostStatus(host.getDomain());
+			drawStatusBar(host.isActive()? 
+					Messages.get("deactivateBlockedHost")
+					:Messages.get("activateBlockedHost"), STATUS_UPDATE);
+			
+			Factory.service.forHost().toggleStatus(host.getDomain());
+			
+			host.setActive(!host.isActive());
 			
 			main.fillBlockedHostObservableList();
 			updateHostCountLabel();
-			drawStatusBar(Messages.get("upToDate"), STATUS_UPDATE);
+			
+			drawStatusBar(Messages.get("upToDate"), STATUS_OK);
 		}
 	}
+	
+	@FXML
+	private void editCustomHostActivation() {
+		CustomHost host = customHostsTable.getSelectionModel().getSelectedItem();
+		
+		if (null == host)
+			drawStatusBar(Messages.get("noHostSelected"),STATUS_ERROR);
+		else {
+			drawStatusBar(host.isActive()? 
+					Messages.get("deactivateBlockedHost")
+					:Messages.get("activateBlockedHost"), STATUS_UPDATE);
+			
+			Factory.service.forCustomHost().toggleStatus(host.getDomain());
+			
+			host.setActive(!host.isActive());
+			
+			main.fillCustomHostObservableList();
+			
+			drawStatusBar(Messages.get("upToDate"), STATUS_OK);
+		}
+	}
+
+	/**
+	 * activates/deactivates the selected host
+	 * @param blocked true if the hosts whose state is meant to be toggled 
+	 * is in the blocked hosts list, false if it is in the custom hosts list
+	 */
+	private void toggleHostActivation(boolean blocked) {
+		//TODO: sin usar
+		
+		Host host = blocked? 
+				blockedHostsTable.getSelectionModel().getSelectedItem()
+				: customHostsTable.getSelectionModel().getSelectedItem();
+				
+		if (null == host)
+			drawStatusBar(Messages.get("noHostSelected"),STATUS_ERROR);
+		else {
+			drawStatusBar(host.isActive()? 
+					Messages.get("deactivateBlockedHost")
+					:Messages.get("activateBlockedHost"), STATUS_UPDATE);
+			
+			if(blocked)
+				Factory.service.forHost().toggleStatus(host.getDomain());
+			else
+				Factory.service.forCustomHost().toggleStatus(host.getDomain());
+			
+			host.setActive(!host.isActive());
+			
+			if (blocked) {
+				main.fillBlockedHostObservableList();
+				updateHostCountLabel();
+			}
+			else
+				main.fillCustomHostObservableList();
+			
+			drawStatusBar(Messages.get("upToDate"), STATUS_OK);
+		}
+	}
+	
+	@FXML
+	private void changeBlockedHostsActivationButton(){
+		Host host = blockedHostsTable.getSelectionModel().getSelectedItem();
+		if (null == host)
+			return;
+		else {
+			if (blockedHostsTable.getSelectionModel().getSelectedItem().isActive())
+				blockedHostsActivationButton.setText(
+						Messages.get("hostsActivationButtonActivate"));
+			else
+				blockedHostsActivationButton.setText(
+						Messages.get("hostsActivationButtonDeactivate"));
+		}
+	}
+	
+	@FXML
+	private void changeCustomHostsActivationButton(){
+		Host cHost = customHostsTable.getSelectionModel().getSelectedItem();
+		if (null == cHost)
+			return;
+		else {
+			if (cHost.isActive())
+				customHostsActivationButton.setText(
+						Messages.get("hostsActivationButtonActivate"));
+			else
+				customHostsActivationButton.setText(
+						Messages.get("hostsActivationButtonDeactivate"));
+		}
+	}
+
 }

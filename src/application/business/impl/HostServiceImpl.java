@@ -58,7 +58,7 @@ public class HostServiceImpl implements HostService{
 	}
 
 	@Override
-	public void toggleHostStatus(String domain) {
+	public void toggleStatus(String domain) {
 		if (null == domain)
 			throw new RuntimeException("no host provided");
 		

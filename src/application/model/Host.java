@@ -79,7 +79,8 @@ public class Host {
 	}
 	
 	public BooleanProperty activeProperty() {
-		return active;
+		// maybe use active property instead?
+		return new SimpleBooleanProperty((status.get() & 1) == 1);
 	}
 	
 	public Boolean isActive() {
@@ -88,7 +89,7 @@ public class Host {
 
 	public void setActive(Boolean active) {
 		this.status.set(status.get() | (active? 1:0));
-		this.active.set((status.get() & 1) == 1);
+		//this.active.set((status.get() & 1) == 1);
 	}
 
 	public LongProperty UpdatedAtProperty() {

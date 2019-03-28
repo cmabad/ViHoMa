@@ -13,5 +13,5 @@ public interface HostService {
 	List<Host> downloadNewBlockedHostsFromWeb();
 	List<Host> findAll();
 	void persistOnHostsFile();
-	void toggleHostStatus(String domain);
+	void toggleStatus(String domain);
 }

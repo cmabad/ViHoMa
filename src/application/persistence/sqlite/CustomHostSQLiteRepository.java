@@ -54,7 +54,7 @@ public class CustomHostSQLiteRepository extends BaseSQLiteRepository implements 
 				hosts.add(new CustomHost(
 						(String) rs.getString("domain")
 						, (String) rs.getString("address")
-						, Host.STATUS_OK)
+						, (int) rs.getInt("status"))
 						);
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -62,6 +62,24 @@ public class CustomHostSQLiteRepository extends BaseSQLiteRepository implements 
 			SQLiteJDBC.close(rs, stmt, conn);
 		}
 		return hosts;
+	}
+
+	@Override
+	public void toggleStatus(String domain) {
+		try {
+			conn = SQLiteJDBC.connect();
+			pstmt = conn.prepareStatement(
+				Settings.get("sqlUpdateCustomHostToggleStatus"));
+			pstmt.setString(1, domain);
+			pstmt.setString(2, domain);
+			pstmt.setString(3, domain);
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			SQLiteJDBC.close(pstmt, conn);
+}		
 	}
 
 }

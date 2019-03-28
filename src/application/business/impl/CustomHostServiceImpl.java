@@ -18,4 +18,12 @@ public class CustomHostServiceImpl implements CustomHostService {
 		return Factory.repository.forCustomHost().findAll();
 	}
 
+	@Override
+	public void toggleStatus(String domain) {
+		if (null == domain)
+			throw new RuntimeException("no host provided");
+		
+		Factory.repository.forCustomHost().toggleStatus(domain);
+	}
+
 }
