@@ -31,4 +31,9 @@ public class CustomHostServiceImpl implements CustomHostService {
 		return Factory.repository.forCustomHost().findAllActive();
 	}
 
+	@Override
+	public List<CustomHost> findByDomainOrIp(String filter) {
+		return Factory.repository.forCustomHost().findByDomainOrIp(filter);
+	}
+
 }

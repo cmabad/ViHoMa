@@ -10,4 +10,5 @@ public interface HostRepository extends Repository<Host>{
 	void addHosts(List<Host> newHostsList);
 	void toggleHostStatus(String domain);
 	List<Host> findAllActive();
+	List<Host> findByDomain(String domain);
 }

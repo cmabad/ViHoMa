@@ -159,4 +159,31 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 		return hosts;
 	}
 
+	@Override
+	public List<Host> findByDomain(String domain) {
+		List<Host> hosts = new ArrayList<Host>();
+		try {
+			conn = SQLiteJDBC.connect();
+			pstmt = conn.prepareStatement(
+					Settings.get("sqlSelectHostsByDomain"));
+			pstmt.setString(1, "%" + domain + "%");
+			rs = pstmt.executeQuery();
+			// loop through the result set
+			while (rs.next())
+				hosts.add(new Host(
+						(String) rs.getString("domain")
+						, (String) rs.getString("category")
+						, rs.getInt("status")
+						, (String) rs.getString("comment")
+						, rs.getInt("updated_at")
+						));
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			SQLiteJDBC.close(rs, pstmt, conn);
+		}
+		return hosts;
+	}
+
 }

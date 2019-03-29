@@ -32,6 +32,9 @@ public class MainView {
 	private TableColumn<Host, Boolean> activeColumn;
 	
 	@FXML
+	private TextField blockedHostsTableFilter;
+	
+	@FXML
 	private TableView<CustomHost> customHostsTable;
 	@FXML
 	private TableColumn<CustomHost, String> customDomainColumn;
@@ -39,6 +42,9 @@ public class MainView {
 	private TableColumn<CustomHost, String> customIpColumn;
 	@FXML
 	private TableColumn<CustomHost, Boolean> customActiveColumn;
+	
+	@FXML
+	private TextField customHostsTableFilter;
 	
 	@FXML
 	private Button blockedHostsActivationButton; 
@@ -329,4 +335,21 @@ public class MainView {
 		}
 	}
 
+	@FXML
+	private void filterBlockedHostsTable() {
+		String filter = blockedHostsTableFilter.getText();
+		if (null == filter || "".equals(filter))
+			main.fillBlockedHostObservableList();
+		else
+			main.fillBlockedHostObservableList(filter);
+	}
+	
+	@FXML
+	private void filterCustomHostsTable() {
+		String filter = customHostsTableFilter.getText();
+		if (null == filter || "".equals(filter))
+			main.fillCustomHostObservableList();
+		else
+			main.fillCustomHostObservableList(filter);
+	}
 }

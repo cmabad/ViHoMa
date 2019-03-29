@@ -6,6 +6,7 @@ import java.util.List;
 
 import application.business.repository.CustomHostRepository;
 import application.model.CustomHost;
+import application.model.Host;
 import application.persistence.sqlite.util.SQLiteJDBC;
 import application.util.properties.Settings;
 
@@ -99,6 +100,32 @@ public class CustomHostSQLiteRepository extends BaseSQLiteRepository implements 
 			System.out.println(e.getMessage());
 		} finally {
 			SQLiteJDBC.close(rs, stmt, conn);
+		}
+		return hosts;
+	}
+
+	@Override
+	public List<CustomHost> findByDomainOrIp(String filter) {
+		List<CustomHost> hosts = new ArrayList<CustomHost>();
+		try {
+			conn = SQLiteJDBC.connect();
+			pstmt = conn.prepareStatement(
+					Settings.get("sqlSelectCustomHostsByDomainOrIp"));
+			pstmt.setString(1, "%" + filter + "%");
+			pstmt.setString(2, "%" + filter + "%");
+			rs = pstmt.executeQuery();
+			// loop through the result set
+			while (rs.next())
+				hosts.add(new CustomHost(
+						(String) rs.getString("domain")
+						, (String) rs.getString("address")
+						, rs.getInt("status")
+						));
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			SQLiteJDBC.close(rs, pstmt, conn);
 		}
 		return hosts;
 	}

@@ -15,4 +15,5 @@ public interface HostService {
 	void persistOnHostsFile();
 	void toggleStatus(String domain);
 	List<Host> findAllActive();
+	List<Host> findByDomain(String filter);
 }

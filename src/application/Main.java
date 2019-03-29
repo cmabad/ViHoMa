@@ -54,6 +54,19 @@ public class Main extends Application {
     	for (CustomHost chost : Factory.service.forCustomHost().findAll())
 			customHosts.add(chost);
     }
+    
+    public void fillBlockedHostObservableList(String filter) {
+		blockedHosts.clear();
+		for (Host host : Factory.service.forHost().findByDomain(filter))
+			blockedHosts.add(host);
+	}
+    
+    public void fillCustomHostObservableList(String filter) {
+    	customHosts.clear();
+    	for (CustomHost chost : Factory.service.forCustomHost().findByDomainOrIp(filter))
+			customHosts.add(chost);
+    }
+    
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;

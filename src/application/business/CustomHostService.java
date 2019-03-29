@@ -10,5 +10,6 @@ public interface CustomHostService {
 	List<CustomHost> findAll();
 	void toggleStatus(String domain);
 	List<CustomHost> findAllActive();
+	List<CustomHost> findByDomainOrIp(String filter);
 
 }

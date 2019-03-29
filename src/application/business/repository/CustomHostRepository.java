@@ -8,5 +8,6 @@ public interface CustomHostRepository extends Repository<CustomHost>{
 
 	void toggleStatus(String domain);
 	List<CustomHost> findAllActive();
+	List<CustomHost> findByDomainOrIp(String filter);
 
 }

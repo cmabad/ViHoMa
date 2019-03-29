@@ -70,4 +70,9 @@ public class HostServiceImpl implements HostService{
 		return Factory.repository.forHost().findAllActive();
 	}
 
+	@Override
+	public List<Host> findByDomain(String filter) {
+		return Factory.repository.forHost().findByDomain(filter);
+	}
+
 }
