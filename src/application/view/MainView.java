@@ -274,7 +274,8 @@ public class MainView {
 			
 			host.setActive(!host.isActive());
 			
-			main.fillBlockedHostObservableList();
+			//main.fillBlockedHostObservableList();
+			filterBlockedHostsTable();
 			updateHostCountLabel();
 			
 			drawStatusBar(Messages.get("upToDate"), STATUS_OK);
@@ -299,7 +300,8 @@ public class MainView {
 			
 			host.setActive(!host.isActive());
 			
-			main.fillCustomHostObservableList();
+			//main.fillCustomHostObservableList();
+			filterCustomHostsTable();
 			
 			drawStatusBar(Messages.get("upToDate"), STATUS_OK);
 		}
@@ -338,18 +340,28 @@ public class MainView {
 	@FXML
 	private void filterBlockedHostsTable() {
 		String filter = blockedHostsTableFilter.getText();
-		if (null == filter || "".equals(filter))
+		if (null == filter || "".equals(filter)) {
 			main.fillBlockedHostObservableList();
-		else
+			drawStatusBar(Messages.get("upToDate"), STATUS_OK);
+		}
+		else {
 			main.fillBlockedHostObservableList(filter);
+			drawStatusBar(filter + ": " + main.getBlockedHostsData().size() 
+					+  " " + Messages.get("matches"), STATUS_OK);
+		}
 	}
 	
 	@FXML
 	private void filterCustomHostsTable() {
 		String filter = customHostsTableFilter.getText();
-		if (null == filter || "".equals(filter))
+		if (null == filter || "".equals(filter)) {
 			main.fillCustomHostObservableList();
-		else
+			drawStatusBar(Messages.get("upToDate"), STATUS_OK);
+		}
+		else {
 			main.fillCustomHostObservableList(filter);
+			drawStatusBar(filter + ": " + main.getCustomHostsData().size() 
+				+  " " + Messages.get("matches"), STATUS_OK);
+		}
 	}
 }
