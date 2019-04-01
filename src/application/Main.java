@@ -34,6 +34,10 @@ public class Main extends Application {
     	//TODO
 //    	System.out.println(Factory.service.forConfiguration().findAll());
     }
+    
+    public static void main(String[] args) {
+        launch(args);
+    }
   
     public ObservableList<Host> getBlockedHostsData() {
         return blockedHosts;
@@ -120,10 +124,6 @@ public class Main extends Application {
      */
     public Stage getPrimaryStage() {
         return primaryStage;
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
     
     private void configure() {

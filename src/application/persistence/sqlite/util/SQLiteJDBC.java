@@ -21,7 +21,7 @@ public class SQLiteJDBC {
 		
 		try {
 			// db parameters
-			String url = Settings.get("databaseSQLiteUrl");
+			String url = "jdbc:sqlite:"+System.getProperty("user.home")+ "/.vihoma.sqlite";//data/sqlite.dbSettings.get("databaseSQLiteUrl");
 			// create a connection to the database
 			Connection conn = DriverManager.getConnection(url);
 			

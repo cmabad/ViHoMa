@@ -15,7 +15,7 @@ public class HostsFileManager {
 	private static HostsFileManager instance = null;
 	
 	public static void editHostsFile() {
-		String path = "./data/hosts";// = getInstance().getPath();
+		String path = System.getProperty("user.home") + "/.hosts";//"./data/hosts";// = getInstance().getPath();
 		String blockedAddress = Factory.service.forConfiguration().getBlockedAddress();			
 		StringBuilder sb = new StringBuilder();
 		//RandomAccessFile writer;
