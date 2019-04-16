@@ -4,9 +4,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 import application.business.ConfigurationService;
-import application.business.util.Logger;
 import application.conf.Factory;
 import application.model.Configuration;
+import application.util.Logger;
 import application.util.properties.Settings;
 
 public class ConfigurationServiceImpl implements ConfigurationService {

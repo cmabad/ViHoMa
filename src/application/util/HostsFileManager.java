@@ -13,9 +13,12 @@ import application.util.properties.Settings;
 public class HostsFileManager {
 
 	private static HostsFileManager instance = null;
+	private static String path = "";
 	
 	public static void editHostsFile(List<Host> blockedHostsList, String blockedAddress, List<CustomHost> customHostsList) {
-		String path = System.getProperty("user.home") + "/.hosts";//"./data/hosts";// = getInstance().getPath();
+		if ("".equals(path))
+			path = getInstance().getPath();
+		
 		//String blockedAddress = Factory.service.forConfiguration().getBlockedAddress();			
 		StringBuilder sb = new StringBuilder();
 		//RandomAccessFile writer;
@@ -39,7 +42,10 @@ public class HostsFileManager {
 			writer.write(sb.toString());
 			writer.close();			
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			Logger.err("HOST FILE NOT FOUND: " + e.getMessage());
+			path = System.getProperty("user.home") + "/hosts.ViHoMa";
+			editHostsFile(blockedHostsList, blockedAddress, customHostsList);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -55,7 +61,6 @@ public class HostsFileManager {
 
 	private String getPath() {
 		String os = System.getProperty("os.name").toLowerCase();
-		System.out.println(os);
 		if(os.indexOf("win") >= 0)
 			return System.getenv("SystemRoot") + Settings.get("hostsFilePathWindows");
 		else if (os.indexOf("nix") >= 0 || os.indexOf("nux") >= 0 || os.indexOf("aix") > 0)

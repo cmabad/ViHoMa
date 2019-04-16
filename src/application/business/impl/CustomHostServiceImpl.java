@@ -3,9 +3,9 @@ package application.business.impl;
 import java.util.List;
 
 import application.business.CustomHostService;
-import application.business.util.Logger;
 import application.conf.Factory;
 import application.model.CustomHost;
+import application.util.Logger;
 
 public class CustomHostServiceImpl implements CustomHostService {
 

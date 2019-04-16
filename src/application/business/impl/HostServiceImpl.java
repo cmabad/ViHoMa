@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.util.List;
 
 import application.business.HostService;
-import application.business.util.Logger;
 import application.conf.Factory;
 import application.model.Host;
+import application.util.Logger;
 import application.util.WebUtil;
 
 public class HostServiceImpl implements HostService{
