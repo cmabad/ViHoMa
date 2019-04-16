@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import application.business.ConfigurationService;
+import application.business.util.Logger;
 import application.conf.Factory;
 import application.model.Configuration;
 import application.util.properties.Settings;
@@ -25,12 +26,14 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 	public void setLastUpdateTime() {
 		Factory.repository.forConfiguration()
 			.setLastUpdateTime(String.valueOf(System.currentTimeMillis()/1000));
+		Logger.log("CONFIGURATION UPDATED: " + "lastUpdateTime" + " = " + String.valueOf(System.currentTimeMillis()/1000));
 	}
 
 	@Override
 	public void add(String parameter, String value) {
 		Factory.repository.forConfiguration()
 			.add(new Configuration(parameter,value));
+		Logger.log("NEW CONFIGURATION: " + parameter + " = " + value);
 	}
 
 	@Override

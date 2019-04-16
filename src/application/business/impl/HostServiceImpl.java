@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.util.List;
 
 import application.business.HostService;
+import application.business.util.Logger;
 import application.conf.Factory;
 import application.model.Host;
-import application.util.HostsFileManager;
 import application.util.WebUtil;
 
 public class HostServiceImpl implements HostService{
@@ -14,6 +14,7 @@ public class HostServiceImpl implements HostService{
 	@Override
 	public void addHost(String domain, String category) {
 		Factory.repository.forHost().add(new Host(domain,category));
+		Logger.log("NEW BLOCKED DOMAIN: " + domain);
 	}
 
 	@Override
