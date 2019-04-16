@@ -12,7 +12,6 @@ public interface HostService {
 	int getHostsCount();
 	List<Host> downloadNewBlockedHostsFromWeb();
 	List<Host> findAll();
-	void persistOnHostsFile();
 	void toggleStatus(String domain);
 	List<Host> findAllActive();
 	List<Host> findByDomain(String filter);

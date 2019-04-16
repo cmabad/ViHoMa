@@ -241,7 +241,10 @@ public class MainView {
 	@FXML
 	private void editHostsFile() {
 		// TODO Factory.service.forHosts().editHostsFile();
-		HostsFileManager.editHostsFile();
+		HostsFileManager.editHostsFile(
+				Factory.service.forHost().findAll()
+				, Factory.service.forConfiguration().getBlockedAddress()
+				, Factory.service.forCustomHost().findAll());
 	}
 
 	@FXML

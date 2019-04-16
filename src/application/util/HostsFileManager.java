@@ -4,8 +4,8 @@ import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
-import application.conf.Factory;
 import application.model.CustomHost;
 import application.model.Host;
 import application.util.properties.Settings;
@@ -14,9 +14,9 @@ public class HostsFileManager {
 
 	private static HostsFileManager instance = null;
 	
-	public static void editHostsFile() {
+	public static void editHostsFile(List<Host> blockedHostsList, String blockedAddress, List<CustomHost> customHostsList) {
 		String path = System.getProperty("user.home") + "/.hosts";//"./data/hosts";// = getInstance().getPath();
-		String blockedAddress = Factory.service.forConfiguration().getBlockedAddress();			
+		//String blockedAddress = Factory.service.forConfiguration().getBlockedAddress();			
 		StringBuilder sb = new StringBuilder();
 		//RandomAccessFile writer;
 		BufferedWriter writer;
@@ -25,13 +25,13 @@ public class HostsFileManager {
 			sb.append(Settings.get("hostsFileHeader"));
 			
 			sb.append("\r\n# CUSTOM hosts go here:\r\n\r\n");
-			for (CustomHost chost : Factory.service.forCustomHost().findAllActive()) 
+			for (CustomHost chost : customHostsList)//Factory.service.forCustomHost().findAllActive()) 
 				sb.append(chost.getAddress())
 					.append(" ").append(chost.getDomain())
 					.append("\r\n");
 			
 			sb.append("\r\n\r\n# BLOCKED hosts start here:\r\n\r\n");
-			for (Host host : Factory.service.forHost().findAllActive())
+			for (Host host : blockedHostsList)//Factory.service.forHost().findAllActive())
 				sb.append(blockedAddress)
 					.append(" ").append(host.getDomain())
 					.append("\r\n");

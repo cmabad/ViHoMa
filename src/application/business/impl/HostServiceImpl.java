@@ -53,11 +53,6 @@ public class HostServiceImpl implements HostService{
 	}
 
 	@Override
-	public void persistOnHostsFile() {
-		HostsFileManager.editHostsFile();
-	}
-
-	@Override
 	public void toggleStatus(String domain) {
 		if (null == domain)
 			throw new RuntimeException("no host provided");
