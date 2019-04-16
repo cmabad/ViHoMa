@@ -53,14 +53,14 @@ public class WebUtil {
 	
 	public static boolean uploadHostToWeb(String domain) throws IOException {
 		URL url = new URL(Settings.get("urlApiHosts"));
-		String postData = URLEncoder.encode("domain=" + domain, "UTF-8");
+		String postData = URLEncoder.encode("domain=" + domain + "&category=1", "UTF-8");
 		byte[] postDataBytes = postData.getBytes("UTF-8");
 		
-		HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
+		HttpURLConnection con = (HttpURLConnection) url.openConnection();
     	con.setRequestMethod("POST");
     	con.addRequestProperty("Content-Type" , "application/x-www-form-urlencoded");
     	con.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
-    	con.setConnectTimeout(5000);
+    	//con.setConnectTimeout(5000);
     	con.setDoOutput(true);
     	//con.getOutputStream().write(postDataBytes);
     	DataOutputStream wr = new DataOutputStream(con.getOutputStream());
@@ -70,8 +70,15 @@ public class WebUtil {
     	//con.getInputStream();
     	
     	if (200 == con.getResponseCode()) {
+    		System.out.println("200");
+    		System.out.println(con.getResponseMessage());
+    		con.disconnect();
     		return true;    		
     	} else {
+    		System.out.println("no 200");
+    		System.out.println(con.getResponseCode());
+    		System.out.println(con.getResponseMessage());
+    		con.disconnect();
     		return false;
     	}
     	

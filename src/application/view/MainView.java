@@ -12,6 +12,7 @@ import application.util.properties.Settings;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TableColumn;
@@ -66,6 +67,19 @@ public class MainView {
 	private Label totalBlockedHostsCountLabel;
 
 	@FXML
+	private Label settingStartupLabel;
+	@FXML
+	private CheckBox settingStartupCheckBox;
+	@FXML
+	private CheckBox settingShareBlockHostsCheckBox;
+	@FXML
+	private TextField settingTargetDomainField;
+	@FXML
+	private CheckBox settingTargetDomainCheckBox;
+	@FXML
+	private CheckBox settingDNSclientCheckBox;
+	
+	@FXML
 	private AnchorPane statusBar;
 	@FXML
 	private Label statusBarLabel;
@@ -81,21 +95,6 @@ public class MainView {
 	 * The constructor. The constructor is called before the initialize() method.
 	 */
 	public MainView() {
-	}
-
-	private void drawStatusBar(String message, int status) {
-		// System.out.println(message);
-		if (null != message) {
-			this.statusBarLabel.setText(message);
-		}
-
-		if (STATUS_OK == status)
-			this.statusBar.setStyle(Settings.get("statusBarColorOk"));
-		else if (STATUS_UPDATE == status)
-			this.statusBar.setStyle(Settings.get("statusBarColorUpdate"));
-		else if (STATUS_ERROR == status)
-			this.statusBar.setStyle(Settings.get("statusBarColorError"));
-
 	}
 
 	/**
@@ -129,6 +128,18 @@ public class MainView {
 		// (observable, oldValue, newValue) -> showPersonDetails(newValue));
 	}
 
+	/** Is called by the main application to give a reference back to itself.
+	 * 
+	 * @param mainApp
+	 */
+	public void setMainApp(Main mainClass) {
+		this.main = mainClass;
+
+		// Add observable list data to the table
+		fillBlockedHostsTable(main.getBlockedHostsData());
+		fillCustomHostsTable(main.getCustomHostsData());
+	}
+	
 	private void updateHostCountLabel() {
 		totalBlockedHostsCountLabel.setText(getBlockedHostsCount() + " blocked hosts");
 	}
@@ -143,28 +154,6 @@ public class MainView {
 
 	private void fillCustomHostsTable(ObservableList<CustomHost> list) {
 		customHostsTable.setItems(list);
-	}
-
-	/**
-	 * Is called by the main application to give a reference back to itself.
-	 * 
-	 * @param mainApp
-	 */
-	public void setMainApp(Main mainClass) {
-		this.main = mainClass;
-
-		// Add observable list data to the table
-		fillBlockedHostsTable(main.getBlockedHostsData());
-		fillCustomHostsTable(main.getCustomHostsData());
-	}
-
-	/**
-	 * Called when the user clicks on the delete button.
-	 */
-	@FXML
-	private void handleDeletePerson() {
-		int selectedIndex = blockedHostsTable.getSelectionModel().getSelectedIndex();
-		blockedHostsTable.getItems().remove(selectedIndex);
 	}
 
 	@FXML
@@ -363,5 +352,20 @@ public class MainView {
 			drawStatusBar(filter + ": " + main.getCustomHostsData().size() 
 				+  " " + Messages.get("matches"), STATUS_OK);
 		}
+	}
+
+	private void drawStatusBar(String message, int status) {
+		// System.out.println(message);
+		if (null != message) {
+			this.statusBarLabel.setText(message);
+		}
+
+		if (STATUS_OK == status)
+			this.statusBar.setStyle(Settings.get("statusBarColorOk"));
+		else if (STATUS_UPDATE == status)
+			this.statusBar.setStyle(Settings.get("statusBarColorUpdate"));
+		else if (STATUS_ERROR == status)
+			this.statusBar.setStyle(Settings.get("statusBarColorError"));
+
 	}
 }

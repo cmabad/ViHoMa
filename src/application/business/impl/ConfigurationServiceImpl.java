@@ -42,7 +42,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 	public String getBlockedAddress() {
 		Configuration conf = this.findByParameter("blockedAddress");
 		return (null == conf)? 
-				Settings.get("defaultBlockedHostAddress"):conf.getValue();
+				Settings.get("defaultTargetAddress"):conf.getValue();
 	}
 
 	@Override
