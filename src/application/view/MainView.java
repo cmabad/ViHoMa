@@ -1,5 +1,6 @@
 package application.view;
 
+import java.io.IOException;
 import java.util.List;
 
 import application.Main;
@@ -7,6 +8,7 @@ import application.conf.Factory;
 import application.model.CustomHost;
 import application.model.Host;
 import application.util.HostsFileManager;
+import application.util.Logger;
 import application.util.properties.Messages;
 import application.util.properties.Settings;
 import javafx.collections.ObservableList;
@@ -123,6 +125,11 @@ public class MainView {
 
 		fillBlockedHostsTable(null);
 		fillCustomHostsTable(null);
+		
+		if (System.getProperty("os.name").toLowerCase().indexOf("win") != 0) {
+			settingDNSclientCheckBox.setDisable(true);
+			return;
+		}
 		// Listen for selection changes and show the person details when changed.
 		// blockedHostsTable.getSelectionModel().selectedItemProperty().addListener(
 		// (observable, oldValue, newValue) -> showPersonDetails(newValue));
@@ -370,5 +377,30 @@ public class MainView {
 		else if (STATUS_ERROR == status)
 			this.statusBar.setStyle(Settings.get("statusBarColorError"));
 
+	}
+
+	@FXML
+	private void toggleWindowsDNSClient() {
+		if (System.getProperty("os.name").toLowerCase().indexOf("win") <= 0) {
+			Logger.err("Trying to modify Windows registry in no-DOS system");
+			return;
+		}
+		try {			
+			if (settingDNSclientCheckBox.isSelected()) {
+				Runtime.
+				   getRuntime().
+				   exec("reg add HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\services\\Dnscache /t REG_DWORD /v Start /d 2 /f");
+				Logger.log("windows DNS client activated");
+			} else {
+				Runtime.
+				   getRuntime().
+				   exec("reg add HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\services\\Dnscache /t REG_DWORD /v Start /d 4 /f");
+				Logger.log("windows DNS client deactivated");
+			}			
+		} catch (IOException e) {
+			e.printStackTrace();
+			//Validate the case the file can't be accesed (not enought permissions)
+			Logger.err(e.getMessage());
+		} 
 	}
 }

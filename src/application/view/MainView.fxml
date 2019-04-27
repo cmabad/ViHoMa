@@ -158,7 +158,7 @@
                               <Label id="settingStartupLabel" layoutX="14.0" layoutY="14.0" text="Label" />
                               <CheckBox id="settingStartupCheckbox" fx:id="settingStartupCheckBox" layoutX="14.0" layoutY="37.0" mnemonicParsing="false" text="startup" />
                               <CheckBox id="settingShareBlockHostsCheckBox" fx:id="settingShareBlockHostsCheckBox" layoutX="14.0" layoutY="70.0" mnemonicParsing="false" text="share" />
-                              <CheckBox id="settingDNSclientCheckBox" fx:id="settingDNSclientCheckBox" layoutX="14.0" layoutY="100.0" mnemonicParsing="false" text="dns client" />
+                              <CheckBox id="settingDNSclientCheckBox" fx:id="settingDNSclientCheckBox" layoutX="14.0" layoutY="100.0" mnemonicParsing="false" onAction="#toggleWindowsDNSClient" text="dns client" />
                               <TextField id="settingTargetDomainField" fx:id="settingTargetDomainField" layoutX="32.0" layoutY="155.0" promptText="(custom target domain)" />
                               <CheckBox id="settingTargetDomainCheckBox" fx:id="settingTargetDomainCheckBox" layoutX="14.0" layoutY="130.0" mnemonicParsing="false" text="target domain" />
                            </children>
