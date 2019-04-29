@@ -40,7 +40,7 @@
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="63.0" prefWidth="598.0" SplitPane.resizableWithParent="false">
                                  <children>
                                     <TextField id="blockedHostsTableFilter" fx:id="blockedHostsTableFilter" layoutX="214.0" layoutY="4.0" onKeyReleased="#filterBlockedHostsTable" promptText="Filter..." />
-                                    <Button id="blockedHostsActivationButton" fx:id="blockedHostsActivationButton" layoutX="532.0" layoutY="2.0" mnemonicParsing="false" onAction="#toggleBlockedHostStatus" text="Deactivate domain" AnchorPane.rightAnchor="2.0" />
+                                    <Button id="blockedHostsActivationButton" fx:id="blockedHostsActivationButton" layoutX="532.0" layoutY="2.0" mnemonicParsing="false" onAction="#toggleBlockedHostStatus" text="Activation" AnchorPane.rightAnchor="2.0" />
                                  </children>
                               </AnchorPane>
                               <TableView fx:id="blockedHostsTable" onMouseClicked="#changeBlockedHostsActivationButton" prefHeight="187.0" prefWidth="598.0" SplitPane.resizableWithParent="false">
@@ -103,7 +103,7 @@
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="63.0" prefWidth="598.0">
                                  <children>
                                     <TextField id="customHostsTableFilter" fx:id="customHostsTableFilter" layoutX="214.0" layoutY="4.0" onKeyReleased="#filterCustomHostsTable" promptText="Filter..." />
-                                    <Button id="customHostsActivationButton" fx:id="customHostsActivationButton" layoutX="532.0" layoutY="2.0" mnemonicParsing="false" onAction="#toggleCustomHostStatus" text="Button" AnchorPane.rightAnchor="2.0" />
+                                    <Button id="customHostsActivationButton" fx:id="customHostsActivationButton" layoutX="532.0" layoutY="2.0" mnemonicParsing="false" onAction="#toggleCustomHostStatus" text="Activation" AnchorPane.rightAnchor="2.0" />
                                  </children>
                               </AnchorPane>
                               <TableView fx:id="customHostsTable" onMouseClicked="#changeCustomHostsActivationButton" prefHeight="200.0" prefWidth="200.0">

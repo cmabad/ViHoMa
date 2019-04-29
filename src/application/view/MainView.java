@@ -1,8 +1,6 @@
 package application.view;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
 
 import application.Main;
@@ -140,6 +138,8 @@ public class MainView {
 				Logger.err(e.getMessage());
 			}
 		}
+		blockedHostsActivationButton.setDisable(true);
+		customHostsActivationButton.setDisable(true);
 		// Listen for selection changes and show the person details when changed.
 		// blockedHostsTable.getSelectionModel().selectedItemProperty().addListener(
 		// (observable, oldValue, newValue) -> showPersonDetails(newValue));
@@ -276,8 +276,8 @@ public class MainView {
 			drawStatusBar(Messages.get("noHostSelected"),STATUS_ERROR);
 		else {
 			drawStatusBar(host.isActive()? 
-					Messages.get("deactivateBlockedHost")
-					:Messages.get("activateBlockedHost"), STATUS_UPDATE);
+					Messages.get("deactivatingDomain")
+					:Messages.get("activatingDomain"), STATUS_UPDATE);
 			
 			Factory.service.forHost().toggleStatus(host.getDomain());
 			
@@ -288,6 +288,7 @@ public class MainView {
 			updateHostCountLabel();
 			
 			drawStatusBar(Messages.get("upToDate"), STATUS_OK);
+			blockedHostsActivationButton.setDisable(true);
 		}
 	}
 	
@@ -302,8 +303,8 @@ public class MainView {
 			drawStatusBar(Messages.get("noHostSelected"),STATUS_ERROR);
 		else {
 			drawStatusBar(host.isActive()? 
-					Messages.get("deactivateBlockedHost")
-					:Messages.get("activateBlockedHost"), STATUS_UPDATE);
+					Messages.get("deactivatingDomain")
+					:Messages.get("activatingDomain"), STATUS_UPDATE);
 			
 			Factory.service.forCustomHost().toggleStatus(host.getDomain());
 			
@@ -313,37 +314,41 @@ public class MainView {
 			filterCustomHostsTable();
 			
 			drawStatusBar(Messages.get("upToDate"), STATUS_OK);
+			customHostsActivationButton.setDisable(true);
 		}
 	}
 
 	@FXML
 	private void changeBlockedHostsActivationButton(){
+		blockedHostsActivationButton.setDisable(false);
 		Host host = blockedHostsTable.getSelectionModel().getSelectedItem();
 		if (null == host)
 			return;
 		else {
 			if (blockedHostsTable.getSelectionModel().getSelectedItem().isActive())
 				blockedHostsActivationButton.setText(
-						Messages.get("hostsActivationButtonActivate"));
+						Messages.get("hostsActivationButtonDeactivate"));
 			else
 				blockedHostsActivationButton.setText(
-						Messages.get("hostsActivationButtonDeactivate"));
+						Messages.get("hostsActivationButtonActivate"));
 		}
 	}
 	
 	@FXML
 	private void changeCustomHostsActivationButton(){
+		customHostsActivationButton.setDisable(false);
 		Host cHost = customHostsTable.getSelectionModel().getSelectedItem();
 		if (null == cHost)
 			return;
 		else {
 			if (cHost.isActive())
 				customHostsActivationButton.setText(
-						Messages.get("hostsActivationButtonActivate"));
+						Messages.get("hostsActivationButtonDeactivate"));
 			else
 				customHostsActivationButton.setText(
-						Messages.get("hostsActivationButtonDeactivate"));
+						Messages.get("hostsActivationButtonActivate"));
 		}
+		
 	}
 
 	@FXML
