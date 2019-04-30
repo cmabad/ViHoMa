@@ -8,6 +8,9 @@ import application.model.CustomHost;
 import application.model.Host;
 import application.persistence.sqlite.SQLiteRepositoryFactory;
 import application.persistence.sqlite.util.SQLiteJDBC;
+import application.util.HostsFileManager;
+import application.util.Logger;
+import application.util.WebUtil;
 import application.view.MainView;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -26,7 +29,7 @@ public class Main extends Application {
     private ObservableList<CustomHost> customHosts = FXCollections.observableArrayList();  
     
     public Main() {
-    	configure();
+    	
     	
     	fillBlockedHostObservableList();
     	fillCustomHostObservableList();
@@ -36,10 +39,31 @@ public class Main extends Application {
     }
     
     public static void main(String[] args) {
-        launch(args);
+    	configure();
+    	if ("quiet".equals(args[0])) 
+    		quietRun();    		
+    	else 
+    		launch(args);
     }
   
-    public ObservableList<Host> getBlockedHostsData() {
+    private static void quietRun() {
+    	try {
+			Factory.service.forHost()
+				.addHosts(
+					WebUtil.getHostsFromWeb(
+							Factory.service.forConfiguration().getLastUpdateTime()));
+			HostsFileManager.editHostsFile(
+    				Factory.service.forHost().findAllActive()
+    				, Factory.service.forConfiguration().getBlockedAddress()
+    				, Factory.service.forCustomHost().findAllActive());
+			
+			System.exit(0);
+		} catch (IOException e) {
+			Logger.err(e.getMessage());
+		}		
+	}
+
+	public ObservableList<Host> getBlockedHostsData() {
         return blockedHosts;
     }
     
@@ -126,7 +150,7 @@ public class Main extends Application {
         return primaryStage;
     }
     
-    private void configure() {
+    private static void configure() {
     	Factory.service = new ServiceFactoryImpl();
     	Factory.repository = new SQLiteRepositoryFactory();
     	SQLiteJDBC.getManager(); //sets the database up
