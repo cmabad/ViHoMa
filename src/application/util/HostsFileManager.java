@@ -44,7 +44,7 @@ public class HostsFileManager {
 		} catch (FileNotFoundException e) {
 			//e.printStackTrace();
 			Logger.err("HOST FILE NOT FOUND: " + e.getMessage());
-			path = System.getProperty("user.home") + "/hosts.ViHoMa";
+			path = System.getProperty("user.home") + "/hosts";
 			editHostsFile(blockedHostsList, blockedAddress, customHostsList);
 		} catch (IOException e) {
 			e.printStackTrace();

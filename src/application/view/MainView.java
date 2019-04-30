@@ -1,6 +1,10 @@
 package application.view;
 
+import java.awt.Desktop;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import application.Main;
@@ -71,6 +75,8 @@ public class MainView {
 
 	@FXML
 	private Label settingStartupLabel;
+	@FXML
+	private Label settingsHelpLabel;
 	@FXML
 	private CheckBox settingStartupCheckBox;
 	@FXML
@@ -428,5 +434,22 @@ public class MainView {
 			//Validate the case the file can't be accesed (not enought permissions)
 			Logger.err(e.getMessage());
 		} 
+	}
+
+	@FXML
+	private void openHelp() {
+		try {
+			File tempHelp = File.createTempFile("help", ".html");
+			tempHelp.deleteOnExit();
+			Files.copy(
+					MainView.class.getResourceAsStream(Settings.get("helpPathLocationEN"))
+					, tempHelp.toPath()
+					, StandardCopyOption.REPLACE_EXISTING);
+			Desktop.getDesktop().browse(tempHelp.toURI());
+		} catch (IOException e) {
+			//e.printStackTrace();
+			drawStatusBar(Messages.get("helpFileNotFound"), STATUS_ERROR);
+			Logger.err(e.getMessage());
+		}
 	}
 }

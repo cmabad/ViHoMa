@@ -5,7 +5,7 @@ import java.util.Properties;
 
 public class Messages{
 	
-	private static String CONF_FILE = "messages_enEN.properties";
+	private static String CONF_FILE = "messages_en.properties";
 	
 	private static Messages instance;
 	private static Properties properties;

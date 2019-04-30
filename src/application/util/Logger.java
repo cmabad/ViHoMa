@@ -29,7 +29,7 @@ public class Logger {
 			throw new IllegalArgumentException();
 		}
 		
-		String path = System.getProperty("user.home") + "/.vihomaerr.log";
+		String path = System.getProperty("user.home") + "/.vihoma.err";
 		BufferedWriter writer;
 		message = new Timestamp(System.currentTimeMillis()) + "\t" + message + "\r\n";
 		try {

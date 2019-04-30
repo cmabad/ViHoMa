@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
@@ -161,6 +162,11 @@
                               <CheckBox id="settingDNSclientCheckBox" fx:id="settingDNSclientCheckBox" layoutX="14.0" layoutY="100.0" mnemonicParsing="false" onAction="#toggleWindowsDNSClient" text="dns client" />
                               <TextField id="settingTargetDomainField" fx:id="settingTargetDomainField" layoutX="32.0" layoutY="155.0" promptText="(custom target domain)" />
                               <CheckBox id="settingTargetDomainCheckBox" fx:id="settingTargetDomainCheckBox" layoutX="14.0" layoutY="130.0" mnemonicParsing="false" text="target domain" />
+                              <Label fx:id="settingsHelpLabel" layoutX="214.0" layoutY="14.0" onMouseClicked="#openHelp" text="Help" textFill="#3448dd" underline="true">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Label>
                            </children>
                         </AnchorPane>
                     </content>
