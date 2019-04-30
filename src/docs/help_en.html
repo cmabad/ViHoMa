@@ -15,5 +15,30 @@
 			<p>The World Wide Web is composed of millions of computers distributed all around the world. In order to visit a webpage, the web browser needs to know where the page is located in that huge net. Just like people and ordinary mail, there are addresses that help us reach those external computers, which are named IP (Internet Protocol) addresses. As they are a secuence of numbers difficult to remember, they where replaced by Domain Names, which were texts easily rememberable by humans and which were translated by computers to IPs. This was long ago done locally (on each computer), but the huge expansion of the internet made it impossible to register every new webpage so this was externalized.</p>
 			<p>Windows has a built-in registry of domains which is no longer needed, and you can just disable it in most of the cases. If it is enabled, you may have to wait several minutes at Windows startup to have internet access. Once it is loaded, you can safely surf the internet.</p>
 		</article>
+		
+		<article id="validIP">
+			<h2>Valid IPs</h2>
+			<p>You can add custom hosts which will be redirected to a specific address. That address can be either IPv4 or IPv6, and has to follow these rules:</p>
+			<ul>
+				<li> If IPv4, it has to be formed by 4 groups of numbers from 0 to 255 separated by points. Example:
+				<ul>
+					<li>192.168.0.255</li>
+				</ul>
+				</li>
+				<li> If IPv6, it has to formed by 8 groups of characters which can be numbers from 0 to 9, letters from a to f and capital letters A to F. Example:
+				<ul>
+					<li>2001:0db8:85a3:08d3:1319:8a2e:0370:7334</li>
+				</ul>
+				</li>
+			</ul>
+			<p>Here are the patterns used in the program to check if an IP is valid:</p>
+			<ul>
+				<li>\\A(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}\\z</li>
+				<li>\\\\A(25[0-5]|2[0-4]\\\\d|[0-1]?\\\\d?\\\\d)(\\\\.(25[0-5]|2[0-4]\\\\d|[0-1]?\\\\d?\\\\d)){3}\\\\z</li>
+				<li>\\A((?:[0-9A-Fa-f]{1,4}:){6,6})(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}\\z</li>
+				<li>\\A((?:[0-9A-Fa-f]{1,4}(?::[0-9A-Fa-f]{1,4})*)?)::((?:[0-9A-Fa-f]{1,4}(?::[0-9A-Fa-f]{1,4})*)?)\\z</li>
+				<li>\\A(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}\\z</li>
+			</ul>
+		</article>
 	</body>
 </html>

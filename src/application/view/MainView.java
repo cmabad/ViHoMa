@@ -255,7 +255,11 @@ public class MainView {
 		}
 
 		if (valid) {
-			Factory.service.forCustomHost().add(domain, address);
+			try {
+				Factory.service.forCustomHost().add(domain, address);
+			} catch (IllegalArgumentException e){
+				drawStatusBar(e.getMessage(), STATUS_ERROR);
+			}
 			main.fillCustomHostObservableList();
 		} else
 			drawStatusBar("error adding new host: " + errorMessage, STATUS_ERROR);
