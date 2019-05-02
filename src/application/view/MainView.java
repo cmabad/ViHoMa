@@ -138,7 +138,6 @@ public class MainView {
 			return;
 		} else {
 			try {
-				System.out.println(WindowsUtil.isDNSClientStartActivated());
 				settingDNSclientCheckBox.setSelected(WindowsUtil.isDNSClientStartActivated());
 			} catch (IOException e) {
 //				e.printStackTrace();
@@ -182,13 +181,23 @@ public class MainView {
 
 	@FXML
 	private void getHostsFromWeb() {
+		boolean alternative = false;
 		drawStatusBar(Messages.get("checkingNewBlockedHosts"), STATUS_UPDATE);
 
-		List<Host> hosts = Factory.service.forHost().downloadNewBlockedHostsFromWeb();
+		List<Host> hosts = Factory.service.forHost().downloadHostsFromWeb();
 		
 		if (null == hosts) {
 			drawStatusBar(Messages.get("webConnectionError"), STATUS_ERROR);
-			return;
+			
+				Logger.log("Trying to get hosts from alternative source");
+				hosts = Factory.service.forHost().downloadHostsFromAlternativeWeb();
+			if (null == hosts) {
+//				e.printStackTrace();
+				drawStatusBar(Messages.get("webConnectionError"), STATUS_ERROR);
+				return;
+			} else {
+				alternative = true;
+			}
 		}
 
 		drawStatusBar(Messages.get("updatingBlockedHostsList"), STATUS_UPDATE);
@@ -199,7 +208,9 @@ public class MainView {
 
 //    	Factory.service.forHost().persistOnHostsFile();
 		editHostsFile();
-		drawStatusBar(Messages.get("upToDate"), STATUS_OK);
+		drawStatusBar(alternative? 
+				Messages.get("upToDateAlternative")
+				:Messages.get("upToDate"), STATUS_OK);
 	}
 
 	@FXML

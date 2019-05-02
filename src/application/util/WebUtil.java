@@ -10,6 +10,8 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.net.ssl.HttpsURLConnection;
+
 //import javax.net.ssl.HttpsURLConnection;
 
 import application.model.Host;
@@ -53,7 +55,51 @@ public class WebUtil {
     	
     	return null;
 	}
+
+	/**
+	 * reads a standard hosts file and adds its domains to the database.
+	 * The file should have 0.0.0.0 as the blocked address.
+	 * @return
+	 * @throws IOException
+	 */
+	public static List<Host> getHostsFromAlternativeWeb() throws IOException{
+		URL url = new URL(Settings.get("urlAlternativeHosts"));
+    	HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
+    	con.setRequestMethod("GET");
+    	con.setConnectTimeout(5000);
+    	
+    	List<Host> hosts = new ArrayList<Host>();
+    	
+    	if (200 == con.getResponseCode()) {
+			BufferedReader in = new BufferedReader(
+					  new InputStreamReader(con.getInputStream()));
+			String inputLine;
+			String domain = "";
+//			String[] pre;
+			while ((inputLine = in.readLine()) != null) {
+				if (inputLine.startsWith("0.0.0.0")) {
+					domain = inputLine.split("0.0.0.0 ")[1];
+//					if (pre.length==0)
+//						break;
+//						domain = pre[1];
+					if (!" ".equals(domain) && !"".equals(domain))
+						hosts.add(new Host((String)domain.split("#")[0].trim()
+							, "3"
+							, 3
+							,"StevenBlack"
+							, 0));
+				}
+			    //content.append(inputLine);
+			}
+			in.close();
+			con.disconnect();
+			return hosts;
+    	}
+    	
+    	return null;
+	}
 	
+
 	public static boolean uploadHostToWeb(String domain) throws IOException {
 		URL url = new URL(Settings.get("urlApiHosts"));
 		String postData = URLEncoder.encode("domain=" + domain + "&category=1", "UTF-8");

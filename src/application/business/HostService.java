@@ -10,9 +10,10 @@ public interface HostService {
 	void addHosts(List<Host> hostsList);
 	Boolean updateHost(String domain);
 	int getHostsCount();
-	List<Host> downloadNewBlockedHostsFromWeb();
 	List<Host> findAll();
 	void toggleStatus(String domain);
 	List<Host> findAllActive();
 	List<Host> findByDomain(String filter);
+	List<Host> downloadHostsFromWeb();
+	List<Host> downloadHostsFromAlternativeWeb();
 }

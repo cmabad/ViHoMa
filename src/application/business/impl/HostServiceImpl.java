@@ -40,10 +40,19 @@ public class HostServiceImpl implements HostService{
 	}
 
 	@Override
-	public List<Host> downloadNewBlockedHostsFromWeb() {
+	public List<Host> downloadHostsFromWeb() {
 		try {
 			return WebUtil.getHostsFromWeb(
 					Factory.service.forConfiguration().getLastUpdateTime());
+		} catch (IOException e) {
+			return null;
+		}
+	}
+	
+	@Override
+	public List<Host> downloadHostsFromAlternativeWeb() {
+		try {
+			return WebUtil.getHostsFromAlternativeWeb();
 		} catch (IOException e) {
 			return null;
 		}
