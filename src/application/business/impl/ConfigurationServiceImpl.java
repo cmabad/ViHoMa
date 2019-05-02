@@ -1,6 +1,5 @@
 package application.business.impl;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import application.business.ConfigurationService;
@@ -13,20 +12,16 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
 	@Override
 	public long getLastUpdateTime() {
-		try {
-			return Factory.repository.forConfiguration().getLastUpdateTime();
-		} catch (SQLException e) {
-			//e.printStackTrace();
-			add("lastUpdateTime","0");
-		}
-		return 0;
+		Configuration conf = this.findByParameter("lastUpdateTime");
+		return (null==conf)? 0L:Long.parseLong(conf.getValue());
 	}
 
 	@Override
 	public void setLastUpdateTime() {
-		Factory.repository.forConfiguration()
-			.setLastUpdateTime(String.valueOf(System.currentTimeMillis()/1000));
-		Logger.log("CONFIGURATION UPDATED: " + "lastUpdateTime" + " = " + String.valueOf(System.currentTimeMillis()/1000));
+		if (0==this.getLastUpdateTime())
+			this.add("lastUpdateTime", String.valueOf(System.currentTimeMillis()/1000));
+		else
+			this.update("lastUpdateTime", String.valueOf(System.currentTimeMillis()/1000));
 	}
 
 	@Override
@@ -51,6 +46,12 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 	@Override
 	public Configuration findByParameter(String parameter) {
 		return Factory.repository.forConfiguration().findByParameter(parameter);
+	}
+
+	@Override
+	public void update(String parameter, String value) {
+		Factory.repository.forConfiguration().update(parameter, value);
+		Logger.log("CONFIGURATION UPDATED: " + parameter + " = " + value);
 	}
 
 }

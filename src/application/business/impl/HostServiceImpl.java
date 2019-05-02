@@ -19,7 +19,8 @@ public class HostServiceImpl implements HostService{
 
 	@Override
 	public void addHosts(List<Host> hostList) {
-		//TODO: check if the list is empty?
+		if(hostList.isEmpty())
+			return;
 		Factory.repository.forHost().addHosts(hostList);
 		Factory.service.forConfiguration().setLastUpdateTime();
 	}

@@ -19,9 +19,28 @@ public class WindowsUtil {
 	    } 
 	    br.close();
 	    
-	    if ("0x4".indexOf(sb.toString()) == -1)
+	    if (sb.toString().indexOf("0x4") == -1)
 	    	return true;
 	    
 	    return false;
+	}
+	
+	public static boolean toggleWindowsDNSClient() {
+		try {
+			boolean wasActivated = isDNSClientStartActivated();
+			if (!wasActivated) 
+				Runtime.
+				   getRuntime().
+				   exec("reg add HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\services\\Dnscache /t REG_DWORD /v Start /d 2 /f");
+			 else 
+				Runtime.
+				   getRuntime().
+				   exec("reg add HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\services\\Dnscache /t REG_DWORD /v Start /d 4 /f");
+			return wasActivated ^ isDNSClientStartActivated();
+		} catch (IOException e) {
+			//Validate the case the file can't be accessed (not enough permissions)
+			Logger.err(e.getMessage());
+			return false;
+		} 
 	}
 }

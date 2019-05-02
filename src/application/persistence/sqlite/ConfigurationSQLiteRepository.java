@@ -11,27 +11,6 @@ import application.util.properties.Settings;
 
 public class ConfigurationSQLiteRepository extends BaseSQLiteRepository implements ConfigurationRepository {
 
-	public Long getLastUpdateTime() throws SQLException {
-		long lastUpdate = 0;
-		try {
-			conn = SQLiteJDBC.connect();
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(
-					Settings.get("sqlSelectLastUpdateTime"));
-			if (rs.next())
-				lastUpdate = Long.parseLong(rs.getString("value"));
-			
-			return lastUpdate;
-		} catch (SQLException e) {
-			//e.printStackTrace();
-			throw e;
-			//lastUpdate = 0;
-			//add(new Configuration("lastUpdateTime", String.valueOf(lastUpdate)));
-		} finally {
-			SQLiteJDBC.close(rs, stmt, conn);
-		}
-	}
-
 	@Override
 	public void add(Configuration t) {
 		String parameter = t.getParameter();
@@ -90,23 +69,6 @@ public class ConfigurationSQLiteRepository extends BaseSQLiteRepository implemen
 		}
 		return configs;
 	}
-	
-	@Override
-	public void setLastUpdateTime(String utime) {
-		try {
-			conn = SQLiteJDBC.connect();
-			pstmt = conn.prepareStatement(
-					Settings.get("sqlUpdateLastUpdateTime"));
-			pstmt.setString(1, utime);
-			pstmt.execute();
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			SQLiteJDBC.close(pstmt, conn);
-		}
-		
-	}
 
 	@Override
 	public Configuration findByParameter(String parameter) {
@@ -127,9 +89,20 @@ public class ConfigurationSQLiteRepository extends BaseSQLiteRepository implemen
 	}
 
 	@Override
-	public int getBlockedIp() {
-		// TODO Auto-generated method stub
-		return 0;
+	public void update(String parameter, String value) {
+		try {
+			conn = SQLiteJDBC.connect();
+			pstmt = conn.prepareStatement(
+					Settings.get("sqlUpdateConfiguration"));
+			pstmt.setString(1, parameter);
+			pstmt.setString(2, value);
+			pstmt.execute();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			SQLiteJDBC.close(pstmt, conn);
+		}
 	}
 
 }

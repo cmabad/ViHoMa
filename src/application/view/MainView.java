@@ -97,7 +97,7 @@ public class MainView {
 
 	// private int status = 0;
 	private final int STATUS_UPDATE = 1;
-	private final int STATUS_OK = 0;
+	public final int STATUS_OK = 0;
 	private final int STATUS_ERROR = 2;
 
 	/**
@@ -138,6 +138,7 @@ public class MainView {
 			return;
 		} else {
 			try {
+				System.out.println(WindowsUtil.isDNSClientStartActivated());
 				settingDNSclientCheckBox.setSelected(WindowsUtil.isDNSClientStartActivated());
 			} catch (IOException e) {
 //				e.printStackTrace();
@@ -184,7 +185,7 @@ public class MainView {
 		drawStatusBar(Messages.get("checkingNewBlockedHosts"), STATUS_UPDATE);
 
 		List<Host> hosts = Factory.service.forHost().downloadNewBlockedHostsFromWeb();
-
+		
 		if (null == hosts) {
 			drawStatusBar(Messages.get("webConnectionError"), STATUS_ERROR);
 			return;
@@ -411,33 +412,30 @@ public class MainView {
 			return;
 		}
 		try {
-			boolean oldValue = WindowsUtil.isDNSClientStartActivated();
-			if (settingDNSclientCheckBox.isSelected()) {
-				Runtime.
-				   getRuntime().
-				   exec("reg add HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\services\\Dnscache /t REG_DWORD /v Start /d 2 /f");
-				Logger.log("windows DNS client activated");
-				drawStatusBar(Messages.get("WindowsDNSClientActivated"), STATUS_OK);
+			boolean wasActivated = WindowsUtil.isDNSClientStartActivated();
+			boolean validChange = WindowsUtil.toggleWindowsDNSClient();
+			if (validChange) {
+				if(wasActivated) {
+					drawStatusBar(Messages.get("WindowsDNSClientDeactivated"), STATUS_OK);
+					Logger.log("windows DNS client deactivated");
+				}else {
+					drawStatusBar(Messages.get("WindowsDNSClientActivated"), STATUS_OK);
+					Logger.log("windows DNS client activated");
+				}
 			} else {
-				Runtime.
-				   getRuntime().
-				   exec("reg add HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\services\\Dnscache /t REG_DWORD /v Start /d 4 /f");
-				Logger.log("windows DNS client deactivated");
-				drawStatusBar(Messages.get("WindowsDNSClientDeactivated"), STATUS_OK);
-			}
-			
-			if (oldValue == WindowsUtil.isDNSClientStartActivated()) {
-				String error = oldValue==true?
+				String error = (wasActivated==true)?
 						"WindowsDNSClientNotDeactivated"
 						: "WindowsDNSClientNotActivated"; 
 				Logger.err(Messages.get(error));
+				settingDNSclientCheckBox.setSelected(wasActivated);
 				drawStatusBar(Messages.get(error), STATUS_ERROR);
-			}
+			}			
 		} catch (IOException e) {
-			e.printStackTrace();
-			//Validate the case the file can't be accesed (not enought permissions)
+//			e.printStackTrace();
+			// Registry cannot be read
 			Logger.err(e.getMessage());
-		} 
+		}
+		
 	}
 
 	@FXML

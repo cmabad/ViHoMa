@@ -10,7 +10,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.net.ssl.HttpsURLConnection;
+//import javax.net.ssl.HttpsURLConnection;
 
 import application.model.Host;
 import application.util.properties.Settings;
@@ -29,12 +29,14 @@ public class WebUtil {
     	HttpURLConnection con = (HttpURLConnection) url.openConnection();
     	con.setRequestMethod("GET");
     	con.setConnectTimeout(5000);
-
+    	
+    	List<Host> hosts = new ArrayList<Host>();
+    	
     	if (200 == con.getResponseCode()) {
 			BufferedReader in = new BufferedReader(
 					  new InputStreamReader(con.getInputStream()));
 			String inputLine;
-			List<Host> hosts = new ArrayList<Host>();
+			
 			
 			while ((inputLine = in.readLine()) != null) {
 				hosts.add(new Host((String)inputLine.split(";")[0]
@@ -48,6 +50,7 @@ public class WebUtil {
 			con.disconnect();
 			return hosts;
     	}
+    	
     	return null;
 	}
 	

@@ -40,7 +40,7 @@ public class Main extends Application {
     
     public static void main(String[] args) {
     	configure();
-    	if ("quiet".equals(args[0])) 
+    	if (0 < args.length && "quiet".equals(args[0])) 
     		quietRun();    		
     	else 
     		launch(args);
