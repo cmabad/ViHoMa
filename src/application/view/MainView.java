@@ -76,15 +76,15 @@ public class MainView {
 	@FXML
 	private Label settingStartupLabel;
 	@FXML
-	private Label settingsHelpLabel;
+	private Label settingHelpLabel;
 	@FXML
 	private CheckBox settingStartupCheckBox;
 	@FXML
 	private CheckBox settingShareBlockHostsCheckBox;
-	@FXML
-	private TextField settingTargetDomainField;
-	@FXML
-	private CheckBox settingTargetDomainCheckBox;
+	//@FXML
+	//private TextField settingTargetDomainField;
+	//@FXML
+	//private CheckBox settingTargetDomainCheckBox;
 	@FXML
 	private CheckBox settingDNSclientCheckBox;
 	
@@ -133,17 +133,7 @@ public class MainView {
 		fillBlockedHostsTable(null);
 		fillCustomHostsTable(null);
 		
-		if (System.getProperty("os.name").toLowerCase().indexOf("win") != 0) {
-			settingDNSclientCheckBox.setDisable(true);
-			return;
-		} else {
-			try {
-				settingDNSclientCheckBox.setSelected(WindowsUtil.isDNSClientStartActivated());
-			} catch (IOException e) {
-//				e.printStackTrace();
-				Logger.err(e.getMessage());
-			}
-		}
+		settingsLoader();
 		blockedHostsActivationButton.setDisable(true);
 		customHostsActivationButton.setDisable(true);
 		// Listen for selection changes and show the person details when changed.
@@ -151,6 +141,7 @@ public class MainView {
 		// (observable, oldValue, newValue) -> showPersonDetails(newValue));
 	}
 
+		
 	/** Is called by the main application to give a reference back to itself.
 	 * 
 	 * @param mainApp
@@ -442,13 +433,27 @@ public class MainView {
 				drawStatusBar(Messages.get(error), STATUS_ERROR);
 			}			
 		} catch (IOException e) {
-//			e.printStackTrace();
 			// Registry cannot be read
 			Logger.err(e.getMessage());
 		}
 		
 	}
 
+	private void settingsLoader() {
+		if (System.getProperty("os.name").toLowerCase().indexOf("win") != 0) {
+			settingDNSclientCheckBox.setDisable(true);
+			return;
+		} else {
+			try {
+				settingDNSclientCheckBox.setSelected(
+						WindowsUtil.isDNSClientStartActivated());
+			} catch (IOException e) {
+//				e.printStackTrace();
+				Logger.err(e.getMessage());
+			}
+		}
+	}
+	
 	@FXML
 	private void openHelp() {
 		try {
@@ -465,4 +470,6 @@ public class MainView {
 			Logger.err(e.getMessage());
 		}
 	}
+
+
 }

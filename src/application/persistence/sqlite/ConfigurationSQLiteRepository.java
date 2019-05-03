@@ -89,20 +89,20 @@ public class ConfigurationSQLiteRepository extends BaseSQLiteRepository implemen
 	}
 
 	@Override
-	public void update(String parameter, String value) {
+	public int update(String parameter, String value) {
 		try {
 			conn = SQLiteJDBC.connect();
 			pstmt = conn.prepareStatement(
 					Settings.get("sqlUpdateConfiguration"));
 			pstmt.setString(1, parameter);
 			pstmt.setString(2, value);
-			pstmt.execute();
-			
+			return pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			SQLiteJDBC.close(pstmt, conn);
 		}
+		return -1;
 	}
 
 }

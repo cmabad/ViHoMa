@@ -5,5 +5,5 @@ import application.model.Configuration;
 public interface ConfigurationRepository extends Repository<Configuration>{
 
 	Configuration findByParameter(String parameter);
-	void update(String parameter, String value);
+	int update(String parameter, String value);
 }

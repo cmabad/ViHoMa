@@ -9,8 +9,9 @@ public interface ConfigurationService {
 	void add(String parameter, String value);
 	List<Configuration> findAll();
 	Configuration findByParameter(String parameter);
-	void update(String parameter, String value);
-	
+	int update(String parameter, String value);
+	void set(String string, String newAddress);
+
 	long getLastUpdateTime();
 	void setLastUpdateTime();
 	String getBlockedAddress();

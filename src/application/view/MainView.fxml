@@ -27,7 +27,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Button layoutX="98.0" layoutY="51.0" mnemonicParsing="false" onAction="#getHostsFromWeb" text="Update" />
+                        <Button layoutX="531.0" layoutY="200.0" mnemonicParsing="false" onAction="#getHostsFromWeb" text="Update" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
                         <Label id="totalBlockedHostsCountLabel" fx:id="totalBlockedHostsCountLabel" layoutX="14.0" layoutY="16.0" text="Number of blocked hosts:" />
                      </children></AnchorPane>
             </content>
@@ -160,9 +160,7 @@
                               <CheckBox id="settingStartupCheckbox" fx:id="settingStartupCheckBox" layoutX="14.0" layoutY="37.0" mnemonicParsing="false" text="startup" />
                               <CheckBox id="settingShareBlockHostsCheckBox" fx:id="settingShareBlockHostsCheckBox" layoutX="14.0" layoutY="70.0" mnemonicParsing="false" text="share" />
                               <CheckBox id="settingDNSclientCheckBox" fx:id="settingDNSclientCheckBox" layoutX="14.0" layoutY="100.0" mnemonicParsing="false" onAction="#toggleWindowsDNSClient" text="dns client" />
-                              <TextField id="settingTargetDomainField" fx:id="settingTargetDomainField" layoutX="32.0" layoutY="155.0" promptText="(custom target domain)" />
-                              <CheckBox id="settingTargetDomainCheckBox" fx:id="settingTargetDomainCheckBox" layoutX="14.0" layoutY="130.0" mnemonicParsing="false" text="target domain" />
-                              <Label fx:id="settingsHelpLabel" layoutX="214.0" layoutY="14.0" onMouseClicked="#openHelp" text="Help" textFill="#3448dd" underline="true">
+                              <Label fx:id="settingHelpLabel" layoutX="214.0" layoutY="14.0" onMouseClicked="#openHelp" text="Help" textFill="#3448dd" underline="true">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
