@@ -98,7 +98,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("TFG-UO237441");
+        this.primaryStage.setTitle("ViHoMa");
 
         initRootLayout();
 
@@ -118,6 +118,10 @@ public class Main extends Application {
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
+            primaryStage.setMaxHeight(400);
+            primaryStage.setMaxWidth(600);
+            primaryStage.setMinHeight(300);
+            primaryStage.setMinWidth(400);
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();

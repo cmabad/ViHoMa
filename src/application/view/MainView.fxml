@@ -8,7 +8,6 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitMenuButton?>
-<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -19,7 +18,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.MainView">
+<AnchorPane prefHeight="300.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.MainView">
    <children>
       <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
@@ -28,7 +27,9 @@
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <Button layoutX="531.0" layoutY="200.0" mnemonicParsing="false" onAction="#getHostsFromWeb" text="Update" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
-                        <Label id="totalBlockedHostsCountLabel" fx:id="totalBlockedHostsCountLabel" layoutX="14.0" layoutY="16.0" text="Number of blocked hosts:" />
+                        <Label id="totalBlockedHostsCountLabel" fx:id="totalBlockedHostsCountLabel" layoutX="14.0" layoutY="16.0" text="Number of blocked hosts:" textAlignment="CENTER" />
+                        <Label id="totalBlockedHostsCountLabel" fx:id="totalCustomHostsCountLabel" layoutX="166.0" layoutY="16.0" text="Number of custom hosts:" textAlignment="CENTER" />
+                        <Label id="totalBlockedHostsCountLabel" fx:id="lastUpdateLabel" layoutX="14.0" layoutY="76.0" text="Last update:" />
                      </children></AnchorPane>
             </content>
           </Tab>
@@ -36,26 +37,22 @@
                <content>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <SplitPane dividerPositions="0.15" orientation="VERTICAL" prefHeight="236.0" prefWidth="600.0" AnchorPane.bottomAnchor="31.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <items>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="63.0" prefWidth="598.0" SplitPane.resizableWithParent="false">
-                                 <children>
-                                    <TextField id="blockedHostsTableFilter" fx:id="blockedHostsTableFilter" layoutX="214.0" layoutY="4.0" onKeyReleased="#filterBlockedHostsTable" promptText="Filter..." />
-                                    <Button id="blockedHostsActivationButton" fx:id="blockedHostsActivationButton" layoutX="532.0" layoutY="2.0" mnemonicParsing="false" onAction="#toggleBlockedHostStatus" text="Activation" AnchorPane.rightAnchor="2.0" />
-                                 </children>
-                              </AnchorPane>
-                              <TableView fx:id="blockedHostsTable" onMouseClicked="#changeBlockedHostsActivationButton" prefHeight="187.0" prefWidth="598.0" SplitPane.resizableWithParent="false">
-                                <columns>
-                                  <TableColumn fx:id="domainColumn" prefWidth="75.0" text="Domain" />
-                                  <TableColumn fx:id="categoryColumn" prefWidth="75.0" text="Category" />
-                                    <TableColumn fx:id="activeColumn" prefWidth="75.0" text="Active" />
-                                </columns>
-                                 <columnResizePolicy>
-                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                 </columnResizePolicy>
-                              </TableView>
-                          </items>
-                        </SplitPane>
+                        <AnchorPane prefHeight="30.0" prefWidth="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <TextField id="blockedHostsTableFilter" fx:id="blockedHostsTableFilter" layoutX="14.0" layoutY="4.0" onKeyReleased="#filterBlockedHostsTable" prefHeight="25.0" prefWidth="180.0" promptText="Filter..." AnchorPane.leftAnchor="14.0" />
+                              <Button id="blockedHostsActivationButton" fx:id="blockedHostsActivationButton" layoutX="417.0" layoutY="4.0" mnemonicParsing="false" onAction="#toggleBlockedHostStatus" text="Activation" AnchorPane.rightAnchor="14.0" />
+                           </children>
+                        </AnchorPane>
+                        <TableView fx:id="blockedHostsTable" onMouseClicked="#changeBlockedHostsActivationButton" prefHeight="187.0" prefWidth="598.0" AnchorPane.bottomAnchor="33.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="33.0">
+                          <columns>
+                            <TableColumn fx:id="domainColumn" prefWidth="75.0" text="Domain" />
+                            <TableColumn fx:id="categoryColumn" prefWidth="75.0" text="Category" />
+                              <TableColumn fx:id="activeColumn" prefWidth="75.0" text="Active" />
+                          </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
                         <AnchorPane layoutY="234.0" prefHeight="31.0" prefWidth="600.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                            <children>
                               <GridPane layoutX="81.0" layoutY="-8.0" prefHeight="31.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -99,26 +96,22 @@
                <content>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <SplitPane dividerPositions="0.15" orientation="VERTICAL" prefHeight="236.0" prefWidth="600.0" AnchorPane.bottomAnchor="31.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <items>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="63.0" prefWidth="598.0">
-                                 <children>
-                                    <TextField id="customHostsTableFilter" fx:id="customHostsTableFilter" layoutX="214.0" layoutY="4.0" onKeyReleased="#filterCustomHostsTable" promptText="Filter..." />
-                                    <Button id="customHostsActivationButton" fx:id="customHostsActivationButton" layoutX="532.0" layoutY="2.0" mnemonicParsing="false" onAction="#toggleCustomHostStatus" text="Activation" AnchorPane.rightAnchor="2.0" />
-                                 </children>
-                              </AnchorPane>
-                              <TableView fx:id="customHostsTable" onMouseClicked="#changeCustomHostsActivationButton" prefHeight="200.0" prefWidth="200.0">
-                                <columns>
-                                  <TableColumn fx:id="customIpColumn" prefWidth="75.0" text="Custom IP" />
-                                  <TableColumn fx:id="customDomainColumn" prefWidth="70.0" text="Custom Domain" />
-                                    <TableColumn fx:id="customActiveColumn" prefWidth="70.0" text="Active" />
-                                </columns>
-                                 <columnResizePolicy>
-                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                 </columnResizePolicy>
-                              </TableView>
-                          </items>
-                        </SplitPane>
+                        <AnchorPane prefHeight="30.0" prefWidth="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <TextField id="customHostsTableFilter" fx:id="customHostsTableFilter" layoutX="14.0" layoutY="4.0" onKeyReleased="#filterCustomHostsTable" prefHeight="25.0" prefWidth="180.0" promptText="Filter..." AnchorPane.leftAnchor="14.0" />
+                              <Button id="customHostsActivationButton" fx:id="customHostsActivationButton" layoutX="417.0" layoutY="4.0" mnemonicParsing="false" onAction="#toggleCustomHostStatus" text="Activation" AnchorPane.rightAnchor="14.0" />
+                           </children>
+                        </AnchorPane>
+                        <TableView fx:id="customHostsTable" onMouseClicked="#changeCustomHostsActivationButton" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="33.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="33.0">
+                          <columns>
+                            <TableColumn fx:id="customIpColumn" prefWidth="75.0" text="Custom IP" />
+                            <TableColumn fx:id="customDomainColumn" prefWidth="70.0" text="Custom Domain" />
+                              <TableColumn fx:id="customActiveColumn" prefWidth="70.0" text="Active" />
+                          </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
                         <AnchorPane layoutY="237.0" prefHeight="31.0" prefWidth="600.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                            <children>
                               <GridPane prefHeight="200.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

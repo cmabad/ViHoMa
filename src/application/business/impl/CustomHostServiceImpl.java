@@ -38,4 +38,9 @@ public class CustomHostServiceImpl implements CustomHostService {
 		return Factory.repository.forCustomHost().findByDomainOrIp(filter);
 	}
 
+	@Override
+	public int getHostsCount() {
+		return Factory.repository.forCustomHost().getHostsCount();
+	}
+
 }

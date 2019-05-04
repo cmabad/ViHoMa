@@ -5,7 +5,11 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 import application.Main;
 import application.conf.Factory;
@@ -72,7 +76,11 @@ public class MainView {
 
 	@FXML
 	private Label totalBlockedHostsCountLabel;
-
+	@FXML
+	private Label totalCustomHostsCountLabel;
+	@FXML
+	private Label lastUpdateLabel;
+	
 	@FXML
 	private Label settingStartupLabel;
 	@FXML
@@ -128,7 +136,7 @@ public class MainView {
 		customDomainColumn.setCellValueFactory(cellData -> cellData.getValue().domainProperty());
 		customIpColumn.setCellValueFactory(cellData -> cellData.getValue().addressProperty());
 		
-		updateHostCountLabel();
+		updateMainTab();
 
 		fillBlockedHostsTable(null);
 		fillCustomHostsTable(null);
@@ -154,12 +162,20 @@ public class MainView {
 		fillCustomHostsTable(main.getCustomHostsData());
 	}
 	
-	private void updateHostCountLabel() {
-		totalBlockedHostsCountLabel.setText(getBlockedHostsCount() + " blocked hosts");
-	}
-
-	private int getBlockedHostsCount() {
-		return Factory.service.forHost().getHostsCount();
+	private void updateMainTab() {
+		totalBlockedHostsCountLabel.setText(
+				Factory.service.forHost().getHostsCount() + "\n" 
+				+ Messages.get("blockedHosts"));
+		
+		totalCustomHostsCountLabel.setText(
+				Factory.service.forCustomHost().getHostsCount() + "\n" 
+				+ Messages.get("customHosts"));
+		
+		Date lastUpdate = new Date(TimeUnit.SECONDS.toMillis(
+				Factory.service.forConfiguration().getLastUpdateTime()));		
+		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT);
+		df.setTimeZone(TimeZone.getTimeZone("UTC"));
+		lastUpdateLabel.setText("Last update: " + df.format(lastUpdate));
 	}
 
 	private void fillBlockedHostsTable(ObservableList<Host> list) {
@@ -195,7 +211,7 @@ public class MainView {
 		Factory.service.forHost().addHosts(hosts);
 		main.fillBlockedHostObservableList();
 
-		updateHostCountLabel();
+		updateMainTab();
 
 //    	Factory.service.forHost().persistOnHostsFile();
 		editHostsFile();
@@ -224,7 +240,7 @@ public class MainView {
 			uploadNewBlockedHost(domain);
 
 			main.fillBlockedHostObservableList();
-			updateHostCountLabel();
+			updateMainTab();
 			drawStatusBar(domain + " " + Messages.get("blockNewHostSuccess"), STATUS_OK);
 		} else {
 			drawStatusBar("error adding new host: " + errorMessage, STATUS_ERROR);
@@ -298,7 +314,7 @@ public class MainView {
 			
 			//main.fillBlockedHostObservableList();
 			filterBlockedHostsTable();
-			updateHostCountLabel();
+			updateMainTab();
 			
 			drawStatusBar(Messages.get("upToDate"), STATUS_OK);
 			blockedHostsActivationButton.setDisable(true);

@@ -129,4 +129,25 @@ public class CustomHostSQLiteRepository extends BaseSQLiteRepository implements 
 		return hosts;
 	}
 
+	@Override
+	public int getHostsCount() {
+		try {
+			conn = SQLiteJDBC.connect();
+			int count = -1;
+			stmt = conn.createStatement();
+
+			rs = stmt.executeQuery(Settings.get("sqlSelectCustomHostsCount"));
+			// loop through the result set
+			if (rs.next())
+				count = (Integer) rs.getInt("total");
+			
+			return count;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			SQLiteJDBC.close(rs, stmt, conn);
+		}
+		return -1;
+	}
+
 }
