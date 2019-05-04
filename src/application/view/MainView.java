@@ -196,8 +196,8 @@ public class MainView {
 		if (null == hosts) {
 			drawStatusBar(Messages.get("webConnectionError"), STATUS_ERROR);
 			
-				Logger.log("Trying to get hosts from alternative source");
-				hosts = Factory.service.forHost().downloadHostsFromAlternativeWeb();
+			Logger.err(Settings.get("webSourceConnectionError"));
+			hosts = Factory.service.forHost().downloadHostsFromAlternativeWeb();
 			if (null == hosts) {
 //				e.printStackTrace();
 				drawStatusBar(Messages.get("webConnectionError"), STATUS_ERROR);
@@ -239,6 +239,7 @@ public class MainView {
 			// TODO if the user wants to share the blocked domain
 			uploadNewBlockedHost(domain);
 
+			editHostsFile();
 			main.fillBlockedHostObservableList();
 			updateMainTab();
 			drawStatusBar(domain + " " + Messages.get("blockNewHostSuccess"), STATUS_OK);
@@ -250,9 +251,9 @@ public class MainView {
 	private void uploadNewBlockedHost(String domain) {
 		Boolean uploadSuccess = Factory.service.forHost().updateHost(domain);
 		if (null == uploadSuccess || !uploadSuccess.booleanValue())
-			System.out.println("the host wasn't uploaded");
+			Logger.err(domain + " " + Settings.get("blockedHostUploadError"));
 		else {
-			System.out.println("the host was uploaded");
+			Logger.log(domain + " " + Settings.get("blockedHostUploadSuccess"));
 			drawStatusBar(Messages.get("blockNewHostUpload") + " " + domain, STATUS_UPDATE);
 		}
 	}
@@ -279,18 +280,11 @@ public class MainView {
 			} catch (IllegalArgumentException e){
 				drawStatusBar(e.getMessage(), STATUS_ERROR);
 			}
+			editHostsFile();
 			main.fillCustomHostObservableList();
+			drawStatusBar(domain + " " + Messages.get("newCustomHostSuccess"), STATUS_OK);
 		} else
 			drawStatusBar("error adding new host: " + errorMessage, STATUS_ERROR);
-	}
-
-	@FXML
-	private void editHostsFile() {
-		// TODO Factory.service.forHosts().editHostsFile();
-		HostsFileManager.editHostsFile(
-				Factory.service.forHost().findAll()
-				, Factory.service.forConfiguration().getBlockedAddress()
-				, Factory.service.forCustomHost().findAll());
 	}
 
 	@FXML
@@ -313,10 +307,15 @@ public class MainView {
 			host.setActive(!host.isActive());
 			
 			//main.fillBlockedHostObservableList();
+			editHostsFile();
 			filterBlockedHostsTable();
 			updateMainTab();
 			
-			drawStatusBar(Messages.get("upToDate"), STATUS_OK);
+			if (host.isActive())
+				drawStatusBar(host.getDomain() + " " + Messages.get("activatedHost"), STATUS_OK);
+			else
+				drawStatusBar(host.getDomain() + " " + Messages.get("unactivatedHost"), STATUS_OK);
+			
 			blockedHostsActivationButton.setDisable(true);
 		}
 	}
@@ -340,9 +339,15 @@ public class MainView {
 			host.setActive(!host.isActive());
 			
 			//main.fillCustomHostObservableList();
+			editHostsFile();
 			filterCustomHostsTable();
+			updateMainTab();
 			
-			drawStatusBar(Messages.get("upToDate"), STATUS_OK);
+			if (host.isActive())
+				drawStatusBar(host.getDomain() + " " + Messages.get("activatedCustomHost"), STATUS_OK);
+			else
+				drawStatusBar(host.getDomain() + " " + Messages.get("unactivatedCustomHost"), STATUS_OK);
+			
 			customHostsActivationButton.setDisable(true);
 		}
 	}
@@ -406,22 +411,7 @@ public class MainView {
 			drawStatusBar(filter + ": " + main.getCustomHostsData().size() 
 				+  " " + Messages.get("matches"), STATUS_OK);
 		}
-	}
-
-	private void drawStatusBar(String message, int status) {
-		// System.out.println(message);
-		if (null != message) {
-			this.statusBarLabel.setText(message);
-		}
-
-		if (STATUS_OK == status)
-			this.statusBar.setStyle(Settings.get("statusBarColorOk"));
-		else if (STATUS_UPDATE == status)
-			this.statusBar.setStyle(Settings.get("statusBarColorUpdate"));
-		else if (STATUS_ERROR == status)
-			this.statusBar.setStyle(Settings.get("statusBarColorError"));
-
-	}
+	}	
 
 	@FXML
 	private void toggleWindowsDNSClient() {
@@ -487,5 +477,29 @@ public class MainView {
 		}
 	}
 
+	/**
+	 * Common
+	 */
+	private void editHostsFile() {
+		// TODO Factory.service.forHosts().editHostsFile();
+		HostsFileManager.editHostsFile(
+				Factory.service.forHost().findAllActive()
+				, Factory.service.forConfiguration().getBlockedAddress()
+				, Factory.service.forCustomHost().findAllActive());
+	}
+	
+	private void drawStatusBar(String message, int status) {
+		// System.out.println(message);
+		if (null != message) {
+			this.statusBarLabel.setText(message);
+		}
 
+		if (STATUS_OK == status)
+			this.statusBar.setStyle(Settings.get("statusBarColorOk"));
+		else if (STATUS_UPDATE == status)
+			this.statusBar.setStyle(Settings.get("statusBarColorUpdate"));
+		else if (STATUS_ERROR == status)
+			this.statusBar.setStyle(Settings.get("statusBarColorError"));
+
+	}
 }

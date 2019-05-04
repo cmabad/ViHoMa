@@ -120,14 +120,9 @@ public class WebUtil {
     	//con.getInputStream();
     	
     	if (200 == con.getResponseCode()) {
-    		System.out.println("200");
-    		System.out.println(con.getResponseMessage());
     		con.disconnect();
     		return true;    		
     	} else {
-    		System.out.println("no 200");
-    		System.out.println(con.getResponseCode());
-    		System.out.println(con.getResponseMessage());
     		con.disconnect();
     		return false;
     	}

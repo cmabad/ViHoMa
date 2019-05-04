@@ -88,7 +88,7 @@ public class Host {
 	}
 
 	public void setActive(Boolean active) {
-		this.status.set(status.get() | (active? 1:0));
+		this.status.set((active? 1:0));
 		//this.active.set((status.get() & 1) == 1);
 	}
 
