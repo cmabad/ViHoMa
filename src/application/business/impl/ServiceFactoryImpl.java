@@ -1,6 +1,5 @@
 package application.business.impl;
 
-import application.business.CategoryService;
 import application.business.ConfigurationService;
 import application.business.CustomHostService;
 import application.business.HostService;
@@ -17,12 +16,6 @@ public class ServiceFactoryImpl implements ServiceFactory {
 	public CustomHostService forCustomHost() {
 		// TODO Auto-generated method stub
 		return new CustomHostServiceImpl();
-	}
-
-	@Override
-	public CategoryService forCategory() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

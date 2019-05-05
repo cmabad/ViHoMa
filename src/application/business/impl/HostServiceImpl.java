@@ -80,5 +80,4 @@ public class HostServiceImpl implements HostService{
 	public List<Host> findByDomain(String filter) {
 		return Factory.repository.forHost().findByDomain(filter);
 	}
-
 }

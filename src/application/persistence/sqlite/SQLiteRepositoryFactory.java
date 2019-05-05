@@ -1,6 +1,5 @@
 package application.persistence.sqlite;
 
-import application.business.repository.CategoryRepository;
 import application.business.repository.ConfigurationRepository;
 import application.business.repository.CustomHostRepository;
 import application.business.repository.HostRepository;
@@ -22,11 +21,4 @@ public class SQLiteRepositoryFactory implements RepositoryFactory{
 	public ConfigurationRepository forConfiguration() {
 		return new ConfigurationSQLiteRepository();
 	}
-
-	@Override
-	public CategoryRepository forCategory() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

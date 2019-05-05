@@ -23,7 +23,7 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 					Settings.get("sqlInsertHost"));
 			for (Host newHost : newHostsList) {
 				pstmt.setString(1, newHost.getDomain());
-				pstmt.setString(2, newHost.getCategory());
+				pstmt.setString(2, "");
 				pstmt.setInt(3, newHost.getStatus());
 				pstmt.setString(4, newHost.getComment());
 				pstmt.setLong(5, newHost.getUpdatedAt());
@@ -32,7 +32,8 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 			conn.commit();
 			
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			//System.out.println(e.getMessage());
+			//ignored
 		} finally {
 			SQLiteJDBC.close(pstmt, conn);
 		}
@@ -52,7 +53,8 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 			
 			return count;
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			//System.out.println(e.getMessage());
+			//ignored
 		} finally {
 			SQLiteJDBC.close(rs, stmt, conn);
 		}
@@ -77,7 +79,8 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 						));
 			
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			//System.out.println(e.getMessage());
+			//ignored
 		} finally {
 			SQLiteJDBC.close(rs, stmt, conn);
 		}
@@ -90,14 +93,15 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 				pstmt = conn.prepareStatement(
 						Settings.get("sqlInsertHost"));
 			pstmt.setString(1, newHost.getDomain());
-			pstmt.setString(2, newHost.getCategory());
+			pstmt.setString(2, "");
 			pstmt.setInt(3, newHost.getStatus());
 			pstmt.setString(4, newHost.getComment());
 			pstmt.setLong(5, newHost.getUpdatedAt());
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			//System.out.println(e.getMessage());
+			//ignored
 		} finally {
 			SQLiteJDBC.close(pstmt, conn);
 		}
@@ -128,7 +132,8 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			//System.out.println(e.getMessage());
+			//ignored
 		} finally {
 			SQLiteJDBC.close(pstmt, conn);
 }
@@ -152,7 +157,8 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 						));
 			
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			//System.out.println(e.getMessage());
+			//ignored
 		} finally {
 			SQLiteJDBC.close(rs, stmt, conn);
 		}
@@ -179,11 +185,11 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 						));
 			
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			//System.out.println(e.getMessage());
+			//ignored		
 		} finally {
 			SQLiteJDBC.close(rs, pstmt, conn);
 		}
 		return hosts;
 	}
-
 }

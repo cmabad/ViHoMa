@@ -122,7 +122,7 @@ public class MainView {
 	private void initialize() {
 		// Initialize the person table with the two columns.
 		domainColumn.setCellValueFactory(cellData -> cellData.getValue().domainProperty());
-		categoryColumn.setCellValueFactory(cellData -> cellData.getValue().categoryProperty());
+		// categoryColumn.setCellValueFactory(cellData -> cellData.getValue().categoryProperty());
 		// statusColumn.setCellValueFactory(cellData
 		// -> cellData.getValue().statusProperty().asObject());
 		activeColumn.setCellValueFactory(cellData -> cellData.getValue().activeProperty());

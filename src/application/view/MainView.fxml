@@ -5,9 +5,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -46,7 +44,6 @@
                         <TableView fx:id="blockedHostsTable" onMouseClicked="#changeBlockedHostsActivationButton" prefHeight="187.0" prefWidth="598.0" AnchorPane.bottomAnchor="33.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="33.0">
                           <columns>
                             <TableColumn fx:id="domainColumn" prefWidth="75.0" text="Domain" />
-                            <TableColumn fx:id="categoryColumn" prefWidth="75.0" text="Category" />
                               <TableColumn fx:id="activeColumn" prefWidth="75.0" text="Active" />
                           </columns>
                            <columnResizePolicy>
@@ -65,22 +62,16 @@
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <TextField id="newBlockedHostDomain" fx:id="newBlockedHostDomain" onAction="#blockNewHost" promptText="Domain" GridPane.halignment="CENTER">
+                                    <TextField id="newBlockedHostDomain" fx:id="newBlockedHostDomain" onAction="#blockNewHost" promptText="New blocked domain" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                                        <GridPane.margin>
                                           <Insets left="5.0" right="5.0" />
                                        </GridPane.margin>
                                     </TextField>
-                                    <Button mnemonicParsing="false" onAction="#blockNewHost" text="Block new domain" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+                                    <Button mnemonicParsing="false" onAction="#blockNewHost" text="Block new domain" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
                                        <GridPane.margin>
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </GridPane.margin>
                                     </Button>
-                                    <SplitMenuButton id="newBlockedHostCategory" fx:id="newBlockedHostCategory" mnemonicParsing="false" text="Category" GridPane.columnIndex="1" GridPane.halignment="CENTER">
-                                      <items>
-                                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                                      </items>
-                                    </SplitMenuButton>
                                  </children>
                                  <padding>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -124,18 +115,24 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <TextField fx:id="newCustomDomainField" promptText="Custom domain" GridPane.halignment="CENTER">
+                                    <TextField fx:id="newCustomDomainField" promptText="Custom domain" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                                        <GridPane.margin>
                                           <Insets left="5.0" right="5.0" />
                                        </GridPane.margin>
                                     </TextField>
-                                    <Button mnemonicParsing="false" onAction="#addCustomHost" text="Add custom domain" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
-                                    <TextField id="newCustomAddressField" fx:id="newCustomAddressField" promptText="Custom IP" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                                    <Button mnemonicParsing="false" onAction="#addCustomHost" text="Add custom domain" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
+                                       <GridPane.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </GridPane.margin></Button>
+                                    <TextField id="newCustomAddressField" fx:id="newCustomAddressField" promptText="Custom IP" GridPane.halignment="CENTER">
                                        <GridPane.margin>
                                           <Insets left="5.0" right="5.0" />
                                        </GridPane.margin>
                                     </TextField>
                                  </children>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
                               </GridPane>
                            </children>
                         </AnchorPane>

@@ -12,7 +12,7 @@ import javafx.beans.property.StringProperty;
 public class Host {
 
 	private StringProperty domain;
-	private StringProperty category;
+//	private StringProperty category;
 	private IntegerProperty status;
 //	private BooleanProperty active;
 	private LongProperty updatedAt;
@@ -28,7 +28,7 @@ public class Host {
 	
 	public Host(String domain, String category) {
 		this.domain = new SimpleStringProperty(domain);
-		this.category = new SimpleStringProperty(category);
+//		this.category = new SimpleStringProperty(category);
 		this.status = new SimpleIntegerProperty(1);
 //		this.active = new SimpleBooleanProperty(true);
 		this.updatedAt = new SimpleLongProperty(System.currentTimeMillis()/1000);
@@ -52,18 +52,6 @@ public class Host {
 	
 	public void setDomain(String domain) {
 		this.domain.set(domain);
-	}
-
-	public StringProperty categoryProperty() {
-		return category;
-	}
-	
-	public String getCategory() {
-		return category.get();
-	}
-
-	public void setCategory(String category) {
-		this.category.set(category);
 	}
 
 	public IntegerProperty statusProperty() {
@@ -118,8 +106,8 @@ public class Host {
 
 	@Override
 	public String toString() {
-		return "Host [getDomain()=" + getDomain() + ", getCategory()=" 
-				+ getCategory() + ", getStatus()=" + getStatus() 
+		return "Host [getDomain()=" + getDomain()
+				+ ", getStatus()=" + getStatus() 
 				+ ", getComment()=" + getComment() + ", getUpdatedAt()="
 				+ getUpdatedAt() + "]";
 	}
