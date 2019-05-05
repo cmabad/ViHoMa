@@ -22,7 +22,6 @@ public class HostServiceImpl implements HostService{
 		if(hostList.isEmpty())
 			return;
 		Factory.repository.forHost().addHosts(hostList);
-		Factory.service.forConfiguration().setLastUpdateTime();
 	}
 
 	@Override
@@ -43,7 +42,7 @@ public class HostServiceImpl implements HostService{
 	public List<Host> downloadHostsFromWeb() {
 		try {
 			return WebUtil.getHostsFromWeb(
-					Factory.service.forConfiguration().getLastUpdateTime());
+					Factory.service.forConfiguration().getLastUpdateTime());			
 		} catch (IOException e) {
 			return null;
 		}
@@ -52,7 +51,7 @@ public class HostServiceImpl implements HostService{
 	@Override
 	public List<Host> downloadHostsFromAlternativeWeb() {
 		try {
-			return WebUtil.getHostsFromAlternativeWeb();
+			return WebUtil.getHostsFromAlternativeWeb();			
 		} catch (IOException e) {
 			return null;
 		}

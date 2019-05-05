@@ -79,6 +79,10 @@ public class MainView {
 	@FXML
 	private Label totalCustomHostsCountLabel;
 	@FXML
+	private Label totalBlockedHostsCountLabelBelow;
+	@FXML
+	private Label totalCustomHostsCountLabelBelow;
+	@FXML
 	private Label lastUpdateLabel;
 	
 	@FXML
@@ -164,12 +168,12 @@ public class MainView {
 	
 	private void updateMainTab() {
 		totalBlockedHostsCountLabel.setText(
-				Factory.service.forHost().getHostsCount() + "\n" 
-				+ Messages.get("blockedHosts"));
+				String.valueOf(Factory.service.forHost().getHostsCount()));
+		totalBlockedHostsCountLabelBelow.setText(Messages.get("blockedHosts"));
 		
 		totalCustomHostsCountLabel.setText(
-				Factory.service.forCustomHost().getHostsCount() + "\n" 
-				+ Messages.get("customHosts"));
+				String.valueOf(Factory.service.forCustomHost().getHostsCount()));
+		totalCustomHostsCountLabelBelow.setText(Messages.get("customHosts"));
 		
 		Date lastUpdate = new Date(TimeUnit.SECONDS.toMillis(
 				Factory.service.forConfiguration().getLastUpdateTime()));		
@@ -209,6 +213,7 @@ public class MainView {
 
 		drawStatusBar(Messages.get("updatingBlockedHostsList"), STATUS_UPDATE);
 		Factory.service.forHost().addHosts(hosts);
+		Factory.service.forConfiguration().setLastUpdateTime();
 		main.fillBlockedHostObservableList();
 
 		updateMainTab();
