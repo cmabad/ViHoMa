@@ -31,7 +31,7 @@ public class WebUtil {
 		URL url = new URL(Settings.get("urlGetWithTime")+lastUpdate);
     	HttpURLConnection con = (HttpURLConnection) url.openConnection();
     	con.setRequestMethod("GET");
-    	con.setConnectTimeout(5000);
+    	con.setConnectTimeout(4000);
     	
     	List<Host> hosts = new ArrayList<Host>();
     	
@@ -52,7 +52,8 @@ public class WebUtil {
 			in.close();
 			con.disconnect();
 			return hosts;
-    	}
+    	} else if (204 == con.getResponseCode())
+    		return hosts;
     	
     	return null;
 	}
