@@ -53,7 +53,7 @@
                         <TableView fx:id="blockedHostsTable" onMouseClicked="#changeBlockedHostsActivationButton" prefHeight="187.0" prefWidth="598.0" AnchorPane.bottomAnchor="33.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="33.0">
                           <columns>
                             <TableColumn fx:id="domainColumn" prefWidth="75.0" text="Domain" />
-                              <TableColumn fx:id="activeColumn" prefWidth="75.0" text="Active" />
+                              <TableColumn fx:id="activeColumn" prefWidth="75.0" text="Block?" />
                           </columns>
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

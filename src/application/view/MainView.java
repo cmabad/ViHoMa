@@ -366,10 +366,10 @@ public class MainView {
 		else {
 			if (blockedHostsTable.getSelectionModel().getSelectedItem().isActive())
 				blockedHostsActivationButton.setText(
-						Messages.get("hostsActivationButtonDeactivate"));
+						Messages.get("hostsActivationButtonUnblock"));
 			else
 				blockedHostsActivationButton.setText(
-						Messages.get("hostsActivationButtonActivate"));
+						Messages.get("hostsActivationButtonBlock"));
 		}
 	}
 	
