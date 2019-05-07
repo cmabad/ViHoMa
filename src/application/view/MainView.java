@@ -86,8 +86,6 @@ public class MainView {
 	private Label lastUpdateLabel;
 	
 	@FXML
-	private Label settingStartupLabel;
-	@FXML
 	private Label settingHelpLabel;
 	@FXML
 	private CheckBox settingStartupCheckBox;
@@ -145,6 +143,7 @@ public class MainView {
 		fillBlockedHostsTable(null);
 		fillCustomHostsTable(null);
 		
+		setText();
 		settingsLoader();
 		blockedHostsActivationButton.setDisable(true);
 		customHostsActivationButton.setDisable(true);
@@ -152,8 +151,15 @@ public class MainView {
 		// blockedHostsTable.getSelectionModel().selectedItemProperty().addListener(
 		// (observable, oldValue, newValue) -> showPersonDetails(newValue));
 	}
-
 		
+	private void setText() {
+		totalBlockedHostsCountLabelBelow.setText(Messages.get("blockedHosts"));
+		totalCustomHostsCountLabelBelow.setText(Messages.get("customHosts"));
+		settingStartupCheckBox.setText(Messages.get("settingStartupCheckBox"));
+		settingDNSclientCheckBox.setText(Messages.get("settingDNSclientCheckBox"));
+		settingShareBlockHostsCheckBox.setText(Messages.get("settingShareBlockHostsCheckBox"));
+	}
+
 	/** Is called by the main application to give a reference back to itself.
 	 * 
 	 * @param mainApp
@@ -169,11 +175,9 @@ public class MainView {
 	private void updateMainTab() {
 		totalBlockedHostsCountLabel.setText(
 				String.valueOf(Factory.service.forHost().getHostsCount()));
-		totalBlockedHostsCountLabelBelow.setText(Messages.get("blockedHosts"));
 		
 		totalCustomHostsCountLabel.setText(
 				String.valueOf(Factory.service.forCustomHost().getHostsCount()));
-		totalCustomHostsCountLabelBelow.setText(Messages.get("customHosts"));
 		
 		Date lastUpdate = new Date(TimeUnit.SECONDS.toMillis(
 				Factory.service.forConfiguration().getLastUpdateTime()));		
@@ -418,6 +422,10 @@ public class MainView {
 		}
 	}	
 
+	/**
+	SETTINGS
+	*/
+	
 	@FXML
 	private void toggleWindowsDNSClient() {
 		if (System.getProperty("os.name").toLowerCase().indexOf("win") == -1) {
@@ -457,7 +465,7 @@ public class MainView {
 		} else {
 			try {
 				settingDNSclientCheckBox.setSelected(
-						WindowsUtil.isDNSClientStartActivated());
+						!WindowsUtil.isDNSClientStartActivated());
 			} catch (IOException e) {
 //				e.printStackTrace();
 				Logger.err(e.getMessage());
