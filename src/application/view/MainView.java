@@ -434,8 +434,7 @@ public class MainView {
 		}
 		try {
 			boolean wasActivated = WindowsUtil.isDNSClientStartActivated();
-			boolean validChange = WindowsUtil.toggleWindowsDNSClient();
-			if (validChange) {
+			if (WindowsUtil.toggleWindowsDNSClient()) {
 				if(wasActivated) {
 					drawStatusBar(Messages.get("WindowsDNSClientDeactivated"), STATUS_OK);
 					Logger.log("windows DNS client deactivated");
@@ -457,15 +456,49 @@ public class MainView {
 		}
 		
 	}
+	
+	@FXML
+	private void toggleWindowsStartup() {
+		if (System.getProperty("os.name").toLowerCase().indexOf("win") == -1) {
+			Logger.err("Trying to modify Windows registry in no-DOS system");
+			return;
+		}
+		try {
+			boolean wasSetUp = WindowsUtil.isRunAtStartup();
+			if (WindowsUtil.toggleWindowsStartup()) {
+				if(!wasSetUp) {
+					drawStatusBar(Messages.get("WindowsStartupDeactivated"), STATUS_OK);
+					Logger.log("windows Startup deactivated");
+				}else {
+					drawStatusBar(Messages.get("WindowsStartupActivated"), STATUS_OK);
+					Logger.log("windows Startup activated");
+				}
+			} else {
+				String error = (wasSetUp==true)?
+						"WindowsStartupNotDeactivated"
+						: "WindowsStartupNotActivated"; 
+				Logger.err(Messages.get(error));
+				settingStartupCheckBox.setSelected(wasSetUp);
+				drawStatusBar(Messages.get(error), STATUS_ERROR);
+			}			
+		} catch (IOException e) {
+			// Registry cannot be read
+			Logger.err(e.getMessage());
+		}
+		
+	}
 
 	private void settingsLoader() {
 		if (System.getProperty("os.name").toLowerCase().indexOf("win") != 0) {
 			settingDNSclientCheckBox.setDisable(true);
+			settingStartupCheckBox.setDisable(true);
 			return;
 		} else {
 			try {
 				settingDNSclientCheckBox.setSelected(
 						!WindowsUtil.isDNSClientStartActivated());
+				settingStartupCheckBox.setSelected(
+						WindowsUtil.isRunAtStartup());
 			} catch (IOException e) {
 //				e.printStackTrace();
 				Logger.err(e.getMessage());

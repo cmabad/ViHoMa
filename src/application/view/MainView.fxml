@@ -156,7 +156,7 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="235.0" prefWidth="427.0">
                            <children>
-                              <CheckBox id="settingStartupCheckbox" fx:id="settingStartupCheckBox" layoutX="14.0" layoutY="21.0" mnemonicParsing="false" text="startup" />
+                              <CheckBox id="settingStartupCheckbox" fx:id="settingStartupCheckBox" layoutX="14.0" layoutY="21.0" mnemonicParsing="false" onAction="#toggleWindowsStartup" text="startup" />
                               <CheckBox id="settingShareBlockHostsCheckBox" fx:id="settingShareBlockHostsCheckBox" layoutX="14.0" layoutY="54.0" mnemonicParsing="false" text="share" wrapText="true" />
                               <CheckBox id="settingDNSclientCheckBox" fx:id="settingDNSclientCheckBox" layoutX="14.0" layoutY="84.0" mnemonicParsing="false" onAction="#toggleWindowsDNSClient" text="dns client" />
                            </children>

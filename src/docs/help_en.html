@@ -9,6 +9,15 @@
 	</head>
 	<body>
 		<h1>Vihoma help guide</h1>
+		<ul>
+			<li>Settings
+				<ul>
+					<li><a href=".#dnsclient">DNS Client</a></li>
+					<li><a href=".#validIP">Valid IPs</a></li>
+					<li><a href=".#startup">Running Vihoma at system startup</a></li>
+				</ul>
+			</li>
+		</ul>
 		<article id="dnsclient">
 			<h2>DNS Client</h2>
 			<p>This is applicable only to Windows operating systems.</p>
@@ -39,6 +48,14 @@
 				<li>\\A((?:[0-9A-Fa-f]{1,4}(?::[0-9A-Fa-f]{1,4})*)?)::((?:[0-9A-Fa-f]{1,4}(?::[0-9A-Fa-f]{1,4})*)?)\\z</li>
 				<li>\\A(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}\\z</li>
 			</ul>
+		</article>
+		
+		<article id="startup">
+			<h2>Running Vihoma at system startup</h2>
+
+			<p>You can automate the system host management if you allow Vihoma to update its database at system startup. It will run silently and will keep your system up to date. This option is only available on Windows, but you can configure your specific operating system to run Vihoma at the startup. To do it silently, pass to the jar file the argument <i>quiet</i>.</p>
+			
+			<p>If you have enabled the program startup but it doesn't work, disable and enable it again. Do this each time you change the program location.</p>
 		</article>
 	</body>
 </html>
