@@ -27,7 +27,7 @@ public class Host {
 	}
 	
 	public Host(String domain, String category) {
-		this.domain = new SimpleStringProperty(domain);
+		this.domain = new SimpleStringProperty(domain.trim());
 //		this.category = new SimpleStringProperty(category);
 		this.status = new SimpleIntegerProperty(1);
 //		this.active = new SimpleBooleanProperty(true);

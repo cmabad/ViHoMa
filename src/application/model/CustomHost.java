@@ -16,7 +16,7 @@ public class CustomHost extends Host {
 	public CustomHost(String domain, String address) {
 		super(domain,"",Host.STATUS_OK,"",System.currentTimeMillis()/1000);
 //		this.address = ;
-		setIP(new SimpleStringProperty(address));
+		setIP(new SimpleStringProperty(address.trim()));
 	}
 	
 	public CustomHost(String domain, String address, int status) {
