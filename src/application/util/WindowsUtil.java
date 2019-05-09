@@ -7,8 +7,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URLDecoder;
 
-import application.util.properties.Settings;
-
 public class WindowsUtil {
 
 	public static boolean isDNSClientStartActivated() throws IOException {

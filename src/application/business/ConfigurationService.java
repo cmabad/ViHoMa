@@ -15,4 +15,5 @@ public interface ConfigurationService {
 	long getLastUpdateTime();
 	void setLastUpdateTime();
 	String getBlockedAddress();
+	boolean isSharingAllowed();
 }

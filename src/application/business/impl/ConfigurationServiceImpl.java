@@ -66,9 +66,18 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 	public void set(String parameter, String value) {
 		Configuration conf = this.findByParameter(parameter);
 		if (null == conf)
-			update(parameter,value);
-		else
 			add(parameter,value);
+		else
+			update(parameter,value);
+	}
+
+	@Override
+	public boolean isSharingAllowed() {
+		Configuration conf = this.findByParameter("shareHosts");
+		
+		if (null == conf || "no".equals(conf.getValue()))
+			return false;
+		return true;
 	}
 
 }

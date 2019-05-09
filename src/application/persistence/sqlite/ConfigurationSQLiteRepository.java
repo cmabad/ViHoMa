@@ -94,8 +94,8 @@ public class ConfigurationSQLiteRepository extends BaseSQLiteRepository implemen
 			conn = SQLiteJDBC.connect();
 			pstmt = conn.prepareStatement(
 					Settings.get("sqlUpdateConfiguration"));
-			pstmt.setString(1, parameter);
-			pstmt.setString(2, value);
+			pstmt.setString(2, parameter);
+			pstmt.setString(1, value);
 			return pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

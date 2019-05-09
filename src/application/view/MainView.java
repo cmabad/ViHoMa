@@ -231,7 +231,6 @@ public class MainView {
 
 	@FXML
 	private void blockNewHost() {
-		// TODO: if the user doesn't want to add to the database...
 		String errorMessage = "";
 		boolean valid = true;
 		String domain = newBlockedHostDomain.getText();
@@ -245,8 +244,8 @@ public class MainView {
 			drawStatusBar(Messages.get("blockNewHostStart") + " " + domain, STATUS_UPDATE);
 			Factory.service.forHost().addHost(domain, "category");
 
-			// TODO if the user wants to share the blocked domain
-			uploadNewBlockedHost(domain);
+			if (Factory.service.forConfiguration().isSharingAllowed())
+				uploadNewBlockedHost(domain);
 
 			editHostsFile();
 			main.fillBlockedHostObservableList();
@@ -485,7 +484,19 @@ public class MainView {
 			// Registry cannot be read
 			Logger.err(e.getMessage());
 		}
-		
+	}
+	
+	@FXML
+	private void toggleShareHosts() {
+		if (Factory.service.forConfiguration().isSharingAllowed()) {
+			Factory.service.forConfiguration().set("shareHosts", "no");
+			drawStatusBar(Messages.get("shareHostsDisabled"), STATUS_OK);
+			Logger.log(Settings.get("shareHostsDisabled"));
+		} else {
+			Factory.service.forConfiguration().set("shareHosts", "yes");
+			drawStatusBar(Messages.get("shareHostsEnabled"), STATUS_OK);
+			Logger.log(Settings.get("shareHostsEnabled"));
+		}
 	}
 
 	private void settingsLoader() {
@@ -499,6 +510,8 @@ public class MainView {
 						!WindowsUtil.isDNSClientStartActivated());
 				settingStartupCheckBox.setSelected(
 						WindowsUtil.isRunAtStartup());
+				settingShareBlockHostsCheckBox.setSelected(
+						Factory.service.forConfiguration().isSharingAllowed());
 			} catch (IOException e) {
 //				e.printStackTrace();
 				Logger.err(e.getMessage());
