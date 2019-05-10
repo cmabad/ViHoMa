@@ -4,7 +4,9 @@
 		<meta charset="utf-8">
 		<title>Vihoma help</title>
 		<style>
-			background-color:#ddd;
+			html{background-color:#ddd;font-family:"Georgia",serif;padding:2em;}
+			body{max-width:75em;}
+			article{border:1px solid black;background-color:#eee;padding:0 2em;margin:1em auto;}
 		</style>
 	</head>
 	<body>
@@ -42,11 +44,11 @@
 			</ul>
 			<p>Here are the patterns used in the program to check if an IP is valid:</p>
 			<ul>
+				<li>\A(25[0-5]|2[0-4]\d|[0-1]?\d?\\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}\z</li>
 				<li>\\A(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}\\z</li>
-				<li>\\\\A(25[0-5]|2[0-4]\\\\d|[0-1]?\\\\d?\\\\d)(\\\\.(25[0-5]|2[0-4]\\\\d|[0-1]?\\\\d?\\\\d)){3}\\\\z</li>
-				<li>\\A((?:[0-9A-Fa-f]{1,4}:){6,6})(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}\\z</li>
-				<li>\\A((?:[0-9A-Fa-f]{1,4}(?::[0-9A-Fa-f]{1,4})*)?)::((?:[0-9A-Fa-f]{1,4}(?::[0-9A-Fa-f]{1,4})*)?)\\z</li>
-				<li>\\A(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}\\z</li>
+				<li>\A((?:[0-9A-Fa-f]{1,4}:){6,6})(25[0-5]|2[0-4]\d|[0-1]?\d?\\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}\z</li>
+				<li>\A((?:[0-9A-Fa-f]{1,4}(?::[0-9A-Fa-f]{1,4})*)?)::((?:[0-9A-Fa-f]{1,4}(?::[0-9A-Fa-f]{1,4})*)?)\z</li>
+				<li>\A(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}\z</li>
 			</ul>
 		</article>
 		
