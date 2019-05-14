@@ -3,6 +3,7 @@ package application.view;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.text.DateFormat;
@@ -22,8 +23,10 @@ import application.util.properties.Messages;
 import application.util.properties.Settings;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.chart.Chart;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TableColumn;
@@ -32,7 +35,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.layout.AnchorPane;
 
-public class MainView {
+public class MainViewController {
 
 	@FXML
 	private TableView<Host> blockedHostsTable;
@@ -84,6 +87,8 @@ public class MainView {
 	private Label totalCustomHostsCountLabelBelow;
 	@FXML
 	private Label lastUpdateLabel;
+	@FXML
+	private Chart blockedHostsChart;
 	
 	@FXML
 	private Label settingHelpLabel;
@@ -97,6 +102,9 @@ public class MainView {
 	//private CheckBox settingTargetDomainCheckBox;
 	@FXML
 	private CheckBox settingDNSclientCheckBox;
+	
+	@FXML
+	private Hyperlink githubLink;
 	
 	@FXML
 	private AnchorPane statusBar;
@@ -113,7 +121,7 @@ public class MainView {
 	/**
 	 * The constructor. The constructor is called before the initialize() method.
 	 */
-	public MainView() {
+	public MainViewController() {
 	}
 
 	/**
@@ -525,7 +533,7 @@ public class MainView {
 			File tempHelp = File.createTempFile("help", ".html");
 			tempHelp.deleteOnExit();
 			Files.copy(
-					MainView.class.getResourceAsStream(Settings.get("helpPathLocationEN"))
+					MainViewController.class.getResourceAsStream(Settings.get("helpPathLocationEN"))
 					, tempHelp.toPath()
 					, StandardCopyOption.REPLACE_EXISTING);
 			Desktop.getDesktop().browse(tempHelp.toURI());
@@ -535,9 +543,22 @@ public class MainView {
 			Logger.err(e.getMessage());
 		}
 	}
-
-	/**
-	 * Common
+	
+	/*
+	 * ABOUT 
+	 */
+	
+	@FXML
+	private void openGithubLink() {
+		try {
+			Desktop.getDesktop().browse(URI.create(Settings.get("sourceCodeHttpLink")));
+		} catch (IOException e) {
+			Logger.err(Settings.get("sourceCodeLinkError"));
+		}
+	}
+	
+	
+	 /* Common
 	 */
 	private void editHostsFile() {
 		// TODO Factory.service.forHosts().editHostsFile();

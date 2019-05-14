@@ -11,7 +11,7 @@ import application.persistence.sqlite.util.SQLiteJDBC;
 import application.util.HostsFileManager;
 import application.util.Logger;
 import application.util.WebUtil;
-import application.view.MainView;
+import application.view.MainViewController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -139,7 +139,7 @@ public class Main extends Application {
             
             rootLayout.setCenter(mainView);
             
-            MainView controller = loader.getController();
+            MainViewController controller = loader.getController();
             controller.setMainApp(this);
         } catch (IOException e) {
             e.printStackTrace();

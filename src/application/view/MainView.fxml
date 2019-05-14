@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Hyperlink?>
@@ -18,7 +19,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="300.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.MainView">
+<AnchorPane prefHeight="300.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.MainViewController">
    <children>
       <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
@@ -38,6 +39,7 @@
                         <Label id="totalBlockedHostsCountLabel" fx:id="lastUpdateLabel" layoutX="14.0" layoutY="92.0" text="Last update:" />
                         <Label fx:id="totalBlockedHostsCountLabelBelow" layoutX="14.0" layoutY="44.0" text="blocked hosts" textAlignment="CENTER" />
                         <Label id="totalBlockedHostsCountLabel" fx:id="totalCustomHostsCountLabelBelow" layoutX="166.0" layoutY="44.0" text="custom hosts:" textAlignment="CENTER" />
+                        <PieChart fx:id="blockedHostsChart" layoutX="121.0" layoutY="70.0" prefHeight="161.0" prefWidth="236.0" title="Blocked hosts" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="121.0" AnchorPane.rightAnchor="143.0" AnchorPane.topAnchor="70.0" />
                      </children></AnchorPane>
             </content>
           </Tab>
@@ -174,12 +176,20 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Label>
-                        <Hyperlink layoutX="68.0" layoutY="87.0" text="Github" />
-                        <Label layoutX="213.0" layoutY="14.0" text="TODO " />
-                        <Label layoutX="84.0" layoutY="59.0" text="Author" />
-                        <Label layoutX="218.0" layoutY="59.0" text="Version" />
-                        <Label layoutX="365.0" layoutY="59.0" text="License" />
-                        <Hyperlink layoutX="209.0" layoutY="99.0" text="email" />
+                        <Hyperlink layoutX="12.0" layoutY="137.0" onAction="#openGithubLink" text="Github" />
+                        <Label layoutX="14.0" layoutY="68.0" text="Christian M. Abad" />
+                        <Label layoutX="131.0" layoutY="68.0" text="cmabad321@gmail.com" />
+                        <Label layoutX="131.0" layoutY="140.0" text="GPL-3.0" />
+                        <Label layoutX="14.0" layoutY="43.0" text="Author">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="111.0" text="Source Code">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
                      </children>
                   </AnchorPane>
                </content>
