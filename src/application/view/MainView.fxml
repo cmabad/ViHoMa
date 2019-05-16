@@ -127,6 +127,11 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
+                                    <TextField id="newCustomAddressField" fx:id="newCustomAddressField" promptText="Custom IP" GridPane.halignment="CENTER">
+                                       <GridPane.margin>
+                                          <Insets left="5.0" right="5.0" />
+                                       </GridPane.margin>
+                                    </TextField>
                                     <TextField fx:id="newCustomDomainField" promptText="Custom domain" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                                        <GridPane.margin>
                                           <Insets left="5.0" right="5.0" />
@@ -136,11 +141,6 @@
                                        <GridPane.margin>
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </GridPane.margin></Button>
-                                    <TextField id="newCustomAddressField" fx:id="newCustomAddressField" promptText="Custom IP" GridPane.halignment="CENTER">
-                                       <GridPane.margin>
-                                          <Insets left="5.0" right="5.0" />
-                                       </GridPane.margin>
-                                    </TextField>
                                  </children>
                                  <padding>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -158,9 +158,10 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="235.0" prefWidth="427.0">
                            <children>
-                              <CheckBox id="settingStartupCheckbox" fx:id="settingStartupCheckBox" layoutX="14.0" layoutY="21.0" mnemonicParsing="false" onAction="#toggleWindowsStartup" text="startup" />
-                              <CheckBox id="settingShareBlockHostsCheckBox" fx:id="settingShareBlockHostsCheckBox" layoutX="14.0" layoutY="54.0" mnemonicParsing="false" onAction="#toggleShareHosts" text="share" wrapText="true" />
-                              <CheckBox id="settingDNSclientCheckBox" fx:id="settingDNSclientCheckBox" layoutX="14.0" layoutY="84.0" mnemonicParsing="false" onAction="#toggleWindowsDNSClient" text="dns client" />
+                              <CheckBox id="settingStartupCheckbox" fx:id="settingStartupCheckBox" layoutX="14.0" layoutY="20.0" mnemonicParsing="false" onAction="#toggleWindowsStartup" text="startup" />
+                              <CheckBox id="settingShareBlockHostsCheckBox" fx:id="settingShareBlockHostsCheckBox" layoutX="14.0" layoutY="50.0" mnemonicParsing="false" onAction="#toggleShareHosts" text="share" wrapText="true" />
+                              <CheckBox id="settingDNSclientCheckBox" fx:id="settingDNSclientCheckBox" layoutX="14.0" layoutY="80.0" mnemonicParsing="false" onAction="#toggleWindowsDNSClient" text="dns client" />
+                              <CheckBox id="settingDNSclientCheckBox" fx:id="settingVihomaStartupCheckBox" layoutX="14.0" layoutY="110.0" mnemonicParsing="false" onAction="#toggleVihomaStartup" text="vihoma startup" />
                            </children>
                         </AnchorPane>
                     </content>

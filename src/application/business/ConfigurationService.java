@@ -16,4 +16,5 @@ public interface ConfigurationService {
 	void setLastUpdateTime();
 	String getBlockedAddress();
 	boolean isSharingAllowed();
+	boolean isUpdateAtVihomaStartupEnabled();
 }

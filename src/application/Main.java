@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import application.business.impl.ServiceFactoryImpl;
 import application.conf.Factory;
+import application.model.Configuration;
 import application.model.CustomHost;
 import application.model.Host;
 import application.persistence.sqlite.SQLiteRepositoryFactory;
@@ -26,8 +27,8 @@ public class Main extends Application {
 	private Stage primaryStage;
     private BorderPane rootLayout;
     private ObservableList<Host> blockedHosts = FXCollections.observableArrayList();
-    private ObservableList<CustomHost> customHosts = FXCollections.observableArrayList();  
-    
+    private ObservableList<CustomHost> customHosts = FXCollections.observableArrayList();
+
     public Main() {
     	
     	
@@ -40,9 +41,10 @@ public class Main extends Application {
     
     public static void main(String[] args) {
     	configure();
-    	if (0 < args.length && "quiet".equals(args[0])) 
+    	if (0 < args.length && "quiet".equals(args[0])) {
     		quietRun();    		
-    	else 
+    		System.exit(0);
+    	} else 
     		launch(args);
     }
   
@@ -56,8 +58,6 @@ public class Main extends Application {
     				Factory.service.forHost().findAllActive()
     				, Factory.service.forConfiguration().getBlockedAddress()
     				, Factory.service.forCustomHost().findAllActive());
-			
-			System.exit(0);
 		} catch (IOException e) {
 			Logger.err(e.getMessage());
 		}		
@@ -103,9 +103,18 @@ public class Main extends Application {
         initRootLayout();
 
         showMainOverview();
+        
+        updateAtStartup();
     }
     
-    /**
+    private void updateAtStartup() {
+    	Configuration update = Factory.service.forConfiguration()
+				.findByParameter("updateAtVihomaStartup");
+		if (null != update && "yes".equals(update.getValue()))
+				quietRun();
+	}
+
+	/**
      * Initializes the root layout.
      */
     public void initRootLayout() {

@@ -80,4 +80,13 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 		return true;
 	}
 
+	@Override
+	public boolean isUpdateAtVihomaStartupEnabled() {
+		Configuration conf = this.findByParameter("updateAtVihomaStartup");
+		
+		if (null == conf || "no".equals(conf.getValue()))
+			return false;
+		return true;
+	}
+
 }

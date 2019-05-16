@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 
 import application.Main;
 import application.conf.Factory;
+import application.model.Configuration;
 import application.model.CustomHost;
 import application.model.Host;
 import application.util.HostsFileManager;
@@ -97,6 +98,8 @@ public class MainViewController {
 	@FXML
 	private CheckBox settingStartupCheckBox;
 	@FXML
+	private CheckBox settingVihomaStartupCheckBox;
+	@FXML
 	private CheckBox settingShareBlockHostsCheckBox;
 	//@FXML
 	//private TextField settingTargetDomainField;
@@ -147,16 +150,15 @@ public class MainViewController {
         
 		customDomainColumn.setCellValueFactory(cellData -> cellData.getValue().domainProperty());
 		customIpColumn.setCellValueFactory(cellData -> cellData.getValue().addressProperty());
-		
-		updateMainTab();
 
-		fillBlockedHostsTable(null);
-		fillCustomHostsTable(null);
-		
+		//fillBlockedHostsTable(null);
+		//fillCustomHostsTable(null);
+		updateMainTab();
 		setText();
 		settingsLoader();
 		blockedHostsActivationButton.setDisable(true);
 		customHostsActivationButton.setDisable(true);
+		
 		// Listen for selection changes and show the person details when changed.
 		// blockedHostsTable.getSelectionModel().selectedItemProperty().addListener(
 		// (observable, oldValue, newValue) -> showPersonDetails(newValue));
@@ -168,7 +170,9 @@ public class MainViewController {
 		settingStartupCheckBox.setText(Messages.get("settingStartupCheckBox"));
 		settingDNSclientCheckBox.setText(Messages.get("settingDNSclientCheckBox"));
 		settingShareBlockHostsCheckBox.setText(Messages.get("settingShareBlockHostsCheckBox"));
+		settingVihomaStartupCheckBox.setText(Messages.get("settingUpdateVihomaStartupCheckBox"));
 		updateButton.setText(Messages.get("updateButton"));
+		
 	}
 
 	/** Is called by the main application to give a reference back to itself.
@@ -182,7 +186,10 @@ public class MainViewController {
 		fillBlockedHostsTable(main.getBlockedHostsData());
 		fillCustomHostsTable(main.getCustomHostsData());
 	}
-	
+
+	/*
+	 * UI methods
+	 */
 	private void updateMainTab() {
 		totalBlockedHostsCountLabel.setText(
 				String.valueOf(Factory.service.forHost().getHostsCount()));
@@ -498,6 +505,23 @@ public class MainViewController {
 	}
 	
 	@FXML
+	private void toggleVihomaStartup() {
+		String updateSetting = "updateAtVihomaStartup";
+		Configuration update = Factory.service.forConfiguration()
+				.findByParameter(updateSetting);
+		
+		if (null != update && "yes".equals(update.getValue())) {
+			Factory.service.forConfiguration().set(updateSetting, "no");
+			Logger.log(Settings.get("updateAtVihomaStartupDeactivated"));
+			drawStatusBar(Messages.get("updateAtVihomaStartupDeactivated"), STATUS_OK);
+		} else {
+			Factory.service.forConfiguration().set(updateSetting, "yes");
+			Logger.log(Settings.get("updateAtVihomaStartupActivated"));
+			drawStatusBar(Messages.get("updateAtVihomaStartupActivated"), STATUS_OK);
+		}
+	}
+	
+	@FXML
 	private void toggleShareHosts() {
 		if (Factory.service.forConfiguration().isSharingAllowed()) {
 			Factory.service.forConfiguration().set("shareHosts", "no");
@@ -523,6 +547,8 @@ public class MainViewController {
 						WindowsUtil.isRunAtStartup());
 				settingShareBlockHostsCheckBox.setSelected(
 						Factory.service.forConfiguration().isSharingAllowed());
+				settingVihomaStartupCheckBox.setSelected(
+						Factory.service.forConfiguration().isUpdateAtVihomaStartupEnabled());
 			} catch (IOException e) {
 //				e.printStackTrace();
 				Logger.err(e.getMessage());
