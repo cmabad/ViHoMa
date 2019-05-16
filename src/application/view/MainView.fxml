@@ -27,18 +27,18 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Button layoutX="531.0" layoutY="200.0" mnemonicParsing="false" onAction="#getHostsFromWeb" text="Update" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
-                        <Label id="totalBlockedHostsCountLabel" fx:id="totalBlockedHostsCountLabel" layoutX="25.0" layoutY="16.0" text="555555" textAlignment="CENTER" textFill="#1634c9">
+                        <Button fx:id="updateButton" layoutX="14.0" layoutY="12.0" mnemonicParsing="false" onAction="#getHostsFromWeb" text="Update" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="12.0" />
+                        <Label id="totalBlockedHostsCountLabel" fx:id="totalBlockedHostsCountLabel" layoutX="146.0" layoutY="15.0" text="555555" textAlignment="CENTER" textFill="#1634c9">
                            <font>
                               <Font name="Calibri Bold Italic" size="17.0" />
                            </font></Label>
-                        <Label id="totalBlockedHostsCountLabel" fx:id="totalCustomHostsCountLabel" layoutX="198.0" layoutY="17.0" text="5" textAlignment="CENTER" textFill="#1634c9">
+                        <Label id="totalBlockedHostsCountLabel" fx:id="totalCustomHostsCountLabel" layoutX="271.0" layoutY="15.0" text="5" textAlignment="CENTER" textFill="#1634c9">
                            <font>
                               <Font name="Calibri Bold Italic" size="16.0" />
                            </font></Label>
                         <Label id="totalBlockedHostsCountLabel" fx:id="lastUpdateLabel" layoutX="14.0" layoutY="92.0" text="Last update:" />
-                        <Label fx:id="totalBlockedHostsCountLabelBelow" layoutX="14.0" layoutY="44.0" text="blocked hosts" textAlignment="CENTER" />
-                        <Label id="totalBlockedHostsCountLabel" fx:id="totalCustomHostsCountLabelBelow" layoutX="166.0" layoutY="44.0" text="custom hosts:" textAlignment="CENTER" />
+                        <Label fx:id="totalBlockedHostsCountLabelBelow" layoutX="135.0" layoutY="43.0" text="blocked hosts" textAlignment="CENTER" />
+                        <Label id="totalBlockedHostsCountLabel" fx:id="totalCustomHostsCountLabelBelow" layoutX="239.0" layoutY="42.0" text="custom hosts:" textAlignment="CENTER" />
                         <PieChart fx:id="blockedHostsChart" layoutX="121.0" layoutY="70.0" prefHeight="161.0" prefWidth="236.0" title="Blocked hosts" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="121.0" AnchorPane.rightAnchor="143.0" AnchorPane.topAnchor="70.0" />
                      </children></AnchorPane>
             </content>

@@ -78,6 +78,8 @@ public class MainViewController {
 	private TextField newCustomAddressField;
 
 	@FXML
+	private Button updateButton; 
+	@FXML
 	private Label totalBlockedHostsCountLabel;
 	@FXML
 	private Label totalCustomHostsCountLabel;
@@ -166,6 +168,7 @@ public class MainViewController {
 		settingStartupCheckBox.setText(Messages.get("settingStartupCheckBox"));
 		settingDNSclientCheckBox.setText(Messages.get("settingDNSclientCheckBox"));
 		settingShareBlockHostsCheckBox.setText(Messages.get("settingShareBlockHostsCheckBox"));
+		updateButton.setText(Messages.get("updateButton"));
 	}
 
 	/** Is called by the main application to give a reference back to itself.
