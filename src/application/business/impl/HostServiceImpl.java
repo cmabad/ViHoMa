@@ -1,60 +1,28 @@
 package application.business.impl;
 
-import java.io.IOException;
 import java.util.List;
 
 import application.business.HostService;
 import application.conf.Factory;
 import application.model.Host;
-import application.util.Logger;
-import application.util.WebUtil;
 
 public class HostServiceImpl implements HostService{
 
 	@Override
-	public void addHost(String domain, Integer category) {
-		Factory.repository.forHost().add(new Host(domain,category));
-		Logger.log("NEW BLOCKED DOMAIN: " + domain);
+	public int addHost(String domain, Integer category) {
+		return Factory.repository.forHost().add(new Host(domain,category));
 	}
 
 	@Override
-	public void addHosts(List<Host> hostList) {
-		if(hostList.isEmpty())
-			return;
-		Factory.repository.forHost().addHosts(hostList);
-	}
-
-	@Override
-	public Boolean updateHost(String domain) {
-		try {
-			return WebUtil.uploadHostToWeb(domain);
-		} catch (IOException e) {
-			return null;
-		}
+	public int addHosts(List<Host> hostList) {
+		if(null == hostList || hostList.isEmpty())
+			return 0;
+		return Factory.repository.forHost().addHosts(hostList);
 	}
 
 	@Override
 	public int getHostsCount() {
 		return Factory.repository.forHost().getHostsCount();
-	}
-
-	@Override
-	public List<Host> downloadHostsFromWeb() {
-		try {
-			return WebUtil.getHostsFromWeb(
-					Factory.service.forConfiguration().getLastUpdateTime());			
-		} catch (IOException e) {
-			return null;
-		}
-	}
-	
-	@Override
-	public List<Host> downloadHostsFromAlternativeWeb() {
-		try {
-			return WebUtil.getHostsFromAlternativeWeb();			
-		} catch (IOException e) {
-			return null;
-		}
 	}
 
 	@Override
@@ -78,5 +46,15 @@ public class HostServiceImpl implements HostService{
 	@Override
 	public List<Host> findByDomain(String filter) {
 		return Factory.repository.forHost().findByDomain(filter);
+	}
+
+	@Override
+	public void deleteAll() {
+		Factory.repository.forHost().deleteAll();
+	}
+
+	@Override
+	public List<Host> findByCategory(int category) {
+		return Factory.repository.forHost().findByCategory(category);
 	}
 }

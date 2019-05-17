@@ -12,7 +12,7 @@ import application.util.properties.Settings;
 public class CustomHostSQLiteRepository extends BaseSQLiteRepository implements CustomHostRepository {
 
 	@Override
-	public void add(CustomHost newHost) {
+	public int add(CustomHost newHost) {
 		try {
 			conn = SQLiteJDBC.connect();
 			pstmt = conn.prepareStatement(
@@ -20,13 +20,14 @@ public class CustomHostSQLiteRepository extends BaseSQLiteRepository implements 
 			pstmt.setString(1, newHost.getDomain());
 			pstmt.setString(2, newHost.getAddress());
 			pstmt.setInt(3, newHost.getStatus());
-			pstmt.executeUpdate();
+			return pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			// ignored
 		} finally {
 			SQLiteJDBC.close(pstmt, conn);
 		}
+		return 0;
 	}
 
 	@Override
@@ -56,7 +57,8 @@ public class CustomHostSQLiteRepository extends BaseSQLiteRepository implements 
 						, (int) rs.getInt("status"))
 						);
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			// System.out.println(e.getMessage());
+			// ignored
 		} finally {
 			SQLiteJDBC.close(rs, stmt, conn);
 		}
@@ -75,7 +77,8 @@ public class CustomHostSQLiteRepository extends BaseSQLiteRepository implements 
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			// System.out.println(e.getMessage());
+			// ignored
 		} finally {
 			SQLiteJDBC.close(pstmt, conn);
 }		
@@ -96,7 +99,8 @@ public class CustomHostSQLiteRepository extends BaseSQLiteRepository implements 
 						, (int) rs.getInt("status"))
 						);
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			// System.out.println(e.getMessage());
+			// ignored
 		} finally {
 			SQLiteJDBC.close(rs, stmt, conn);
 		}
@@ -122,7 +126,8 @@ public class CustomHostSQLiteRepository extends BaseSQLiteRepository implements 
 						));
 			
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			// System.out.println(e.getMessage());
+			// ignored
 		} finally {
 			SQLiteJDBC.close(rs, pstmt, conn);
 		}
@@ -143,7 +148,8 @@ public class CustomHostSQLiteRepository extends BaseSQLiteRepository implements 
 			
 			return count;
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			// System.out.println(e.getMessage());
+			// ignored
 		} finally {
 			SQLiteJDBC.close(rs, stmt, conn);
 		}

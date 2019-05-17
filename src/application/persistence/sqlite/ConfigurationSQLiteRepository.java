@@ -12,7 +12,7 @@ import application.util.properties.Settings;
 public class ConfigurationSQLiteRepository extends BaseSQLiteRepository implements ConfigurationRepository {
 
 	@Override
-	public void add(Configuration t) {
+	public int add(Configuration t) {
 		String parameter = t.getParameter();
 		String value = t.getValue();
 		
@@ -26,14 +26,15 @@ public class ConfigurationSQLiteRepository extends BaseSQLiteRepository implemen
 					Settings.get("sqlInsertConfiguration"));
 			pstmt.setString(1, parameter);
 			pstmt.setString(2, value);
-			pstmt.execute();
+			return pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			// System.out.println(e.getMessage());
+			// ignored
 		} finally {
 			SQLiteJDBC.close(pstmt, conn);
 		}
-		
+		return 0;
 	}
 
 	@Override
@@ -63,7 +64,8 @@ public class ConfigurationSQLiteRepository extends BaseSQLiteRepository implemen
 						));
 			
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			// System.out.println(e.getMessage());
+			// ignored
 		} finally {
 			SQLiteJDBC.close(rs, stmt, conn);
 		}
@@ -81,7 +83,8 @@ public class ConfigurationSQLiteRepository extends BaseSQLiteRepository implemen
 			if (rs.next())
 				return new Configuration(parameter,(String) rs.getString("value"));
 		} catch (SQLException e) {
-			e.printStackTrace();
+			// System.out.println(e.getMessage());
+			// ignored
 		} finally {
 			SQLiteJDBC.close(rs, stmt, conn);
 		}
@@ -98,7 +101,8 @@ public class ConfigurationSQLiteRepository extends BaseSQLiteRepository implemen
 			pstmt.setString(1, value);
 			return pstmt.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			// System.out.println(e.getMessage());
+			// ignored
 		} finally {
 			SQLiteJDBC.close(pstmt, conn);
 		}

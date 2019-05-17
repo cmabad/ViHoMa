@@ -6,7 +6,7 @@ import application.model.CustomHost;
 
 public interface CustomHostService {
 
-	void add(String domain, String address);
+	int add(String domain, String address);
 	List<CustomHost> findAll();
 	void toggleStatus(String domain);
 	List<CustomHost> findAllActive();

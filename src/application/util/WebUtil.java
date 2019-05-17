@@ -1,11 +1,15 @@
 package application.util;
 
+import java.awt.Desktop;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -25,9 +29,27 @@ import org.apache.http.message.BasicNameValuePair;
 
 import application.model.Host;
 import application.util.properties.Settings;
+import application.view.MainViewController;
 
 public class WebUtil {
 
+	public static List<Host> getHostsFromWeb(long lastUpdate){
+		List<Host> hosts = null;
+		
+		try {
+			hosts = getHostsFromPrimarySource(lastUpdate);
+		} catch (IOException e) {
+			Logger.err(Settings.get("primarySourceConnectionError"));
+			try {
+				hosts = getHostsFromAlternativeSource();
+			} catch (IOException e1) {
+				Logger.err(Settings.get("alternativeSourceConnectionError"));
+			}
+		}
+		
+		return hosts;
+	}
+	
 	/**
 	 * downloads from the external database the hosts updated after 
 	 * the lastUpdate unix time parameter.
@@ -36,7 +58,7 @@ public class WebUtil {
 	 * or a list of hosts (could be empty) from the Vihoma central database 
 	 * @throws IOException if the http connection fails
 	 */
-	public static List<Host> getHostsFromWeb(long lastUpdate) throws IOException {
+	public static List<Host> getHostsFromPrimarySource(long lastUpdate) throws IOException {
 		URL url = new URL(Settings.get("urlGetWithTime")+lastUpdate);
     	HttpURLConnection con = (HttpURLConnection) url.openConnection();
     	con.setRequestMethod("GET");
@@ -61,10 +83,12 @@ public class WebUtil {
 			in.close();
 			con.disconnect();
 			return hosts;
-    	} else if (204 == con.getResponseCode())
+    	} else if (204 == con.getResponseCode()) {
     		return hosts;
-    	
-    	return null;
+    	} else {
+    		Logger.err(Settings.get("webSourceConnectionError"));
+    		return null;
+    	}
 	}
 
 	/**
@@ -74,7 +98,7 @@ public class WebUtil {
 	 * or a list of hosts (could be empty) got from the alternative hosts source 
 	 * @throws IOException
 	 */
-	public static List<Host> getHostsFromAlternativeWeb() throws IOException{
+	public static List<Host> getHostsFromAlternativeSource() throws IOException{
 		URL url = new URL(Settings.get("urlAlternativeHosts"));
     	HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
     	con.setRequestMethod("GET");
@@ -106,9 +130,10 @@ public class WebUtil {
 			in.close();
 			con.disconnect();
 			return hosts;
+    	} else {
+    		Logger.err(Settings.get("webSourceConnectionError"));
+    		return null;
     	}
-    	
-    	return null;
 	}
 	
 
@@ -116,27 +141,32 @@ public class WebUtil {
 	 * uploads a domain name to the Vihoma central database
 	 * @param domain 
 	 * @return true if the domain was successfully uploaded, false otherwise
-	 * @throws IOException if the connection to the central database fails
 	 */
-	public static boolean uploadHostToWeb(String domain) throws IOException {
+	public static boolean uploadHostToWeb(String domain) {
 		HttpClient httpclient = HttpClients.createDefault();
 		HttpPost httppost = new HttpPost(Settings.get("urlApiHosts"));
 
 		List<NameValuePair> params = new ArrayList<NameValuePair>(1);
 		params.add(new BasicNameValuePair("domain", domain));
-		httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
+		try {
+			httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
+		
+			HttpResponse response = httpclient.execute(httppost);
+			HttpEntity entity = response.getEntity();
 
-		HttpResponse response = httpclient.execute(httppost);
-		HttpEntity entity = response.getEntity();
-
-		if (entity != null) {
-		    try (InputStream instream = entity.getContent()) {
-		       if(response.toString().indexOf("200 OK")==-1)
-		        return false;
-		    }
+			if (entity != null) {
+			    try (InputStream instream = entity.getContent()) {
+			       if(response.toString().indexOf("200 OK")==-1)
+			    	   throw new IOException();
+			    }
+			}
+			Logger.log(domain + " " + Settings.get("blockedHostUploadSuccess"));
+			return true;
+	 
+		} catch (IOException e) {
+			Logger.err(domain + " " + Settings.get("blockedHostUploadError"));
+			return false;
 		}
-		return true;
-    	
 	}
 
 	public static boolean checkIpValidity(String address) {
@@ -157,5 +187,21 @@ public class WebUtil {
 				return true;
 			}
 		return false;
+	}
+
+	public static boolean openHelp() {
+		try {
+			File tempHelp = File.createTempFile("help", ".html");
+			tempHelp.deleteOnExit();
+			Files.copy(
+					MainViewController.class.getResourceAsStream(Settings.get("helpPathLocationEN"))
+					, tempHelp.toPath()
+					, StandardCopyOption.REPLACE_EXISTING);
+			Desktop.getDesktop().browse(tempHelp.toURI());
+			return true;
+		} catch (IOException e) {
+			Logger.err(e.getMessage());
+			return false;
+		}
 	}
 }

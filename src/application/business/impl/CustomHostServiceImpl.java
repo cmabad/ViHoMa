@@ -5,14 +5,12 @@ import java.util.List;
 import application.business.CustomHostService;
 import application.conf.Factory;
 import application.model.CustomHost;
-import application.util.Logger;
 
 public class CustomHostServiceImpl implements CustomHostService {
 
 	@Override
-	public void add(String domain, String address) {
-		Factory.repository.forCustomHost().add(new CustomHost(domain,address));
-		Logger.log("NEW CUSTOM DOMAIN: " + domain + " at " + address);
+	public int add(String domain, String address) {
+		return Factory.repository.forCustomHost().add(new CustomHost(domain,address));
 	}
 
 	@Override

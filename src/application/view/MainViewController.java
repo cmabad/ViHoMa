@@ -1,11 +1,8 @@
 package application.view;
 
 import java.awt.Desktop;
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
@@ -19,6 +16,7 @@ import application.model.CustomHost;
 import application.model.Host;
 import application.util.HostsFileManager;
 import application.util.Logger;
+import application.util.WebUtil;
 import application.util.WindowsUtil;
 import application.util.properties.Messages;
 import application.util.properties.Settings;
@@ -191,6 +189,8 @@ public class MainViewController {
 	 * UI methods
 	 */
 	private void updateMainTab() {
+		updateButton.setText(Messages.get("updateButton"));
+		
 		totalBlockedHostsCountLabel.setText(
 				String.valueOf(Factory.service.forHost().getHostsCount()));
 		
@@ -198,7 +198,7 @@ public class MainViewController {
 				String.valueOf(Factory.service.forCustomHost().getHostsCount()));
 		
 		Date lastUpdate = new Date(TimeUnit.SECONDS.toMillis(
-				Factory.service.forConfiguration().getLastUpdateTime()));		
+				Factory.service.forConfiguration().getLastUpdateTime()));
 		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT);
 		df.setTimeZone(TimeZone.getTimeZone("UTC"));
 		lastUpdateLabel.setText("Last update: " + df.format(lastUpdate));
@@ -213,42 +213,36 @@ public class MainViewController {
 	}
 
 	@FXML
-	private void getHostsFromWeb() {
-		boolean alternative = false;
-		drawStatusBar(Messages.get("checkingNewBlockedHosts"), STATUS_UPDATE);
+	protected void updateDatabaseFromWeb() {
+//		boolean alternative = false;
+		updateButton.setText(Messages.get("updating"));
 
-		List<Host> hosts = Factory.service.forHost().downloadHostsFromWeb();
-		
+		List<Host> hosts = WebUtil.getHostsFromWeb(0);
 		if (null == hosts) {
 			drawStatusBar(Messages.get("webConnectionError"), STATUS_ERROR);
+			return;
+		}		
+
+		if (!hosts.isEmpty()) {
+			List<Host> userAdded = Factory.service.forHost().findByCategory(
+					Host.CATEGORY_VIHOMA);
+			Factory.service.forHost().deleteAll();
+			Factory.service.forHost().addHosts(hosts);
+			Factory.service.forHost().addHosts(userAdded);
+			Factory.service.forConfiguration().setLastUpdateTime();
+			main.fillBlockedHostObservableList();
+			updateMainTab();
 			
-			Logger.err(Settings.get("webSourceConnectionError"));
-			hosts = Factory.service.forHost().downloadHostsFromAlternativeWeb();
-			if (null == hosts) {
-//				e.printStackTrace();
-				drawStatusBar(Messages.get("webConnectionError"), STATUS_ERROR);
-				return;
-			} else {
-				alternative = true;
-			}
+			editHostsFile();
+			drawStatusBar(Messages.get("upToDate"), STATUS_OK);
+//			drawStatusBar(alternative? 
+//					Messages.get("upToDateAlternative")
+//					:Messages.get("upToDate"), STATUS_OK);
 		}
-
-		drawStatusBar(Messages.get("updatingBlockedHostsList"), STATUS_UPDATE);
-		Factory.service.forHost().addHosts(hosts);
-		Factory.service.forConfiguration().setLastUpdateTime();
-		main.fillBlockedHostObservableList();
-
-		updateMainTab();
-
-//    	Factory.service.forHost().persistOnHostsFile();
-		editHostsFile();
-		drawStatusBar(alternative? 
-				Messages.get("upToDateAlternative")
-				:Messages.get("upToDate"), STATUS_OK);
 	}
 
 	@FXML
-	private void blockNewHost() {
+	protected void blockNewHost() {
 		String errorMessage = "";
 		boolean valid = true;
 		String domain = newBlockedHostDomain.getText();
@@ -260,32 +254,27 @@ public class MainViewController {
 
 		if (valid) {
 			drawStatusBar(Messages.get("blockNewHostStart") + " " + domain, STATUS_UPDATE);
-			Factory.service.forHost().addHost(domain, Host.CATEGORY_VIHOMA);
+			
+			if (0 == Factory.service.forHost().addHost(domain, Host.CATEGORY_VIHOMA)) {
+				drawStatusBar(Messages.get("errorExistingDomain"), STATUS_ERROR);
+				return;
+			}
 
 			if (Factory.service.forConfiguration().isSharingAllowed())
-				uploadNewBlockedHost(domain);
+				WebUtil.uploadHostToWeb(domain);
 
 			editHostsFile();
 			main.fillBlockedHostObservableList();
 			updateMainTab();
+			Logger.log("NEW BLOCKED DOMAIN: " + domain);
 			drawStatusBar(domain + " " + Messages.get("blockNewHostSuccess"), STATUS_OK);
 		} else {
 			drawStatusBar("error adding new host: " + errorMessage, STATUS_ERROR);
 		}
 	}
 
-	private void uploadNewBlockedHost(String domain) {
-		Boolean uploadSuccess = Factory.service.forHost().updateHost(domain);
-		if (null == uploadSuccess || !uploadSuccess.booleanValue())
-			Logger.err(domain + " " + Settings.get("blockedHostUploadError"));
-		else {
-			Logger.log(domain + " " + Settings.get("blockedHostUploadSuccess"));
-			drawStatusBar(Messages.get("blockNewHostUpload") + " " + domain, STATUS_UPDATE);
-		}
-	}
-
 	@FXML
-	private void addCustomHost() {
+	protected void addCustomHost() {
 		String errorMessage = "";
 		boolean valid = true;
 		String domain = newCustomDomainField.getText();
@@ -302,12 +291,16 @@ public class MainViewController {
 
 		if (valid) {
 			try {
-				Factory.service.forCustomHost().add(domain, address);
+				if (0 == Factory.service.forCustomHost().add(domain, address)) {
+					drawStatusBar(Messages.get("errorExistingDomain"), STATUS_ERROR);
+					return;
+				}
 			} catch (IllegalArgumentException e){
 				drawStatusBar(e.getMessage(), STATUS_ERROR);
 			}
 			editHostsFile();
 			main.fillCustomHostObservableList();
+			Logger.log("NEW CUSTOM DOMAIN: " + domain + " at " + address);
 			drawStatusBar(domain + " " + Messages.get("newCustomHostSuccess"), STATUS_OK);
 		} else
 			drawStatusBar("error adding new host: " + errorMessage, STATUS_ERROR);
@@ -317,22 +310,16 @@ public class MainViewController {
 	/**
 	 * activates/deactivates the selected host in the blocked hosts table
 	 */
-	private void toggleBlockedHostStatus() {
+	protected void toggleBlockedHostStatus() {
 		Host host = blockedHostsTable.getSelectionModel().getSelectedItem();
-//		toggleHostActivation(true);
 
 		if (null == host)
 			drawStatusBar(Messages.get("noHostSelected"),STATUS_ERROR);
 		else {
-			drawStatusBar(host.isActive()? 
-					Messages.get("deactivatingDomain")
-					:Messages.get("activatingDomain"), STATUS_UPDATE);
-			
 			Factory.service.forHost().toggleStatus(host.getDomain());
 			
 			host.setActive(!host.isActive());
 			
-			//main.fillBlockedHostObservableList();
 			editHostsFile();
 			filterBlockedHostsTable();
 			updateMainTab();
@@ -350,21 +337,16 @@ public class MainViewController {
 	/**
 	 * activates/deactivates the selected host at the custom hosts table
 	 */
-	private void toggleCustomHostStatus() {
+	protected void toggleCustomHostStatus() {
 		CustomHost host = customHostsTable.getSelectionModel().getSelectedItem();
 		
 		if (null == host)
 			drawStatusBar(Messages.get("noHostSelected"),STATUS_ERROR);
-		else {
-			drawStatusBar(host.isActive()? 
-					Messages.get("deactivatingDomain")
-					:Messages.get("activatingDomain"), STATUS_UPDATE);
-			
+		else {			
 			Factory.service.forCustomHost().toggleStatus(host.getDomain());
 			
 			host.setActive(!host.isActive());
 			
-			//main.fillCustomHostObservableList();
 			editHostsFile();
 			filterCustomHostsTable();
 			updateMainTab();
@@ -379,7 +361,7 @@ public class MainViewController {
 	}
 
 	@FXML
-	private void changeBlockedHostsActivationButton(){
+	protected void changeBlockedHostsActivationButton(){
 		blockedHostsActivationButton.setDisable(false);
 		Host host = blockedHostsTable.getSelectionModel().getSelectedItem();
 		if (null == host)
@@ -395,7 +377,7 @@ public class MainViewController {
 	}
 	
 	@FXML
-	private void changeCustomHostsActivationButton(){
+	protected void changeCustomHostsActivationButton(){
 		customHostsActivationButton.setDisable(false);
 		Host cHost = customHostsTable.getSelectionModel().getSelectedItem();
 		if (null == cHost)
@@ -412,7 +394,7 @@ public class MainViewController {
 	}
 
 	@FXML
-	private void filterBlockedHostsTable() {
+	protected void filterBlockedHostsTable() {
 		String filter = blockedHostsTableFilter.getText();
 		if (null == filter || "".equals(filter)) {
 			main.fillBlockedHostObservableList();
@@ -426,7 +408,7 @@ public class MainViewController {
 	}
 	
 	@FXML
-	private void filterCustomHostsTable() {
+	protected void filterCustomHostsTable() {
 		String filter = customHostsTableFilter.getText();
 		if (null == filter || "".equals(filter)) {
 			main.fillCustomHostObservableList();
@@ -439,12 +421,12 @@ public class MainViewController {
 		}
 	}	
 
-	/**
+	/*
 	SETTINGS
 	*/
 	
 	@FXML
-	private void toggleWindowsDNSClient() {
+	protected void toggleWindowsDNSClient() {
 		if (System.getProperty("os.name").toLowerCase().indexOf("win") == -1) {
 			Logger.err("Trying to modify Windows registry in no-DOS system");
 			return;
@@ -475,7 +457,7 @@ public class MainViewController {
 	}
 	
 	@FXML
-	private void toggleWindowsStartup() {
+	protected void toggleWindowsStartup() {
 		if (System.getProperty("os.name").toLowerCase().indexOf("win") == -1) {
 			Logger.err("Trying to modify Windows registry in no-DOS system");
 			return;
@@ -505,7 +487,7 @@ public class MainViewController {
 	}
 	
 	@FXML
-	private void toggleVihomaStartup() {
+	protected void toggleVihomaStartup() {
 		String updateSetting = "updateAtVihomaStartup";
 		Configuration update = Factory.service.forConfiguration()
 				.findByParameter(updateSetting);
@@ -522,7 +504,7 @@ public class MainViewController {
 	}
 	
 	@FXML
-	private void toggleShareHosts() {
+	protected void toggleShareHosts() {
 		if (Factory.service.forConfiguration().isSharingAllowed()) {
 			Factory.service.forConfiguration().set("shareHosts", "no");
 			drawStatusBar(Messages.get("shareHostsDisabled"), STATUS_OK);
@@ -557,20 +539,9 @@ public class MainViewController {
 	}
 	
 	@FXML
-	private void openHelp() {
-		try {
-			File tempHelp = File.createTempFile("help", ".html");
-			tempHelp.deleteOnExit();
-			Files.copy(
-					MainViewController.class.getResourceAsStream(Settings.get("helpPathLocationEN"))
-					, tempHelp.toPath()
-					, StandardCopyOption.REPLACE_EXISTING);
-			Desktop.getDesktop().browse(tempHelp.toURI());
-		} catch (IOException e) {
-			//e.printStackTrace();
+	protected void openHelp() {
+		if (!WebUtil.openHelp())
 			drawStatusBar(Messages.get("helpFileNotFound"), STATUS_ERROR);
-			Logger.err(e.getMessage());
-		}
 	}
 	
 	/*
@@ -578,7 +549,7 @@ public class MainViewController {
 	 */
 	
 	@FXML
-	private void openGithubLink() {
+	protected void openGithubLink() {
 		try {
 			Desktop.getDesktop().browse(URI.create(Settings.get("sourceCodeHttpLink")));
 		} catch (IOException e) {
@@ -586,11 +557,9 @@ public class MainViewController {
 		}
 	}
 	
-	
 	 /* Common
 	 */
 	private void editHostsFile() {
-		// TODO Factory.service.forHosts().editHostsFile();
 		HostsFileManager.editHostsFile(
 				Factory.service.forHost().findAllActive()
 				, Factory.service.forConfiguration().getBlockedAddress()

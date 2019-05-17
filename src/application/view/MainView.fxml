@@ -27,7 +27,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Button fx:id="updateButton" layoutX="14.0" layoutY="12.0" mnemonicParsing="false" onAction="#getHostsFromWeb" text="Update" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="12.0" />
+                        <Button fx:id="updateButton" layoutX="14.0" layoutY="12.0" mnemonicParsing="false" onAction="#updateDatabaseFromWeb" text="Update" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="12.0" />
                         <Label id="totalBlockedHostsCountLabel" fx:id="totalBlockedHostsCountLabel" layoutX="146.0" layoutY="15.0" text="555555" textAlignment="CENTER" textFill="#1634c9">
                            <font>
                               <Font name="Calibri Bold Italic" size="17.0" />

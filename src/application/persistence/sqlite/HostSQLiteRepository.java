@@ -15,7 +15,7 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 	 * 
 	 * @param newHosts
 	 */
-	public void addHosts(List<Host> newHostsList) {
+	public int addHosts(List<Host> newHostsList) {
 		try {
 			conn = SQLiteJDBC.connect();
 			conn.setAutoCommit(false);
@@ -23,20 +23,21 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 					Settings.get("sqlInsertHost"));
 			for (Host newHost : newHostsList) {
 				pstmt.setString(1, newHost.getDomain());
-				pstmt.setString(2, "");
+				pstmt.setInt(2, newHost.getCategory());
 				pstmt.setInt(3, newHost.getStatus());
 				pstmt.setString(4, newHost.getComment());
 				pstmt.setLong(5, newHost.getUpdatedAt());
 				pstmt.executeUpdate();}
 			
 			conn.commit();
-			
+			return newHostsList.size();
 		} catch (SQLException e) {
 			//System.out.println(e.getMessage());
 			//ignored
 		} finally {
 			SQLiteJDBC.close(pstmt, conn);
 		}
+		return 0;
 				
 	}
 
@@ -88,16 +89,16 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 	}
 
 	@Override
-	public void add(Host newHost) {
+	public int add(Host newHost) {
 		try {conn = SQLiteJDBC.connect();
 				pstmt = conn.prepareStatement(
 						Settings.get("sqlInsertHost"));
 			pstmt.setString(1, newHost.getDomain());
-			pstmt.setString(2, "");
+			pstmt.setInt(2, newHost.getCategory());
 			pstmt.setInt(3, newHost.getStatus());
 			pstmt.setString(4, newHost.getComment());
 			pstmt.setLong(5, newHost.getUpdatedAt());
-			pstmt.executeUpdate();
+			return pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
 			//System.out.println(e.getMessage());
@@ -105,6 +106,7 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 		} finally {
 			SQLiteJDBC.close(pstmt, conn);
 		}
+		return 0;
 		
 	}
 
@@ -173,6 +175,48 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 			pstmt = conn.prepareStatement(
 					Settings.get("sqlSelectHostsByDomain"));
 			pstmt.setString(1, "%" + domain + "%");
+			rs = pstmt.executeQuery();
+			// loop through the result set
+			while (rs.next())
+				hosts.add(new Host(
+						(String) rs.getString("domain")
+						, rs.getInt("category")
+						, rs.getInt("status")
+						, (String) rs.getString("comment")
+						, rs.getInt("updated_at")
+						));
+			
+		} catch (SQLException e) {
+			//System.out.println(e.getMessage());
+			//ignored		
+		} finally {
+			SQLiteJDBC.close(rs, pstmt, conn);
+		}
+		return hosts;
+	}
+
+	@Override
+	public void deleteAll() {
+		try {
+			conn = SQLiteJDBC.connect();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(Settings.get("sqlDeleteAllHosts"));
+		} catch (SQLException e) {
+			//System.out.println(e.getMessage());
+			//ignored
+		} finally {
+			SQLiteJDBC.close(rs, stmt, conn);
+		}
+	}
+
+	@Override
+	public List<Host> findByCategory(int category) {
+		List<Host> hosts = new ArrayList<Host>();
+		try {
+			conn = SQLiteJDBC.connect();
+			pstmt = conn.prepareStatement(
+					Settings.get("sqlSelectHostsByCategory"));
+			pstmt.setInt(1, category);
 			rs = pstmt.executeQuery();
 			// loop through the result set
 			while (rs.next())
