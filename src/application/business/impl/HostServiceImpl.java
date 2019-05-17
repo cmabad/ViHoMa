@@ -12,7 +12,7 @@ import application.util.WebUtil;
 public class HostServiceImpl implements HostService{
 
 	@Override
-	public void addHost(String domain, String category) {
+	public void addHost(String domain, Integer category) {
 		Factory.repository.forHost().add(new Host(domain,category));
 		Logger.log("NEW BLOCKED DOMAIN: " + domain);
 	}

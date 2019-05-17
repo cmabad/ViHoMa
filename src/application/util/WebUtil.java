@@ -52,7 +52,7 @@ public class WebUtil {
 			
 			while ((inputLine = in.readLine()) != null) {
 				hosts.add(new Host((String)inputLine.split(";")[0]
-						, (String)inputLine.split(";")[1]
+						, Integer.parseInt(inputLine.split(";")[1])
 						, Integer.parseInt(inputLine.split(";")[2])
 						, (String)inputLine.split(";")[3]
 						, Long.parseLong(inputLine.split(";")[4])));
@@ -96,7 +96,7 @@ public class WebUtil {
 //						domain = pre[1];
 					if (!" ".equals(domain) && !"".equals(domain))
 						hosts.add(new Host((String)domain.split("#")[0].trim()
-							, "3"
+							, 3
 							, 3
 							,"StevenBlack"
 							, 0));

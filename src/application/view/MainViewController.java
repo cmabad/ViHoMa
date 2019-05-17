@@ -260,7 +260,7 @@ public class MainViewController {
 
 		if (valid) {
 			drawStatusBar(Messages.get("blockNewHostStart") + " " + domain, STATUS_UPDATE);
-			Factory.service.forHost().addHost(domain, "category");
+			Factory.service.forHost().addHost(domain, Host.CATEGORY_VIHOMA);
 
 			if (Factory.service.forConfiguration().isSharingAllowed())
 				uploadNewBlockedHost(domain);

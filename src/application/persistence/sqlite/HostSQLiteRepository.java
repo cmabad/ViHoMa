@@ -72,7 +72,7 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 			while (rs.next())
 				hosts.add(new Host(
 						(String) rs.getString("domain")
-						, (String) rs.getString("category")
+						, rs.getInt("category")
 						, rs.getInt("status")
 						, (String) rs.getString("comment")
 						, rs.getInt("updated_at")
@@ -150,7 +150,7 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 			while (rs.next())
 				hosts.add(new Host(
 						(String) rs.getString("domain")
-						, (String) rs.getString("category")
+						, rs.getInt("category")
 						, rs.getInt("status")
 						, (String) rs.getString("comment")
 						, rs.getInt("updated_at")
@@ -178,7 +178,7 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 			while (rs.next())
 				hosts.add(new Host(
 						(String) rs.getString("domain")
-						, (String) rs.getString("category")
+						, rs.getInt("category")
 						, rs.getInt("status")
 						, (String) rs.getString("comment")
 						, rs.getInt("updated_at")

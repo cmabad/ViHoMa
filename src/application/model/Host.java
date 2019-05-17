@@ -12,7 +12,7 @@ import javafx.beans.property.StringProperty;
 public class Host {
 
 	private StringProperty domain;
-//	private StringProperty category;
+	private IntegerProperty category;
 	private IntegerProperty status;
 //	private BooleanProperty active;
 	private LongProperty updatedAt;
@@ -21,21 +21,22 @@ public class Host {
 	public final static int STATUS_OK = 1;
 	public final static int STATUS_DELETED = 0;
 	public final static int STATUS_APPROVED = 2;
+	public final static int CATEGORY_VIHOMA = 8;
 	
 	public Host() {
 		
 	}
 	
-	public Host(String domain, String category) {
+	public Host(String domain, Integer category) {
 		this.domain = new SimpleStringProperty(domain.trim());
-//		this.category = new SimpleStringProperty(category);
+		this.category = new SimpleIntegerProperty(category);
 		this.status = new SimpleIntegerProperty(1);
 //		this.active = new SimpleBooleanProperty(true);
 		this.updatedAt = new SimpleLongProperty(System.currentTimeMillis()/1000);
 		this.comment = new SimpleStringProperty("Blocked by user");
 	}
 	
-	public Host(String domain, String category, int status, String comment, long utime) {
+	public Host(String domain, Integer category, int status, String comment, long utime) {
 		this(domain,category);
 		this.status = new SimpleIntegerProperty(status);
 		this.updatedAt = new SimpleLongProperty(utime);
@@ -52,6 +53,18 @@ public class Host {
 	
 	public void setDomain(String domain) {
 		this.domain.set(domain);
+	}
+	
+	public IntegerProperty categoryProperty() {
+		return category;
+	}
+	
+	public Integer getCategory() {
+		return category.get();
+	}
+	
+	public void setCategory(Integer category) {
+		this.category.set(category);
 	}
 
 	public IntegerProperty statusProperty() {
