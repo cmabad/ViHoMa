@@ -13,6 +13,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.zip.GZIPInputStream;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -61,16 +62,21 @@ public class WebUtil {
 	public static List<Host> getHostsFromPrimarySource(long lastUpdate) throws IOException {
 		URL url = new URL(Settings.get("urlGetWithTime")+lastUpdate);
     	HttpURLConnection con = (HttpURLConnection) url.openConnection();
+    	con.setRequestProperty("Accept-Encoding", "gzip");
     	con.setRequestMethod("GET");
     	con.setConnectTimeout(4000);
     	
     	List<Host> hosts = new ArrayList<Host>();
     	
     	if (200 == con.getResponseCode()) {
-			BufferedReader in = new BufferedReader(
+    		BufferedReader in;
+    		if ("gzip".equals(con.getContentEncoding()))
+    			in = new BufferedReader(new InputStreamReader(
+    					new GZIPInputStream(con.getInputStream())));
+    		else
+    			in = new BufferedReader(
 					  new InputStreamReader(con.getInputStream()));
 			String inputLine;
-			
 			
 			while ((inputLine = in.readLine()) != null) {
 				hosts.add(new Host((String)inputLine.split(";")[0]
@@ -101,13 +107,19 @@ public class WebUtil {
 	public static List<Host> getHostsFromAlternativeSource() throws IOException{
 		URL url = new URL(Settings.get("urlAlternativeHosts"));
     	HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
+    	con.setRequestProperty("Accept-Encoding", "gzip");
     	con.setRequestMethod("GET");
     	con.setConnectTimeout(5000);
     	
     	List<Host> hosts = new ArrayList<Host>();
     	
     	if (200 == con.getResponseCode()) {
-			BufferedReader in = new BufferedReader(
+    		BufferedReader in;
+    		if ("gzip".equals(con.getContentEncoding()))
+    			in = new BufferedReader(new InputStreamReader(
+    					new GZIPInputStream(con.getInputStream())));
+    		else
+    			in = new BufferedReader(
 					  new InputStreamReader(con.getInputStream()));
 			String inputLine;
 			String domain = "";
