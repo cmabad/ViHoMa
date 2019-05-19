@@ -47,13 +47,32 @@
                <content>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <AnchorPane prefHeight="30.0" prefWidth="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <GridPane prefHeight="30.0" prefWidth="500.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
                            <children>
-                              <TextField id="blockedHostsTableFilter" fx:id="blockedHostsTableFilter" layoutX="14.0" layoutY="4.0" onKeyReleased="#filterBlockedHostsTable" prefHeight="25.0" prefWidth="180.0" promptText="Filter..." AnchorPane.leftAnchor="14.0" />
-                              <Button id="blockedHostsActivationButton" fx:id="blockedHostsActivationButton" layoutX="417.0" layoutY="4.0" mnemonicParsing="false" onAction="#toggleBlockedHostStatus" text="Activation" AnchorPane.rightAnchor="14.0" />
+                              <TextField id="blockedHostsTableFilter" fx:id="blockedHostsTableFilter" onKeyReleased="#filterBlockedHostsTable" prefHeight="25.0" prefWidth="150.0" promptText="Filter..." GridPane.halignment="CENTER">
+                                 <GridPane.margin>
+                                    <Insets left="5.0" right="5.0" />
+                                 </GridPane.margin></TextField>
+                              <Button fx:id="newBlockedHostButton" mnemonicParsing="false" onAction="#blockNewHost" text="Block new domain" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                                 <GridPane.margin>
+                                    <Insets left="5.0" right="5.0" />
+                                 </GridPane.margin>
+                              </Button>
+                              <Button id="blockedHostsActivationButton" fx:id="blockedHostsActivationButton" mnemonicParsing="false" onAction="#toggleBlockedHostStatus" text="Activation" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
+                                 <GridPane.margin>
+                                    <Insets left="5.0" right="5.0" />
+                                 </GridPane.margin></Button>
                            </children>
-                        </AnchorPane>
-                        <TableView fx:id="blockedHostsTable" onMouseClicked="#changeBlockedHostsActivationButton" prefHeight="187.0" prefWidth="598.0" AnchorPane.bottomAnchor="33.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="33.0">
+                        </GridPane>
+                        <TableView fx:id="blockedHostsTable" onMouseClicked="#changeBlockedHostsActivationButton" prefHeight="187.0" prefWidth="598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="33.0">
                           <columns>
                             <TableColumn fx:id="domainColumn" prefWidth="75.0" text="Domain" />
                               <TableColumn fx:id="activeColumn" prefWidth="75.0" text="Block?" />
@@ -62,35 +81,6 @@
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
                         </TableView>
-                        <AnchorPane layoutY="234.0" prefHeight="31.0" prefWidth="600.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                           <children>
-                              <GridPane layoutX="81.0" layoutY="-8.0" prefHeight="31.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
-                                 <children>
-                                    <TextField id="newBlockedHostDomain" fx:id="newBlockedHostDomain" onAction="#blockNewHost" promptText="New blocked domain" GridPane.columnIndex="1" GridPane.halignment="CENTER">
-                                       <GridPane.margin>
-                                          <Insets left="5.0" right="5.0" />
-                                       </GridPane.margin>
-                                    </TextField>
-                                    <Button mnemonicParsing="false" onAction="#blockNewHost" text="Block new domain" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
-                                       <GridPane.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </GridPane.margin>
-                                    </Button>
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </padding>
-                              </GridPane>
-                           </children>
-                        </AnchorPane>
                      </children>
                   </AnchorPane>
                </content>
@@ -99,13 +89,39 @@
                <content>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <AnchorPane prefHeight="30.0" prefWidth="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <GridPane prefHeight="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
                            <children>
-                              <TextField id="customHostsTableFilter" fx:id="customHostsTableFilter" layoutX="14.0" layoutY="4.0" onKeyReleased="#filterCustomHostsTable" prefHeight="25.0" prefWidth="180.0" promptText="Filter..." AnchorPane.leftAnchor="14.0" />
-                              <Button id="customHostsActivationButton" fx:id="customHostsActivationButton" layoutX="417.0" layoutY="4.0" mnemonicParsing="false" onAction="#toggleCustomHostStatus" text="Activation" AnchorPane.rightAnchor="14.0" />
+                              <TextField id="customHostsTableFilter" fx:id="customHostsTableFilter" onKeyReleased="#filterCustomHostsTable" prefHeight="25.0" prefWidth="150.0" promptText="Filter..." GridPane.halignment="CENTER">
+                                 <GridPane.margin>
+                                    <Insets left="5.0" right="5.0" />
+                                 </GridPane.margin></TextField>
+                              <TextField id="newCustomAddressField" fx:id="newCustomAddressField" promptText="Custom IP" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                                 <GridPane.margin>
+                                    <Insets left="5.0" right="5.0" />
+                                 </GridPane.margin>
+                              </TextField>
+                              <Button fx:id="newCustomHostButton" mnemonicParsing="false" onAction="#addCustomHost" text="Add custom host" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+                                 <GridPane.margin>
+                                    <Insets left="5.0" right="5.0" />
+                                 </GridPane.margin>
+                              </Button>
+                              <Button id="customHostsActivationButton" fx:id="customHostsActivationButton" mnemonicParsing="false" onAction="#toggleCustomHostStatus" text="Activation" GridPane.columnIndex="3" GridPane.halignment="RIGHT">
+                                 <GridPane.margin>
+                                    <Insets left="5.0" right="5.0" />
+                                 </GridPane.margin>
+                              </Button>
                            </children>
-                        </AnchorPane>
-                        <TableView fx:id="customHostsTable" onMouseClicked="#changeCustomHostsActivationButton" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="33.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="33.0">
+                        </GridPane>
+                        <TableView fx:id="customHostsTable" onMouseClicked="#changeCustomHostsActivationButton" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="33.0">
                           <columns>
                             <TableColumn fx:id="customIpColumn" prefWidth="75.0" text="Custom IP" />
                             <TableColumn fx:id="customDomainColumn" prefWidth="70.0" text="Custom Domain" />
@@ -115,39 +131,6 @@
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
                         </TableView>
-                        <AnchorPane layoutY="237.0" prefHeight="31.0" prefWidth="600.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                           <children>
-                              <GridPane prefHeight="200.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
-                                 <children>
-                                    <TextField id="newCustomAddressField" fx:id="newCustomAddressField" promptText="Custom IP" GridPane.halignment="CENTER">
-                                       <GridPane.margin>
-                                          <Insets left="5.0" right="5.0" />
-                                       </GridPane.margin>
-                                    </TextField>
-                                    <TextField fx:id="newCustomDomainField" promptText="Custom domain" GridPane.columnIndex="1" GridPane.halignment="CENTER">
-                                       <GridPane.margin>
-                                          <Insets left="5.0" right="5.0" />
-                                       </GridPane.margin>
-                                    </TextField>
-                                    <Button mnemonicParsing="false" onAction="#addCustomHost" text="Add custom domain" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
-                                       <GridPane.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </GridPane.margin></Button>
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </padding>
-                              </GridPane>
-                           </children>
-                        </AnchorPane>
                      </children>
                   </AnchorPane>
                </content>

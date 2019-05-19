@@ -64,18 +64,17 @@ public class MainViewController {
 	private Button blockedHostsActivationButton; 
 	@FXML
 	private Button customHostsActivationButton;
-	
-	@FXML
-	private TextField newBlockedHostDomain;
 
 	@FXML
 	private SplitMenuButton newBlockedHostCategory;
 
 	@FXML
-	private TextField newCustomDomainField;
-	@FXML
 	private TextField newCustomAddressField;
-
+	@FXML
+	private Button newBlockedHostButton;
+	@FXML
+	private Button newCustomHostButton;
+	
 	@FXML
 	private Button updateButton; 
 	@FXML
@@ -156,7 +155,9 @@ public class MainViewController {
 		settingsLoader();
 		blockedHostsActivationButton.setDisable(true);
 		customHostsActivationButton.setDisable(true);
-		
+		newCustomAddressField.setDisable(true);
+		newCustomHostButton.setDisable(true);
+		newBlockedHostButton.setDisable(true);
 		// Listen for selection changes and show the person details when changed.
 		// blockedHostsTable.getSelectionModel().selectedItemProperty().addListener(
 		// (observable, oldValue, newValue) -> showPersonDetails(newValue));
@@ -244,7 +245,7 @@ public class MainViewController {
 	protected void blockNewHost() {
 		String errorMessage = "";
 		boolean valid = true;
-		String domain = newBlockedHostDomain.getText();
+		String domain = blockedHostsTableFilter.getText();
 
 		if (null == domain || 0 == domain.length()) {
 			valid = false;
@@ -275,7 +276,7 @@ public class MainViewController {
 	protected void addCustomHost() {
 		String errorMessage = "";
 		boolean valid = true;
-		String domain = newCustomDomainField.getText();
+		String domain = customHostsTableFilter.getText();
 		String address = newCustomAddressField.getText();
 
 		if (null == domain || 0 == domain.length()) {
@@ -394,11 +395,13 @@ public class MainViewController {
 	protected void filterBlockedHostsTable() {
 		String filter = blockedHostsTableFilter.getText();
 		if (null == filter || "".equals(filter)) {
+			newBlockedHostButton.setDisable(true);
 			main.fillBlockedHostObservableList();
 			drawStatusBar(Messages.get("upToDate"), STATUS_OK);
 		}
 		else {
 			main.fillBlockedHostObservableList(filter);
+			newBlockedHostButton.setDisable(false);
 			drawStatusBar(filter + ": " + main.getBlockedHostsData().size() 
 					+  " " + Messages.get("matches"), STATUS_OK);
 		}
@@ -409,10 +412,14 @@ public class MainViewController {
 		String filter = customHostsTableFilter.getText();
 		if (null == filter || "".equals(filter)) {
 			main.fillCustomHostObservableList();
+			newCustomHostButton.setDisable(true);
+			newCustomAddressField.setDisable(true);
 			drawStatusBar(Messages.get("upToDate"), STATUS_OK);
 		}
 		else {
 			main.fillCustomHostObservableList(filter);
+			newCustomAddressField.setDisable(false);
+			newCustomHostButton.setDisable(false);
 			drawStatusBar(filter + ": " + main.getCustomHostsData().size() 
 				+  " " + Messages.get("matches"), STATUS_OK);
 		}
