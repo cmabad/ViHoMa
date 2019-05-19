@@ -228,16 +228,15 @@ public class MainViewController {
 					Host.CATEGORY_VIHOMA);
 			Factory.service.forHost().deleteAll();
 			Factory.service.forHost().addHosts(hosts);
-			Factory.service.forHost().addHosts(userAdded);
+			for (Host custom : userAdded)
+				Factory.service.forHost()
+					.addHost(custom.getDomain(), custom.getCategory());
 			Factory.service.forConfiguration().setLastUpdateTime();
 			main.fillBlockedHostObservableList();
 			updateMainTab();
 			
 			editHostsFile();
 			drawStatusBar(Messages.get("upToDate"), STATUS_OK);
-//			drawStatusBar(alternative? 
-//					Messages.get("upToDateAlternative")
-//					:Messages.get("upToDate"), STATUS_OK);
 		}
 	}
 
@@ -266,7 +265,6 @@ public class MainViewController {
 			editHostsFile();
 			main.fillBlockedHostObservableList();
 			updateMainTab();
-			Logger.log("NEW BLOCKED DOMAIN: " + domain);
 			drawStatusBar(domain + " " + Messages.get("blockNewHostSuccess"), STATUS_OK);
 		} else {
 			drawStatusBar("error adding new host: " + errorMessage, STATUS_ERROR);
@@ -300,7 +298,6 @@ public class MainViewController {
 			}
 			editHostsFile();
 			main.fillCustomHostObservableList();
-			Logger.log("NEW CUSTOM DOMAIN: " + domain + " at " + address);
 			drawStatusBar(domain + " " + Messages.get("newCustomHostSuccess"), STATUS_OK);
 		} else
 			drawStatusBar("error adding new host: " + errorMessage, STATUS_ERROR);
@@ -452,6 +449,7 @@ public class MainViewController {
 		} catch (IOException e) {
 			// Registry cannot be read
 			Logger.err(e.getMessage());
+			drawStatusBar(Messages.get("oops"), STATUS_ERROR);
 		}
 		
 	}
@@ -483,6 +481,7 @@ public class MainViewController {
 		} catch (IOException e) {
 			// Registry cannot be read
 			Logger.err(e.getMessage());
+			drawStatusBar(Messages.get("oops"), STATUS_ERROR);
 		}
 	}
 	
@@ -554,6 +553,7 @@ public class MainViewController {
 			Desktop.getDesktop().browse(URI.create(Settings.get("sourceCodeHttpLink")));
 		} catch (IOException e) {
 			Logger.err(Settings.get("sourceCodeLinkError"));
+			drawStatusBar(Messages.get("oops"), STATUS_ERROR);
 		}
 	}
 	

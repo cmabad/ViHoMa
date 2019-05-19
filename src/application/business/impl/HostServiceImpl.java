@@ -5,12 +5,19 @@ import java.util.List;
 import application.business.HostService;
 import application.conf.Factory;
 import application.model.Host;
+import application.util.Logger;
 
 public class HostServiceImpl implements HostService{
 
 	@Override
 	public int addHost(String domain, Integer category) {
-		return Factory.repository.forHost().add(new Host(domain,category));
+		int count =  Factory.repository.forHost().add(new Host(domain,category));
+		if (0 == count)
+			Logger.err("ERROR BLOCKING DOMAIN " + domain + "  with category " 
+					+ category);
+		else
+			Logger.log("NEW BLOCKED DOMAIN: " + domain);
+		return count;
 	}
 
 	@Override
