@@ -12,12 +12,14 @@ import application.persistence.sqlite.SQLiteRepositoryFactory;
 import application.persistence.sqlite.util.SQLiteJDBC;
 import application.util.HostsFileManager;
 import application.util.WebUtil;
+import application.util.properties.Settings;
 import application.view.MainViewController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -95,6 +97,11 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("ViHoMa");
+
+        this.primaryStage.getIcons().add(
+        		new Image(
+        				Settings.class.getClassLoader()
+        					.getResourceAsStream("resources/ico.png")));
 
         initRootLayout();
 

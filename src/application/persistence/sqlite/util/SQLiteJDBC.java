@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import application.util.Logger;
 import application.util.properties.Settings;
 
 public class SQLiteJDBC {
@@ -67,8 +68,7 @@ public class SQLiteJDBC {
 			conn.commit();
 
 		} catch (SQLException e) {
-			System.out.println("Error at database setup");
-			System.out.println(e.toString());
+			Logger.err(e.toString());
 		} finally {
 			close(conn);
 		}
