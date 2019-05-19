@@ -98,10 +98,10 @@ public class MainViewController {
 	private CheckBox settingVihomaStartupCheckBox;
 	@FXML
 	private CheckBox settingShareBlockHostsCheckBox;
-	//@FXML
-	//private TextField settingTargetDomainField;
-	//@FXML
-	//private CheckBox settingTargetDomainCheckBox;
+	@FXML
+	private Label settingTargetDomainLabel; 
+	@FXML
+	private TextField settingTargetDomainField;
 	@FXML
 	private CheckBox settingDNSclientCheckBox;
 	
@@ -522,6 +522,26 @@ public class MainViewController {
 		}
 	}
 
+	@FXML
+	protected void changeTargetAddress() {
+		String newAddress = settingTargetDomainField.getText();
+		if (null == newAddress || "".equals(newAddress)) {
+			Factory.service.forConfiguration().set("blockedAddress", "");
+		}
+		else {
+			try {
+				new CustomHost("237441", newAddress);
+				Factory.service.forConfiguration().set("blockedAddress", newAddress);
+			}  catch (IllegalArgumentException e){
+				// the address is not valid; do nothing
+				return;
+			}
+		}
+		drawStatusBar(Messages.get("newBlockedAddress") + 
+				Factory.service.forConfiguration().getBlockedAddress()
+				, STATUS_OK);
+	}
+	
 	private void settingsLoader() {
 		if (System.getProperty("os.name").toLowerCase().indexOf("win") != 0) {
 			settingDNSclientCheckBox.setDisable(true);

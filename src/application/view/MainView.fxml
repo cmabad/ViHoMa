@@ -145,6 +145,8 @@
                               <CheckBox id="settingShareBlockHostsCheckBox" fx:id="settingShareBlockHostsCheckBox" layoutX="14.0" layoutY="50.0" mnemonicParsing="false" onAction="#toggleShareHosts" text="share" wrapText="true" />
                               <CheckBox id="settingDNSclientCheckBox" fx:id="settingDNSclientCheckBox" layoutX="14.0" layoutY="80.0" mnemonicParsing="false" onAction="#toggleWindowsDNSClient" text="dns client" />
                               <CheckBox id="settingDNSclientCheckBox" fx:id="settingVihomaStartupCheckBox" layoutX="14.0" layoutY="110.0" mnemonicParsing="false" onAction="#toggleVihomaStartup" text="vihoma startup" />
+                              <Label fx:id="settingTargetDomainLabel" layoutX="14.0" layoutY="140.0" text="Custom blocked address:" />
+                              <TextField fx:id="settingTargetDomainField" layoutX="12.0" layoutY="165.0" onKeyReleased="#changeTargetAddress" promptText="By default, 0.0.0.0" />
                            </children>
                         </AnchorPane>
                     </content>

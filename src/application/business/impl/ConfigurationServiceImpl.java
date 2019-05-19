@@ -38,13 +38,9 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
 	@Override
 	public String getBlockedAddress() {
-		Configuration customEnabled = this.findByParameter("userBlockedHostEnabled");
-		if (null == customEnabled || "0".equals(customEnabled.getValue())) {
-			Configuration conf = this.findByParameter("blockedAddress");
-			return (null == conf)? 
-				Settings.get("defaultBlockedAddress"):conf.getValue();}
-		else
-			return Settings.get("defaultBlockedAddress");
+		Configuration conf = this.findByParameter("blockedAddress");
+		return (null == conf || "".equals(conf.getValue()))? 
+			Settings.get("defaultBlockedAddress"):conf.getValue();
 	}
 
 	@Override

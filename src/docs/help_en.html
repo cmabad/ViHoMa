@@ -17,6 +17,7 @@
 					<li><a href=".#dnsclient">DNS Client</a></li>
 					<li><a href=".#validIP">Valid IPs</a></li>
 					<li><a href=".#startup">Running Vihoma at system startup</a></li>
+					<li><a href=".#targetAddress">Custom target address</a></li>
 				</ul>
 			</li>
 		</ul>
@@ -58,6 +59,12 @@
 			<p>You can automate the system host management if you allow Vihoma to update its database at system startup. It will run silently and will keep your system up to date. This option is only available on Windows, but you can configure your specific operating system to run Vihoma at the startup. To do it silently, pass to the jar file the argument <i>quiet</i>.</p>
 			
 			<p>If you have enabled the program startup but it doesn't work, disable and enable it again. Do this each time you change the program location.</p>
+		</article>
+		
+		<article id="targetAddress">
+			<h2>Custom target Address</h2>
+			
+			<p>By default, all the blocked hosts will be redirected to the address 0.0.0.0. You can change this if you want, for example, redirect everything to a personal server and log statistics about the domains which are being blocked in real time.</p>
 		</article>
 	</body>
 </html>
