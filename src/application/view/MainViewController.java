@@ -98,8 +98,7 @@ public class MainViewController {
 	private Label totalUserBlockedHostsCountLabelBelow;
 	@FXML
 	private Label lastUpdateLabel;
-	@FXML
-	private Label lastBlockedHost;
+
 	
 	@FXML
 	private Label settingHelpLabel;
@@ -219,9 +218,10 @@ public class MainViewController {
 		
 		Date lastUpdate = new Date(TimeUnit.SECONDS.toMillis(
 				Factory.service.forConfiguration().getLastUpdateTime()));
-		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT);
+		DateFormat df = DateFormat.getDateTimeInstance(
+				DateFormat.MEDIUM, DateFormat.SHORT);
 		df.setTimeZone(TimeZone.getTimeZone("UTC"));
-		lastUpdateLabel.setText("Last update: " + df.format(lastUpdate));
+		lastUpdateLabel.setText("Last update: " + df.format(lastUpdate) + " UTC");
 	}
 
 	private void fillBlockedHostsTable(ObservableList<Host> list) {
@@ -285,6 +285,7 @@ public class MainViewController {
 			editHostsFile();
 			main.fillBlockedHostObservableList();
 			updateMainTab();
+			blockedHostsTableFilter.setText("");
 			drawStatusBar(domain + " " + Messages.get("blockNewHostSuccess"), STATUS_OK);
 		} else {
 			drawStatusBar("error adding new host: " + errorMessage, STATUS_ERROR);
@@ -318,6 +319,7 @@ public class MainViewController {
 			}
 			editHostsFile();
 			main.fillCustomHostObservableList();
+			customHostsTableFilter.setText("");
 			drawStatusBar(domain + " " + Messages.get("newCustomHostSuccess"), STATUS_OK);
 		} else
 			drawStatusBar("error adding new host: " + errorMessage, STATUS_ERROR);

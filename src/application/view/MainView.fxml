@@ -28,8 +28,8 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Button fx:id="updateButton" layoutX="228.0" layoutY="200.0" mnemonicParsing="false" onAction="#updateDatabaseFromWeb" text="Update" AnchorPane.leftAnchor="228.0" AnchorPane.topAnchor="200.0" />
-                        <Label id="totalBlockedHostsCountLabel" fx:id="totalBlockedHostsCountLabel" layoutX="25.0" layoutY="106.0" text="555555" textAlignment="CENTER" textFill="#1634c9">
+                        <Button fx:id="updateButton" layoutX="117.0" layoutY="64.0" mnemonicParsing="false" onAction="#updateDatabaseFromWeb" text="Update" AnchorPane.leftAnchor="117.0" AnchorPane.topAnchor="64.0" />
+                        <Label id="totalBlockedHostsCountLabel" fx:id="totalBlockedHostsCountLabel" layoutX="25.0" layoutY="105.0" text="555555" textAlignment="CENTER" textFill="#1634c9">
                            <font>
                               <Font name="Calibri Bold Italic" size="17.0" />
                            </font></Label>
@@ -37,23 +37,25 @@
                            <font>
                               <Font name="Calibri Bold Italic" size="16.0" />
                            </font></Label>
-                        <Label id="totalBlockedHostsCountLabel" fx:id="lastUpdateLabel" layoutX="14.0" layoutY="181.0" text="Last update:" />
-                        <Label fx:id="totalBlockedHostsCountLabelBelow" layoutX="14.0" layoutY="134.0" text="blocked hosts" textAlignment="CENTER" />
+                        <Label id="totalBlockedHostsCountLabel" fx:id="lastUpdateLabel" layoutX="14.0" layoutY="173.0" text="Last update:" />
+                        <Label fx:id="totalBlockedHostsCountLabelBelow" layoutX="14.0" layoutY="132.0" text="blocked hosts" textAlignment="CENTER" />
                         <Label id="totalBlockedHostsCountLabel" fx:id="totalCustomHostsCountLabelBelow" layoutX="214.0" layoutY="132.0" text="custom hosts" textAlignment="CENTER" />
-                        <Label id="totalBlockedHostsCountLabel" fx:id="lastBlockedHost" layoutX="14.0" layoutY="208.0" text="Last blocked host:" />
                         <Label id="totalBlockedHostsCountLabel" fx:id="totalUserBlockedHostsCountLabel" layoutX="141.0" layoutY="105.0" text="5" textAlignment="CENTER" textFill="#1634c9">
                            <font>
                               <Font name="Calibri Bold Italic" size="16.0" />
                            </font>
                         </Label>
                         <Label id="totalBlockedHostsCountLabel" fx:id="totalUserBlockedHostsCountLabelBelow" layoutX="109.0" layoutY="132.0" text="blocked by you" textAlignment="CENTER" />
-                        <Label id="totalBlockedHostsCountLabel" fx:id="vihomaLabel" layoutX="118.0" layoutY="25.0" text="VIHOMA" />
+                        <Label id="totalBlockedHostsCountLabel" fx:id="vihomaLabel" layoutX="119.0" layoutY="14.0" text="VIHOMA">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
                         <ImageView fx:id="icon" fitHeight="80.0" fitWidth="80.0" layoutX="18.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../resources/ico-big.png" />
                            </image>
                         </ImageView>
-                        <Label id="totalBlockedHostsCountLabel" fx:id="vihomaLabelBelow" layoutX="118.0" layoutY="46.0" text="your Visual Hosts Manager" />
+                        <Label id="totalBlockedHostsCountLabel" fx:id="vihomaLabelBelow" layoutX="119.0" layoutY="35.0" text="your Visual Hosts Manager" />
                      </children></AnchorPane>
             </content>
           </Tab>
