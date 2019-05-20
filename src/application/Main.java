@@ -1,7 +1,6 @@
 package application;
 	
 import java.io.IOException;
-import java.util.List;
 
 import application.business.impl.ServiceFactoryImpl;
 import application.conf.Factory;
@@ -11,7 +10,6 @@ import application.model.Host;
 import application.persistence.sqlite.SQLiteRepositoryFactory;
 import application.persistence.sqlite.util.SQLiteJDBC;
 import application.util.HostsFileManager;
-import application.util.WebUtil;
 import application.view.MainViewController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -48,12 +46,7 @@ public class Main extends Application {
     }
   
     private static void quietRun() {
-    	List<Host> userAdded = Factory.service.forHost().findByCategory(
-				Host.CATEGORY_VIHOMA);
-		Factory.service.forHost().deleteAll();
-		Factory.service.forHost().addHosts(WebUtil.getHostsFromWeb(0));
-		Factory.service.forHost().addHosts(userAdded);
-		Factory.service.forConfiguration().setLastUpdateTime();
+    	Factory.service.forHost().updateDatabaseFromWeb();
 		HostsFileManager.editHostsFile(
 				Factory.service.forHost().findAllActive()
 				, Factory.service.forConfiguration().getBlockedAddress()

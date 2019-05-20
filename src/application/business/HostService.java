@@ -15,4 +15,6 @@ public interface HostService {
 	List<Host> findByDomain(String filter);
 	void deleteAll();
 	List<Host> findByCategory(int categoryVihoma);
+	List<Host> getHostsFromWeb();
+	List<Host> updateDatabaseFromWeb();
 }

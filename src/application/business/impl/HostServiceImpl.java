@@ -6,6 +6,7 @@ import application.business.HostService;
 import application.conf.Factory;
 import application.model.Host;
 import application.util.Logger;
+import application.util.WebUtil;
 
 public class HostServiceImpl implements HostService{
 
@@ -63,5 +64,24 @@ public class HostServiceImpl implements HostService{
 	@Override
 	public List<Host> findByCategory(int category) {
 		return Factory.repository.forHost().findByCategory(category);
+	}
+
+	@Override
+	public List<Host> getHostsFromWeb() {
+		return WebUtil.getHostsFromWeb(0);
+	}
+
+	@Override
+	public List<Host> updateDatabaseFromWeb() {
+		List<Host> hosts = getHostsFromWeb();
+		if (!hosts.isEmpty()) {
+			List<Host> userAdded = findByCategory(Host.CATEGORY_VIHOMA);
+			deleteAll();
+			addHosts(hosts);
+			for (Host custom : userAdded)
+				addHost(custom.getDomain(), custom.getCategory());
+			Factory.service.forConfiguration().setLastUpdateTime();
+		}
+		return hosts;
 	}
 }

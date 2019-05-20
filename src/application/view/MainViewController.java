@@ -234,30 +234,16 @@ public class MainViewController {
 
 	@FXML
 	protected void updateDatabaseFromWeb() {
-//		boolean alternative = false;
-		updateButton.setText(Messages.get("updating"));
+		List<Host> hosts = Factory.service.forHost().updateDatabaseFromWeb();
 
-		List<Host> hosts = WebUtil.getHostsFromWeb(0);
 		if (null == hosts) {
 			drawStatusBar(Messages.get("webConnectionError"), STATUS_ERROR);
 			return;
 		}		
-
-		if (!hosts.isEmpty()) {
-			List<Host> userAdded = Factory.service.forHost().findByCategory(
-					Host.CATEGORY_VIHOMA);
-			Factory.service.forHost().deleteAll();
-			Factory.service.forHost().addHosts(hosts);
-			for (Host custom : userAdded)
-				Factory.service.forHost()
-					.addHost(custom.getDomain(), custom.getCategory());
-			Factory.service.forConfiguration().setLastUpdateTime();
-			main.fillBlockedHostObservableList();
-			updateMainTab();
-			
-			editHostsFile();
-			drawStatusBar(Messages.get("upToDate"), STATUS_OK);
-		}
+		main.fillBlockedHostObservableList();
+		updateMainTab();
+		editHostsFile();
+		drawStatusBar(Messages.get("upToDate"), STATUS_OK);
 	}
 
 	@FXML
