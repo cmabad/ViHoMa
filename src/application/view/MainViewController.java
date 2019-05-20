@@ -22,7 +22,6 @@ import application.util.properties.Messages;
 import application.util.properties.Settings;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.chart.Chart;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Hyperlink;
@@ -32,6 +31,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
 public class MainViewController {
@@ -76,19 +77,29 @@ public class MainViewController {
 	private Button newCustomHostButton;
 	
 	@FXML
-	private Button updateButton; 
+	private ImageView icon;
+	@FXML
+	private Label vihomaLabel;
+	@FXML
+	private Label vihomaLabelBelow;
+	@FXML
+ 	private Button updateButton; 
 	@FXML
 	private Label totalBlockedHostsCountLabel;
 	@FXML
 	private Label totalCustomHostsCountLabel;
 	@FXML
+	private Label totalUserBlockedHostsCountLabel;
+	@FXML
 	private Label totalBlockedHostsCountLabelBelow;
 	@FXML
 	private Label totalCustomHostsCountLabelBelow;
 	@FXML
+	private Label totalUserBlockedHostsCountLabelBelow;
+	@FXML
 	private Label lastUpdateLabel;
 	@FXML
-	private Chart blockedHostsChart;
+	private Label lastBlockedHost;
 	
 	@FXML
 	private Label settingHelpLabel;
@@ -150,6 +161,10 @@ public class MainViewController {
 
 		//fillBlockedHostsTable(null);
 		//fillCustomHostsTable(null);
+		icon = new ImageView(new Image(MainViewController.class.getClassLoader()
+							.getResourceAsStream("resources/ico-big.png")));
+		vihomaLabel.setText(Messages.get("vihomaLabel"));
+		vihomaLabelBelow.setText(Messages.get("vihomaLabelBelow"));
 		updateMainTab();
 		setText();
 		settingsLoader();
@@ -197,6 +212,10 @@ public class MainViewController {
 		
 		totalCustomHostsCountLabel.setText(
 				String.valueOf(Factory.service.forCustomHost().getHostsCount()));
+		
+		totalUserBlockedHostsCountLabel.setText(
+				String.valueOf((Factory.service.forHost()
+						.findByCategory(Host.CATEGORY_VIHOMA).size())));
 		
 		Date lastUpdate = new Date(TimeUnit.SECONDS.toMillis(
 				Factory.service.forConfiguration().getLastUpdateTime()));

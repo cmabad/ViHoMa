@@ -12,7 +12,6 @@ import application.persistence.sqlite.SQLiteRepositoryFactory;
 import application.persistence.sqlite.util.SQLiteJDBC;
 import application.util.HostsFileManager;
 import application.util.WebUtil;
-import application.util.properties.Settings;
 import application.view.MainViewController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -99,14 +98,11 @@ public class Main extends Application {
         this.primaryStage.setTitle("ViHoMa");
 
         this.primaryStage.getIcons().add(
-        		new Image(
-        				Settings.class.getClassLoader()
+        		new Image(Main.class.getClassLoader()
         					.getResourceAsStream("resources/ico.png")));
 
         initRootLayout();
-
         showMainOverview();
-        
         updateAtStartup();
     }
     
