@@ -544,6 +544,7 @@ public class MainViewController {
 				return;
 			}
 		}
+		editHostsFile();
 		drawStatusBar(Messages.get("newBlockedAddress") + 
 				Factory.service.forConfiguration().getBlockedAddress()
 				, STATUS_OK);
