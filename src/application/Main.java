@@ -1,5 +1,6 @@
 package application;
 	
+import java.io.File;
 import java.io.IOException;
 
 import application.business.impl.ServiceFactoryImpl;
@@ -10,6 +11,7 @@ import application.model.Host;
 import application.persistence.sqlite.SQLiteRepositoryFactory;
 import application.persistence.sqlite.util.SQLiteJDBC;
 import application.util.HostsFileManager;
+import application.util.SystemUtil;
 import application.view.MainViewController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -31,9 +33,6 @@ public class Main extends Application {
     public Main() {
     	fillBlockedHostObservableList();
     	fillCustomHostObservableList();
-    	
-    	//TODO
-//    	System.out.println(Factory.service.forConfiguration().findAll());
     }
     
     public static void main(String[] args) {
@@ -156,6 +155,8 @@ public class Main extends Application {
     }
     
     private static void configure() {
+    	File file = new File(SystemUtil.getVihomaFolderPath());
+    	file.mkdirs();
     	Factory.service = new ServiceFactoryImpl();
     	Factory.repository = new SQLiteRepositoryFactory();
     	SQLiteJDBC.getManager(); //sets the database up

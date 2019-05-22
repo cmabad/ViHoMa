@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import application.util.Logger;
+import application.util.SystemUtil;
 import application.util.properties.Settings;
 
 public class SQLiteJDBC {
@@ -22,7 +23,7 @@ public class SQLiteJDBC {
 		
 		try {
 			// db parameters
-			String url = "jdbc:sqlite:"+System.getProperty("user.home")+ "/.vihoma.sqlite";//data/sqlite.dbSettings.get("databaseSQLiteUrl");
+			String url = "jdbc:sqlite:" + SystemUtil.getVihomaFolderPath() + "vihoma.sqlite";
 			// create a connection to the database
 			Connection conn = DriverManager.getConnection(url);
 			

@@ -453,11 +453,11 @@ public class MainViewController {
 					Logger.log("windows DNS client activated");
 				}
 			} else {
-				String error = (wasActivated==true)?
+				String error = (wasActivated)?
 						"WindowsDNSClientNotDeactivated"
 						: "WindowsDNSClientNotActivated"; 
 				Logger.err(Messages.get(error));
-				settingDNSclientCheckBox.setSelected(wasActivated);
+				settingDNSclientCheckBox.setSelected(!wasActivated);
 				drawStatusBar(Messages.get(error), STATUS_ERROR);
 			}			
 		} catch (IOException e) {
@@ -485,7 +485,7 @@ public class MainViewController {
 					Logger.log("windows Startup activated");
 				}
 			} else {
-				String error = (wasSetUp==true)?
+				String error = (wasSetUp)?
 						"WindowsStartupNotDeactivated"
 						: "WindowsStartupNotActivated"; 
 				Logger.err(Messages.get(error));

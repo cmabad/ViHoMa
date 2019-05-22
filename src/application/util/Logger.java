@@ -12,7 +12,7 @@ public class Logger {
 			throw new IllegalArgumentException();
 		}
 		
-		String path = System.getProperty("user.home") + "/.vihoma.log";
+		String path = SystemUtil.getVihomaFolderPath() + "vihoma.log";
 		BufferedWriter writer;
 		message = new Timestamp(System.currentTimeMillis()) + "\t" + message + "\r\n";
 		try {
@@ -29,7 +29,7 @@ public class Logger {
 			throw new IllegalArgumentException();
 		}
 		
-		String path = System.getProperty("user.home") + "/.vihoma.err";
+		String path = SystemUtil.getVihomaFolderPath() + "vihoma.err";
 		BufferedWriter writer;
 		message = new Timestamp(System.currentTimeMillis()) + "\t" + message + "\r\n";
 		try {

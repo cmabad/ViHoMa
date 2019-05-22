@@ -74,7 +74,7 @@ public class HostServiceImpl implements HostService{
 	@Override
 	public List<Host> updateDatabaseFromWeb() {
 		List<Host> hosts = getHostsFromWeb();
-		if (!hosts.isEmpty()) {
+		if (null != hosts && !hosts.isEmpty()) {
 			List<Host> userAdded = findByCategory(Host.CATEGORY_VIHOMA);
 			deleteAll();
 			addHosts(hosts);

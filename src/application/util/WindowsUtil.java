@@ -42,7 +42,7 @@ public class WindowsUtil {
 				   exec("reg add HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\services\\Dnscache /t REG_DWORD /v Start /d 4 /f");
 			return wasActivated ^ isDNSClientStartActivated();
 		} catch (IOException e) {
-			//Validate the case the file can't be accessed (not enough permissions)
+			//The file can't be accessed (not enough permissions)
 			Logger.err(e.getMessage());
 			return false;
 		} 
@@ -74,7 +74,6 @@ public class WindowsUtil {
 					.getCodeSource().getLocation().toURI().getPath(), "UTF-8")
 					.substring(1);
 		} catch (URISyntaxException | UnsupportedEncodingException e) {
-//			e.printStackTrace();
 			Logger.err(e.getMessage());
 			System.exit(1);
 			return "";
