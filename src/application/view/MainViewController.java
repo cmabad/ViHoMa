@@ -569,6 +569,8 @@ public class MainViewController {
 //				e.printStackTrace();
 				Logger.err(e.getMessage());
 			}
+			settingTargetDomainField.setText(Factory.service.forConfiguration()
+					.getBlockedAddress());
 		}
 	}
 	

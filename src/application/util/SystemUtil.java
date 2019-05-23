@@ -34,11 +34,11 @@ public class SystemUtil {
 		if(os.indexOf("win") >= 0)
 			return System.getProperty("user.home") + Settings.get("VihomaPathWindows");
 		else if (os.indexOf("nix") >= 0 || os.indexOf("nux") >= 0 || os.indexOf("aix") > 0)
-			return System.getProperty("user.home") + Settings.get("VihomaPathLinux");
+			return Settings.get("VihomaPathLinux");
 		else if (os.indexOf("mac") >= 0)
-            return System.getProperty("user.home") + Settings.get("VihomaPathMac");
+            return Settings.get("VihomaPathMac");
         else if (os.indexOf("sunos") >= 0)
-            return System.getProperty("user.home") + Settings.get("VihomaPathSolaris");
+            return Settings.get("VihomaPathSolaris");
 
 		throw new IllegalStateException("Cannot set os");
 	}	
