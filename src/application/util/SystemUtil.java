@@ -1,5 +1,8 @@
 package application.util;
 
+import java.io.File;
+import java.io.IOException;
+
 import application.util.properties.Settings;
 
 public class SystemUtil {
@@ -42,4 +45,19 @@ public class SystemUtil {
 
 		throw new IllegalStateException("Cannot set os");
 	}	
+	
+	/**
+	 * tries to write a temporal file in the system's hosts folder.
+	 * @return true if the action is completed, false otherwise.
+	 */
+	public static boolean isAdmin() {
+		try {
+			File f = new File(getHostsPath()+".test");
+			f.createNewFile();
+			f.delete();
+			return true;
+		} catch (IOException e) {
+			return false;
+		}
+	}
 }

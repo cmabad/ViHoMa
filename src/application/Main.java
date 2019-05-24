@@ -12,6 +12,7 @@ import application.persistence.sqlite.SQLiteRepositoryFactory;
 import application.persistence.sqlite.util.SQLiteJDBC;
 import application.util.HostsFileManager;
 import application.util.SystemUtil;
+import application.view.ErrorAdminController;
 import application.view.MainViewController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -21,21 +22,22 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class Main extends Application {
 	
-	private Stage primaryStage;
+	private static Stage primaryStage;
     private BorderPane rootLayout;
     private ObservableList<Host> blockedHosts = FXCollections.observableArrayList();
     private ObservableList<CustomHost> customHosts = FXCollections.observableArrayList();
-
+    
     public Main() {
     	fillBlockedHostObservableList();
     	fillCustomHostObservableList();
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) { 
     	configure();
     	if (0 < args.length && "quiet".equals(args[0])) {
     		quietRun();    		
@@ -85,17 +87,22 @@ public class Main extends Application {
     }
     
     @Override
-    public void start(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("ViHoMa");
+    public void start(Stage primaryStagee) {
+        primaryStage = primaryStagee;
+        primaryStage.setTitle("ViHoMa");
 
-        this.primaryStage.getIcons().add(
+        primaryStage.getIcons().add(
         		new Image(Main.class.getClassLoader()
         					.getResourceAsStream("resources/ico.png")));
 
         initRootLayout();
-        showMainOverview();
-        updateAtStartup();
+        if (SystemUtil.isAdmin()) {
+	        showMainOverview();
+	        updateAtStartup();
+        } else {
+        	showErrorAdminRightsDialog();
+    		System.exit(0);
+        }
     }
     
     private void updateAtStartup() {
@@ -144,6 +151,38 @@ public class Main extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    public static boolean showErrorAdminRightsDialog() {
+    	 try {
+    	        // Load the fxml file and create a new stage for the popup dialog.
+    	        FXMLLoader loader = new FXMLLoader();
+    	        loader.setLocation(Main.class.getResource("view/ErrorAdminDialog.fxml"));
+    	        AnchorPane page = (AnchorPane) loader.load();
+
+    	        // Create the dialog Stage.
+    	        Stage dialogStage = new Stage();
+    	        dialogStage.setTitle("Vihoma");
+    	        dialogStage.getIcons().add(
+    	        		new Image(Main.class.getClassLoader()
+    	        					.getResourceAsStream("resources/ico.png")));
+    	        dialogStage.initModality(Modality.WINDOW_MODAL);
+    	        dialogStage.initOwner(primaryStage);
+    	        Scene scene = new Scene(page);
+    	        dialogStage.setScene(scene);
+
+    	        // Set the person into the controller.
+    	        ErrorAdminController controller = loader.getController();
+    	        controller.setDialogStage(dialogStage);
+
+    	        // Show the dialog and wait until the user closes it
+    	        dialogStage.showAndWait();
+
+    	        return controller.isOkClicked();
+    	    } catch (IOException e) {
+    	        //e.printStackTrace();
+    	        return false;
+    	    }
     }
     
     /**
