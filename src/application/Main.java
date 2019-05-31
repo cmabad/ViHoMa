@@ -11,7 +11,10 @@ import application.model.Host;
 import application.persistence.sqlite.SQLiteRepositoryFactory;
 import application.persistence.sqlite.util.SQLiteJDBC;
 import application.util.HostsFileManager;
+import application.util.Logger;
 import application.util.SystemUtil;
+import application.util.WindowsUtil;
+import application.util.properties.Messages;
 import application.view.ErrorAdminController;
 import application.view.MainViewController;
 import javafx.application.Application;
@@ -31,15 +34,16 @@ public class Main extends Application {
     private BorderPane rootLayout;
     private ObservableList<Host> blockedHosts = FXCollections.observableArrayList();
     private ObservableList<CustomHost> customHosts = FXCollections.observableArrayList();
+    private final static boolean isAdmin = SystemUtil.isAdmin();
     
     public Main() {
     	fillBlockedHostObservableList();
     	fillCustomHostObservableList();
     }
     
-    public static void main(String[] args) { 
+    public static void main(String[] args) {
     	configure();
-    	if (0 < args.length && "quiet".equals(args[0])) {
+    	if (0 < args.length && "-quiet".equals(args[0])) {
     		quietRun();    		
     		System.exit(0);
     	} else 
@@ -47,6 +51,12 @@ public class Main extends Application {
     }
   
     private static void quietRun() {
+    	if (!isAdmin) {
+    		System.out.println(Messages.get("errorVihomaRequiresAdminRights"));
+    		SystemUtil.removeVihomaFolderPath();
+    		System.exit(0);
+    	}
+    		
     	Factory.service.forHost().updateDatabaseFromWeb();
 		HostsFileManager.persistHostsFile(
 				Factory.service.forHost().findAllActive()
@@ -96,11 +106,12 @@ public class Main extends Application {
         					.getResourceAsStream("resources/ico.png")));
 
         initRootLayout();
-        if (SystemUtil.isAdmin()) {
+        if (isAdmin) {
 	        showMainOverview();
 	        updateAtStartup();
         } else {
         	showErrorAdminRightsDialog();
+        	SystemUtil.removeVihomaFolderPath();
     		System.exit(0);
         }
     }
@@ -192,6 +203,20 @@ public class Main extends Application {
     	Factory.service = new ServiceFactoryImpl();
     	Factory.repository = new SQLiteRepositoryFactory();
     	SQLiteJDBC.getManager(); //sets the database up
+    	firstRunDisableDNS();
     	//Messages.setLanguage("enEN");
+    }
+    
+   private static void firstRunDisableDNS() {
+	   Configuration first = 
+   			Factory.service.forConfiguration().findByParameter("firstRun");
+		if (null == first || "yes".equals(first.getValue()))
+			try {
+				if (WindowsUtil.isDNSClientActivated())
+					WindowsUtil.toggleWindowsDNSClient();
+				Factory.service.forConfiguration().set("firstRun", "no");
+			} catch (IOException e) {
+				Logger.err(e.getMessage());
+			}
     }
 }

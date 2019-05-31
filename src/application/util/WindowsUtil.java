@@ -9,7 +9,7 @@ import java.net.URLDecoder;
 
 public class WindowsUtil {
 
-	public static boolean isDNSClientStartActivated() throws IOException {
+	public static boolean isDNSClientActivated() throws IOException {
 		Process process = Runtime.
 				   getRuntime().
 				   exec("reg query HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\services\\Dnscache /v Start");
@@ -31,7 +31,7 @@ public class WindowsUtil {
 	
 	public static boolean toggleWindowsDNSClient() {
 		try {
-			boolean wasActivated = isDNSClientStartActivated();
+			boolean wasActivated = isDNSClientActivated();
 			if (!wasActivated) 
 				Runtime.
 				   getRuntime().
@@ -40,7 +40,7 @@ public class WindowsUtil {
 				Runtime.
 				   getRuntime().
 				   exec("reg add HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\services\\Dnscache /t REG_DWORD /v Start /d 4 /f");
-			return wasActivated ^ isDNSClientStartActivated();
+			return wasActivated ^ isDNSClientActivated();
 		} catch (IOException e) {
 			//The file can't be accessed (not enough permissions)
 			Logger.err(e.getMessage());

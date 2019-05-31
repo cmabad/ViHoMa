@@ -60,4 +60,11 @@ public class SystemUtil {
 			return false;
 		}
 	}
+
+	public static void removeVihomaFolderPath() {
+		File vihomaFolder = new File(getVihomaFolderPath());
+		for (File f : vihomaFolder.listFiles())
+			f.delete();
+		vihomaFolder.delete();
+	}
 }

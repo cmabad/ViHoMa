@@ -435,7 +435,7 @@ public class MainViewController {
 			return;
 		}
 		try {
-			boolean wasActivated = WindowsUtil.isDNSClientStartActivated();
+			boolean wasActivated = WindowsUtil.isDNSClientActivated();
 			if (WindowsUtil.toggleWindowsDNSClient()) {
 				if(wasActivated) {
 					drawStatusBar(Messages.get("WindowsDNSClientDeactivated"), STATUS_OK);
@@ -546,7 +546,7 @@ public class MainViewController {
 		} else {
 			try {
 				settingDNSclientCheckBox.setSelected(
-						!WindowsUtil.isDNSClientStartActivated());
+						!WindowsUtil.isDNSClientActivated());
 				settingStartupCheckBox.setSelected(
 						WindowsUtil.isRunAtStartup());
 				settingShareBlockHostsCheckBox.setSelected(
