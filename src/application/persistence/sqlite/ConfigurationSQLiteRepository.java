@@ -29,7 +29,6 @@ public class ConfigurationSQLiteRepository extends BaseSQLiteRepository implemen
 			return pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			// System.out.println(e.getMessage());
 			// ignored
 		} finally {
 			SQLiteJDBC.close(pstmt, conn);
@@ -56,7 +55,6 @@ public class ConfigurationSQLiteRepository extends BaseSQLiteRepository implemen
 			conn = SQLiteJDBC.connect();
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(Settings.get("sqlSelectConfigurations"));
-			// loop through the result set
 			while (rs.next())
 				configs.add(new Configuration(
 						(String) rs.getString("parameter")
@@ -64,7 +62,6 @@ public class ConfigurationSQLiteRepository extends BaseSQLiteRepository implemen
 						));
 			
 		} catch (SQLException e) {
-			// System.out.println(e.getMessage());
 			// ignored
 		} finally {
 			SQLiteJDBC.close(rs, stmt, conn);
@@ -79,11 +76,9 @@ public class ConfigurationSQLiteRepository extends BaseSQLiteRepository implemen
 			pstmt = conn.prepareStatement(Settings.get("sqlSelectConfigurationByParameter"));
 			pstmt.setString(1, parameter);
 			rs = pstmt.executeQuery();
-			// loop through the result set
 			if (rs.next())
 				return new Configuration(parameter,(String) rs.getString("value"));
 		} catch (SQLException e) {
-			// System.out.println(e.getMessage());
 			// ignored
 		} finally {
 			SQLiteJDBC.close(rs, stmt, conn);
@@ -101,7 +96,6 @@ public class ConfigurationSQLiteRepository extends BaseSQLiteRepository implemen
 			pstmt.setString(1, value);
 			return pstmt.executeUpdate();
 		} catch (SQLException e) {
-			// System.out.println(e.getMessage());
 			// ignored
 		} finally {
 			SQLiteJDBC.close(pstmt, conn);

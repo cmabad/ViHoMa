@@ -84,7 +84,6 @@ public class WebUtil {
 						, Integer.parseInt(inputLine.split(";")[2])
 						, (String)inputLine.split(";")[3]
 						, Long.parseLong(inputLine.split(";")[4])));
-			    //content.append(inputLine);
 			}
 			in.close();
 			con.disconnect();
@@ -123,13 +122,9 @@ public class WebUtil {
 					  new InputStreamReader(con.getInputStream()));
 			String inputLine;
 			String domain = "";
-//			String[] pre;
 			while ((inputLine = in.readLine()) != null) {
 				if (inputLine.startsWith("0.0.0.0")) {
 					domain = inputLine.split("0.0.0.0 ")[1];
-//					if (pre.length==0)
-//						break;
-//						domain = pre[1];
 					if (!" ".equals(domain) && !"".equals(domain))
 						hosts.add(new Host((String)domain.split("#")[0].trim()
 							, 3
@@ -137,7 +132,6 @@ public class WebUtil {
 							,"StevenBlack"
 							, 0));
 				}
-			    //content.append(inputLine);
 			}
 			in.close();
 			con.disconnect();

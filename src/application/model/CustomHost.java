@@ -15,7 +15,6 @@ public class CustomHost extends Host {
 	
 	public CustomHost(String domain, String address) throws IllegalArgumentException {
 		super(domain,Host.CATEGORY_VIHOMA,Host.STATUS_OK,"",System.currentTimeMillis()/1000);
-//		this.address = ;
 		setIP(new SimpleStringProperty(address.trim()));
 	}
 	

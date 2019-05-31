@@ -22,15 +22,13 @@ public class SQLiteJDBC {
 	public static Connection connect() {
 		
 		try {
-			// db parameters
 			String url = "jdbc:sqlite:" + SystemUtil.getVihomaFolderPath() + "vihoma.sqlite";
-			// create a connection to the database
+
 			Connection conn = DriverManager.getConnection(url);
 			
 			return conn;
-
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			Logger.err(e.getMessage());
 			return null;
 		}
 
@@ -40,7 +38,6 @@ public class SQLiteJDBC {
 	 * @param args the command line arguments
 	 */
 	public static void main(String[] args) {
-		//connect();
 		getManager().setUp();
 	}
 

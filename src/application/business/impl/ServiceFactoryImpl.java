@@ -14,7 +14,6 @@ public class ServiceFactoryImpl implements ServiceFactory {
 
 	@Override
 	public CustomHostService forCustomHost() {
-		// TODO Auto-generated method stub
 		return new CustomHostServiceImpl();
 	}
 

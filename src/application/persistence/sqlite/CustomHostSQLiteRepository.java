@@ -49,7 +49,6 @@ public class CustomHostSQLiteRepository extends BaseSQLiteRepository implements 
 			conn = SQLiteJDBC.connect();
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(Settings.get("sqlSelectCustomHosts"));
-			// loop through the result set
 			while (rs.next())
 				hosts.add(new CustomHost(
 						(String) rs.getString("domain")
@@ -57,7 +56,6 @@ public class CustomHostSQLiteRepository extends BaseSQLiteRepository implements 
 						, (int) rs.getInt("status"))
 						);
 		} catch (SQLException e) {
-			// System.out.println(e.getMessage());
 			// ignored
 		} finally {
 			SQLiteJDBC.close(rs, stmt, conn);
@@ -77,7 +75,6 @@ public class CustomHostSQLiteRepository extends BaseSQLiteRepository implements 
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			// System.out.println(e.getMessage());
 			// ignored
 		} finally {
 			SQLiteJDBC.close(pstmt, conn);
@@ -91,7 +88,6 @@ public class CustomHostSQLiteRepository extends BaseSQLiteRepository implements 
 			conn = SQLiteJDBC.connect();
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(Settings.get("sqlSelectCustomHostsActive"));
-			// loop through the result set
 			while (rs.next())
 				hosts.add(new CustomHost(
 						(String) rs.getString("domain")
@@ -99,7 +95,6 @@ public class CustomHostSQLiteRepository extends BaseSQLiteRepository implements 
 						, (int) rs.getInt("status"))
 						);
 		} catch (SQLException e) {
-			// System.out.println(e.getMessage());
 			// ignored
 		} finally {
 			SQLiteJDBC.close(rs, stmt, conn);
@@ -117,7 +112,6 @@ public class CustomHostSQLiteRepository extends BaseSQLiteRepository implements 
 			pstmt.setString(1, "%" + filter + "%");
 			pstmt.setString(2, "%" + filter + "%");
 			rs = pstmt.executeQuery();
-			// loop through the result set
 			while (rs.next())
 				hosts.add(new CustomHost(
 						(String) rs.getString("domain")
@@ -126,7 +120,6 @@ public class CustomHostSQLiteRepository extends BaseSQLiteRepository implements 
 						));
 			
 		} catch (SQLException e) {
-			// System.out.println(e.getMessage());
 			// ignored
 		} finally {
 			SQLiteJDBC.close(rs, pstmt, conn);
@@ -142,13 +135,11 @@ public class CustomHostSQLiteRepository extends BaseSQLiteRepository implements 
 			stmt = conn.createStatement();
 
 			rs = stmt.executeQuery(Settings.get("sqlSelectCustomHostsCount"));
-			// loop through the result set
 			if (rs.next())
 				count = (Integer) rs.getInt("total");
 			
 			return count;
 		} catch (SQLException e) {
-			// System.out.println(e.getMessage());
 			// ignored
 		} finally {
 			SQLiteJDBC.close(rs, stmt, conn);

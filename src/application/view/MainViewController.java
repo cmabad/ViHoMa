@@ -125,7 +125,6 @@ public class MainViewController {
 
 	private Main main;
 
-	// private int status = 0;
 	private final int STATUS_UPDATE = 1;
 	public final int STATUS_OK = 0;
 	private final int STATUS_ERROR = 2;
@@ -142,7 +141,6 @@ public class MainViewController {
 	 */
 	@FXML
 	private void initialize() {
-		// Initialize the person table with the two columns.
 		domainColumn.setCellValueFactory(cellData -> cellData.getValue().domainProperty());
 		// categoryColumn.setCellValueFactory(cellData -> cellData.getValue().categoryProperty());
 		// statusColumn.setCellValueFactory(cellData
@@ -158,8 +156,6 @@ public class MainViewController {
 		customDomainColumn.setCellValueFactory(cellData -> cellData.getValue().domainProperty());
 		customIpColumn.setCellValueFactory(cellData -> cellData.getValue().addressProperty());
 
-		//fillBlockedHostsTable(null);
-		//fillCustomHostsTable(null);
 		icon = new ImageView(new Image(MainViewController.class.getClassLoader()
 							.getResourceAsStream("resources/ico-big.png")));
 		vihomaLabel.setText(Messages.get("vihomaLabel"));
@@ -172,9 +168,6 @@ public class MainViewController {
 		newCustomAddressField.setDisable(true);
 		newCustomHostButton.setDisable(true);
 		newBlockedHostButton.setDisable(true);
-		// Listen for selection changes and show the person details when changed.
-		// blockedHostsTable.getSelectionModel().selectedItemProperty().addListener(
-		// (observable, oldValue, newValue) -> showPersonDetails(newValue));
 	}
 		
 	private void setText() {
@@ -195,7 +188,6 @@ public class MainViewController {
 	public void setMainApp(Main mainClass) {
 		this.main = mainClass;
 
-		// Add observable list data to the table
 		fillBlockedHostsTable(main.getBlockedHostsData());
 		fillCustomHostsTable(main.getCustomHostsData());
 	}

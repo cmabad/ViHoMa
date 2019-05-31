@@ -117,12 +117,10 @@ public class Main extends Application {
      */
     public void initRootLayout() {
         try {
-            // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("view/RootLayout.fxml"));
             rootLayout = (BorderPane) loader.load();
             
-            // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             primaryStage.setMaxHeight(400);
@@ -155,12 +153,10 @@ public class Main extends Application {
     
     public static boolean showErrorAdminRightsDialog() {
     	 try {
-    	        // Load the fxml file and create a new stage for the popup dialog.
     	        FXMLLoader loader = new FXMLLoader();
     	        loader.setLocation(Main.class.getResource("view/ErrorAdminDialog.fxml"));
     	        AnchorPane page = (AnchorPane) loader.load();
 
-    	        // Create the dialog Stage.
     	        Stage dialogStage = new Stage();
     	        dialogStage.setTitle("Vihoma");
     	        dialogStage.getIcons().add(
@@ -171,16 +167,13 @@ public class Main extends Application {
     	        Scene scene = new Scene(page);
     	        dialogStage.setScene(scene);
 
-    	        // Set the person into the controller.
     	        ErrorAdminController controller = loader.getController();
     	        controller.setDialogStage(dialogStage);
 
-    	        // Show the dialog and wait until the user closes it
     	        dialogStage.showAndWait();
 
     	        return controller.isOkClicked();
     	    } catch (IOException e) {
-    	        //e.printStackTrace();
     	        return false;
     	    }
     }

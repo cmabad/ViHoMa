@@ -14,7 +14,6 @@ public class Host {
 	private StringProperty domain;
 	private IntegerProperty category;
 	private IntegerProperty status;
-//	private BooleanProperty active;
 	private LongProperty updatedAt;
 	private StringProperty comment;
 	
@@ -31,7 +30,6 @@ public class Host {
 		this.domain = new SimpleStringProperty(domain.trim());
 		this.category = new SimpleIntegerProperty(category);
 		this.status = new SimpleIntegerProperty(1);
-//		this.active = new SimpleBooleanProperty(true);
 		this.updatedAt = new SimpleLongProperty(System.currentTimeMillis()/1000);
 		this.comment = new SimpleStringProperty("Blocked by user");
 	}
@@ -80,7 +78,6 @@ public class Host {
 	}
 	
 	public BooleanProperty activeProperty() {
-		// maybe use active property instead?
 		return new SimpleBooleanProperty((status.get() & 1) == 1);
 	}
 	
@@ -90,7 +87,6 @@ public class Host {
 
 	public void setActive(Boolean active) {
 		this.status.set((active? 1:0));
-		//this.active.set((status.get() & 1) == 1);
 	}
 
 	public LongProperty UpdatedAtProperty() {

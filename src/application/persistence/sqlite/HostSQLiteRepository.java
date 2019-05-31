@@ -32,7 +32,6 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 			conn.commit();
 			return newHostsList.size();
 		} catch (SQLException e) {
-			//System.out.println(e.getMessage());
 			//ignored
 		} finally {
 			SQLiteJDBC.close(pstmt, conn);
@@ -48,13 +47,11 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 			stmt = conn.createStatement();
 
 			rs = stmt.executeQuery(Settings.get("sqlSelectHostsCount"));
-			// loop through the result set
 			if (rs.next())
 				count = (Integer) rs.getInt("total");
 			
 			return count;
 		} catch (SQLException e) {
-			//System.out.println(e.getMessage());
 			//ignored
 		} finally {
 			SQLiteJDBC.close(rs, stmt, conn);
@@ -69,7 +66,6 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 			conn = SQLiteJDBC.connect();
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(Settings.get("sqlSelectHosts"));
-			// loop through the result set
 			while (rs.next())
 				hosts.add(new Host(
 						(String) rs.getString("domain")
@@ -80,7 +76,6 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 						));
 			
 		} catch (SQLException e) {
-			//System.out.println(e.getMessage());
 			//ignored
 		} finally {
 			SQLiteJDBC.close(rs, stmt, conn);
@@ -101,7 +96,6 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 			return pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			//System.out.println(e.getMessage());
 			//ignored
 		} finally {
 			SQLiteJDBC.close(pstmt, conn);
@@ -134,7 +128,6 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			//System.out.println(e.getMessage());
 			//ignored
 		} finally {
 			SQLiteJDBC.close(pstmt, conn);
@@ -148,7 +141,6 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 			conn = SQLiteJDBC.connect();
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(Settings.get("sqlSelectHostsActive"));
-			// loop through the result set
 			while (rs.next())
 				hosts.add(new Host(
 						(String) rs.getString("domain")
@@ -159,7 +151,6 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 						));
 			
 		} catch (SQLException e) {
-			//System.out.println(e.getMessage());
 			//ignored
 		} finally {
 			SQLiteJDBC.close(rs, stmt, conn);
@@ -176,7 +167,6 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 					Settings.get("sqlSelectHostsByDomain"));
 			pstmt.setString(1, "%" + domain + "%");
 			rs = pstmt.executeQuery();
-			// loop through the result set
 			while (rs.next())
 				hosts.add(new Host(
 						(String) rs.getString("domain")
@@ -187,7 +177,6 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 						));
 			
 		} catch (SQLException e) {
-			//System.out.println(e.getMessage());
 			//ignored		
 		} finally {
 			SQLiteJDBC.close(rs, pstmt, conn);
@@ -202,7 +191,6 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(Settings.get("sqlDeleteAllHosts"));
 		} catch (SQLException e) {
-			//System.out.println(e.getMessage());
 			//ignored
 		} finally {
 			SQLiteJDBC.close(rs, stmt, conn);
@@ -218,7 +206,6 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 					Settings.get("sqlSelectHostsByCategory"));
 			pstmt.setInt(1, category);
 			rs = pstmt.executeQuery();
-			// loop through the result set
 			while (rs.next())
 				hosts.add(new Host(
 						(String) rs.getString("domain")
@@ -229,7 +216,6 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 						));
 			
 		} catch (SQLException e) {
-			//System.out.println(e.getMessage());
 			//ignored		
 		} finally {
 			SQLiteJDBC.close(rs, pstmt, conn);
