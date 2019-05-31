@@ -11,7 +11,6 @@ import application.model.Host;
 import application.persistence.sqlite.SQLiteRepositoryFactory;
 import application.persistence.sqlite.util.SQLiteJDBC;
 import application.util.HostsFileManager;
-import application.util.Logger;
 import application.util.SystemUtil;
 import application.util.WindowsUtil;
 import application.util.properties.Messages;
@@ -216,7 +215,8 @@ public class Main extends Application {
 					WindowsUtil.toggleWindowsDNSClient();
 				Factory.service.forConfiguration().set("firstRun", "no");
 			} catch (IOException e) {
-				Logger.err(e.getMessage());
+//				Logger.err(e.getMessage());
+				//logging here may cause errors on unix-like systems 
 			}
     }
 }
