@@ -26,9 +26,12 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
 	@Override
 	public void add(String parameter, String value) {
-		Factory.repository.forConfiguration()
+		int count = Factory.repository.forConfiguration()
 			.add(new Configuration(parameter,value));
-		Logger.log("NEW CONFIGURATION: " + parameter + " = " + value);
+		if (0 == count)
+			Logger.err("ERROR ADDING CONFIGURATION: " + parameter + " = " + value);
+		else
+			Logger.log("NEW CONFIGURATION: " + parameter + " = " + value);
 	}
 
 	@Override
