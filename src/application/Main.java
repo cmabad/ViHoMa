@@ -48,7 +48,7 @@ public class Main extends Application {
   
     private static void quietRun() {
     	Factory.service.forHost().updateDatabaseFromWeb();
-		HostsFileManager.editHostsFile(
+		HostsFileManager.persistHostsFile(
 				Factory.service.forHost().findAllActive()
 				, Factory.service.forConfiguration().getBlockedAddress()
 				, Factory.service.forCustomHost().findAllActive());		

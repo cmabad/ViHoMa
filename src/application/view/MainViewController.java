@@ -242,7 +242,7 @@ public class MainViewController {
 		}		
 		main.fillBlockedHostObservableList();
 		updateMainTab();
-		editHostsFile();
+		persistHostsFile();
 		drawStatusBar(Messages.get("upToDate"), STATUS_OK);
 	}
 
@@ -268,7 +268,7 @@ public class MainViewController {
 			if (Factory.service.forConfiguration().isSharingAllowed())
 				WebUtil.uploadHostToWeb(domain);
 
-			editHostsFile();
+			persistHostsFile();
 			main.fillBlockedHostObservableList();
 			updateMainTab();
 			blockedHostsTableFilter.setText("");
@@ -303,7 +303,7 @@ public class MainViewController {
 			} catch (IllegalArgumentException e){
 				drawStatusBar(e.getMessage(), STATUS_ERROR);
 			}
-			editHostsFile();
+			persistHostsFile();
 			main.fillCustomHostObservableList();
 			customHostsTableFilter.setText("");
 			drawStatusBar(domain + " " + Messages.get("newCustomHostSuccess"), STATUS_OK);
@@ -325,7 +325,7 @@ public class MainViewController {
 			
 			host.setActive(!host.isActive());
 			
-			editHostsFile();
+			persistHostsFile();
 			filterBlockedHostsTable();
 			updateMainTab();
 			
@@ -352,7 +352,7 @@ public class MainViewController {
 			
 			host.setActive(!host.isActive());
 			
-			editHostsFile();
+			persistHostsFile();
 			filterCustomHostsTable();
 			updateMainTab();
 			
@@ -507,11 +507,9 @@ public class MainViewController {
 		
 		if (null != update && "yes".equals(update.getValue())) {
 			Factory.service.forConfiguration().set(updateSetting, "no");
-			Logger.log(Settings.get("updateAtVihomaStartupDeactivated"));
 			drawStatusBar(Messages.get("updateAtVihomaStartupDeactivated"), STATUS_OK);
 		} else {
 			Factory.service.forConfiguration().set(updateSetting, "yes");
-			Logger.log(Settings.get("updateAtVihomaStartupActivated"));
 			drawStatusBar(Messages.get("updateAtVihomaStartupActivated"), STATUS_OK);
 		}
 	}
@@ -521,11 +519,9 @@ public class MainViewController {
 		if (Factory.service.forConfiguration().isSharingAllowed()) {
 			Factory.service.forConfiguration().set("shareHosts", "no");
 			drawStatusBar(Messages.get("shareHostsDisabled"), STATUS_OK);
-			Logger.log(Settings.get("shareHostsDisabled"));
 		} else {
 			Factory.service.forConfiguration().set("shareHosts", "yes");
 			drawStatusBar(Messages.get("shareHostsEnabled"), STATUS_OK);
-			Logger.log(Settings.get("shareHostsEnabled"));
 		}
 	}
 
@@ -544,7 +540,7 @@ public class MainViewController {
 				return;
 			}
 		}
-		editHostsFile();
+		persistHostsFile();
 		drawStatusBar(Messages.get("newBlockedAddress") + 
 				Factory.service.forConfiguration().getBlockedAddress()
 				, STATUS_OK);
@@ -566,7 +562,6 @@ public class MainViewController {
 				settingVihomaStartupCheckBox.setSelected(
 						Factory.service.forConfiguration().isUpdateAtVihomaStartupEnabled());
 			} catch (IOException e) {
-//				e.printStackTrace();
 				Logger.err(e.getMessage());
 			}
 			settingTargetDomainField.setText(Factory.service.forConfiguration()
@@ -594,17 +589,17 @@ public class MainViewController {
 		}
 	}
 	
-	 /* Common
+	/* 
+	 * COMMON
 	 */
-	private void editHostsFile() {
-		HostsFileManager.editHostsFile(
+	private void persistHostsFile() {
+		HostsFileManager.persistHostsFile(
 				Factory.service.forHost().findAllActive()
 				, Factory.service.forConfiguration().getBlockedAddress()
 				, Factory.service.forCustomHost().findAllActive());
 	}
 	
 	private void drawStatusBar(String message, int status) {
-		// System.out.println(message);
 		if (null != message) {
 			this.statusBarLabel.setText(message);
 		}

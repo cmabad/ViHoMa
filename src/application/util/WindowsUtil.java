@@ -84,7 +84,7 @@ public class WindowsUtil {
 		try {
 			boolean wasSetUp = isRunAtStartup();
 			if (!wasSetUp) {
-				String path = getPath().split("vihoma.jar")[0]
+				String path = (getPath().split("vihoma.jar")[0]).replace('/', '\\')
 						+"vihomaAdmin.bat quiet";
 				Runtime.
 				   getRuntime().
