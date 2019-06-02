@@ -83,12 +83,19 @@
 		    <scope>test</scope>
 		</dependency>
 		-->
-		<!-- https://mvnrepository.com/artifact/org.openjfx/javafx -->
+		<!-- https://mvnrepository.com/artifact/org.openjfx/javafx 
 		<dependency>
 		    <groupId>org.openjfx</groupId>
 		    <artifactId>javafx</artifactId>
 		    <version>13-ea+2</version>
 		    <type>pom</type>
+		</dependency>-->
+		<!-- https://mvnrepository.com/artifact/junit/junit -->
+		<dependency>
+		    <groupId>junit</groupId>
+		    <artifactId>junit</artifactId>
+		    <version>4.12</version>
+		    <scope>test</scope>
 		</dependency>
 		<dependency>
 		    <groupId>org.apache.httpcomponents</groupId>

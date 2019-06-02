@@ -26,6 +26,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 
+import application.Main;
+
 //import javax.net.ssl.HttpsURLConnection;
 
 import application.model.Host;
@@ -142,7 +144,6 @@ public class WebUtil {
     	}
 	}
 	
-
 	/**
 	 * uploads a domain name to the Vihoma central database
 	 * @param domain 
@@ -197,12 +198,16 @@ public class WebUtil {
 
 	public static boolean openHelp() {
 		try {
-			File tempHelp = File.createTempFile("help", ".html");
+			File tempHelp = 
+					new File(Main.class.getProtectionDomain().getCodeSource()
+							.getLocation().getPath()+"-help.html");
 			tempHelp.deleteOnExit();
 			Files.copy(
-					MainViewController.class.getResourceAsStream(Settings.get("helpPathLocationEN"))
+					MainViewController.class.getResourceAsStream(
+							Settings.get("helpPathLocationEN"))
 					, tempHelp.toPath()
 					, StandardCopyOption.REPLACE_EXISTING);
+			
 			Desktop.getDesktop().browse(tempHelp.toURI());
 			return true;
 		} catch (IOException e) {

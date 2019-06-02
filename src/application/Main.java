@@ -2,6 +2,7 @@ package application;
 	
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import application.business.impl.ServiceFactoryImpl;
 import application.conf.Factory;
@@ -40,7 +41,7 @@ public class Main extends Application {
     	fillCustomHostObservableList();
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws URISyntaxException {
     	configure();
     	if (0 < args.length && "-quiet".equals(args[0])) {
     		quietRun();    		
