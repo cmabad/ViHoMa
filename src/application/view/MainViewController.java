@@ -208,12 +208,17 @@ public class MainViewController {
 				String.valueOf((Factory.service.forHost()
 						.findByCategory(Host.CATEGORY_VIHOMA).size())));
 		
-		Date lastUpdate = new Date(TimeUnit.SECONDS.toMillis(
-				Factory.service.forConfiguration().getLastUpdateTime()));
-		DateFormat df = DateFormat.getDateTimeInstance(
-				DateFormat.MEDIUM, DateFormat.SHORT);
-		df.setTimeZone(TimeZone.getTimeZone("UTC"));
-		lastUpdateLabel.setText("Last update: " + df.format(lastUpdate) + " UTC");
+		long unixUpdate = Factory.service.forConfiguration().getLastUpdateTime();
+		if (0 == unixUpdate) {
+			lastUpdateLabel.setText("Last update: " + Messages.get("never"));
+			drawStatusBar(Messages.get("pleaseUpdate"), STATUS_UPDATE);
+		} else {
+			Date lastUpdate = new Date(TimeUnit.SECONDS.toMillis(unixUpdate));
+			DateFormat df = DateFormat.getDateTimeInstance(
+					DateFormat.MEDIUM, DateFormat.SHORT);
+			df.setTimeZone(TimeZone.getTimeZone("UTC"));
+			lastUpdateLabel.setText("Last update: " + df.format(lastUpdate) + " UTC");
+		}
 	}
 
 	private void fillBlockedHostsTable(ObservableList<Host> list) {
@@ -226,6 +231,8 @@ public class MainViewController {
 
 	@FXML
 	protected void updateDatabaseFromWeb() {
+		drawStatusBar("updating", STATUS_UPDATE);
+		
 		List<Host> hosts = Factory.service.forHost().updateDatabaseFromWeb();
 
 		if (null == hosts) {

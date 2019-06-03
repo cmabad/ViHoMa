@@ -25,6 +25,7 @@ public class HostServiceImpl implements HostService{
 	public int addHosts(List<Host> hostList) {
 		if(null == hostList || hostList.isEmpty())
 			return 0;
+		
 		return Factory.repository.forHost().addHosts(hostList);
 	}
 

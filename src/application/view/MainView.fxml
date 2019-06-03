@@ -173,7 +173,7 @@
                <content>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <Label fx:id="settingHelpLabel" layoutX="14.0" layoutY="14.0" onMouseClicked="#openHelp" text="Help" textFill="#3448dd" underline="true">
+                        <Label fx:id="settingHelpLabel" accessibleRole="HYPERLINK" layoutX="14.0" layoutY="14.0" onMouseClicked="#openHelp" text="Help" textFill="#3448dd" underline="true">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>

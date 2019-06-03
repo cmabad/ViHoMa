@@ -8,8 +8,8 @@ import java.sql.Timestamp;
 public class Logger {
 
 	public static void log(String message) {
-		if (null == message) {
-			throw new IllegalArgumentException();
+		if (null == message || "".equals(message)) {
+			return;
 		}
 		
 		String path = SystemUtil.getVihomaFolderPath() + "vihoma.log";
@@ -25,8 +25,8 @@ public class Logger {
 	}
 	
 	public static void err(String message) {
-		if (null == message) {
-			throw new IllegalArgumentException();
+		if (null == message || "".equals(message)) {
+			return;
 		}
 		
 		String path = SystemUtil.getVihomaFolderPath() + "vihoma.err";
