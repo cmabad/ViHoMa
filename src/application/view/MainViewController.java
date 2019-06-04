@@ -231,7 +231,8 @@ public class MainViewController {
 
 	@FXML
 	protected void updateDatabaseFromWeb() {
-		drawStatusBar("updating", STATUS_UPDATE);
+		drawStatusBar(Messages.get("updating"), STATUS_UPDATE);
+		System.out.println(Messages.get("updating"));
 		
 		List<Host> hosts = Factory.service.forHost().updateDatabaseFromWeb();
 
