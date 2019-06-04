@@ -196,10 +196,13 @@ public class MainViewController {
 	 * UI methods
 	 */
 	private void updateMainTab() {
-		updateButton.setText(Messages.get("updateButton"));
+		int hostsCount = Factory.service.forHost().getHostsCount();
+		
+		if (0>hostsCount)
+			main.errorExit();
 		
 		totalBlockedHostsCountLabel.setText(
-				String.valueOf(Factory.service.forHost().getHostsCount()));
+				String.valueOf(hostsCount));
 		
 		totalCustomHostsCountLabel.setText(
 				String.valueOf(Factory.service.forCustomHost().getHostsCount()));
@@ -238,6 +241,7 @@ public class MainViewController {
 
 		if (null == hosts) {
 			drawStatusBar(Messages.get("webConnectionError"), STATUS_ERROR);
+			updateMainTab();
 			return;
 		}		
 		main.fillBlockedHostObservableList();
@@ -305,6 +309,7 @@ public class MainViewController {
 			}
 			persistHostsFile();
 			main.fillCustomHostObservableList();
+			updateMainTab();
 			customHostsTableFilter.setText("");
 			drawStatusBar(domain + " " + Messages.get("newCustomHostSuccess"), STATUS_OK);
 		} else

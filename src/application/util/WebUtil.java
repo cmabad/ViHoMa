@@ -15,8 +15,6 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 
-import javax.net.ssl.HttpsURLConnection;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -107,10 +105,10 @@ public class WebUtil {
 	 */
 	public static List<Host> getHostsFromAlternativeSource() throws IOException{
 		URL url = new URL(Settings.get("urlAlternativeHosts"));
-    	HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
+    	HttpURLConnection con = (HttpURLConnection) url.openConnection();
     	con.setRequestProperty("Accept-Encoding", "gzip");
     	con.setRequestMethod("GET");
-    	con.setConnectTimeout(5000);
+    	con.setConnectTimeout(4000);
     	
     	List<Host> hosts = new ArrayList<Host>();
     	

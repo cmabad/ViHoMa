@@ -16,6 +16,7 @@ import application.util.SystemUtil;
 import application.util.WindowsUtil;
 import application.util.properties.Messages;
 import application.view.ErrorAdminController;
+import application.view.ErrorDialogController;
 import application.view.MainViewController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -116,6 +117,11 @@ public class Main extends Application {
         }
     }
     
+    public void errorExit() {
+    	showErrorDialog();
+    	System.exit(0);
+    }
+    
     private void updateAtStartup() {
     	Configuration update = Factory.service.forConfiguration()
 				.findByParameter("updateAtVihomaStartup");
@@ -188,6 +194,33 @@ public class Main extends Application {
     	        return false;
     	    }
     }
+    
+    public boolean showErrorDialog() {
+   	 try {
+   	        FXMLLoader loader = new FXMLLoader();
+   	        loader.setLocation(Main.class.getResource("view/ErrorDialog.fxml"));
+   	        AnchorPane page = (AnchorPane) loader.load();
+
+   	        Stage dialogStage = new Stage();
+   	        dialogStage.setTitle("Vihoma");
+   	        dialogStage.getIcons().add(
+   	        		new Image(Main.class.getClassLoader()
+   	        					.getResourceAsStream("resources/ico.png")));
+   	        dialogStage.initModality(Modality.WINDOW_MODAL);
+   	        dialogStage.initOwner(primaryStage);
+   	        Scene scene = new Scene(page);
+   	        dialogStage.setScene(scene);
+
+   	        ErrorDialogController controller = loader.getController();
+   	        controller.setDialogStage(dialogStage);
+
+   	        dialogStage.showAndWait();
+
+   	        return controller.isOkClicked();
+   	    } catch (IOException e) {
+   	        return false;
+   	    }
+   }
     
     /**
      * Returns the main stage.
