@@ -428,6 +428,7 @@ public class MainViewController {
 		if (null == filter || "".equals(filter)) {
 			main.fillCustomHostObservableList();
 			newCustomHostButton.setDisable(true);
+			newCustomAddressField.setText("");
 			newCustomAddressField.setDisable(true);
 			drawStatusBar(Messages.get("upToDate"), STATUS_OK);
 		}
