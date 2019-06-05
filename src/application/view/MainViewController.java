@@ -196,10 +196,16 @@ public class MainViewController {
 	 * UI methods
 	 */
 	private void updateMainTab() {
-		int hostsCount = Factory.service.forHost().getHostsCount();
+		int hostsCount =0;
 		
-		if (0>hostsCount)
+		try {
+			hostsCount = Factory.service.forHost().getHostsCount();
+			if (0>hostsCount)
+				throw new IllegalStateException();
+		} catch (Exception e) {
+			//an anomaly has been detected with the database, exit
 			main.errorExit();
+		}
 		
 		totalBlockedHostsCountLabel.setText(
 				String.valueOf(hostsCount));
@@ -236,7 +242,7 @@ public class MainViewController {
 	protected void updateDatabaseFromWeb() {
 		drawStatusBar(Messages.get("updating"), STATUS_UPDATE);
 		System.out.println(Messages.get("updating"));
-		
+		updateMainTab();
 		List<Host> hosts = Factory.service.forHost().updateDatabaseFromWeb();
 
 		if (null == hosts) {
@@ -313,6 +319,7 @@ public class MainViewController {
 			main.fillCustomHostObservableList();
 			updateMainTab();
 			customHostsTableFilter.setText("");
+			newCustomAddressField.setText("");
 			newCustomAddressField.setDisable(true);
 			drawStatusBar(domain + " " + Messages.get("newCustomHostSuccess"), STATUS_OK);
 		} else
@@ -573,6 +580,7 @@ public class MainViewController {
 			} catch (IOException e) {
 				Logger.err(e.getMessage());
 			}
+			settingTargetDomainLabel.setText(Messages.get("settingBlockAddressLabel"));
 			settingTargetDomainField.setText(Factory.service.forConfiguration()
 					.getBlockedAddress());
 		}

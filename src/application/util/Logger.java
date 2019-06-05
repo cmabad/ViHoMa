@@ -20,7 +20,7 @@ public class Logger {
 			writer.append(message);
 			writer.close();	
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("Logger cannot access Vihoma folder");
 		}
 	}
 	
@@ -37,7 +37,7 @@ public class Logger {
 			writer.append(message);
 			writer.close();	
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("Logger cannot access Vihoma folder");
 		}
 	}
 }

@@ -73,7 +73,7 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <TextField id="blockedHostsTableFilter" fx:id="blockedHostsTableFilter" onKeyReleased="#filterBlockedHostsTable" prefHeight="25.0" prefWidth="150.0" promptText="Filter..." GridPane.halignment="CENTER">
+                              <TextField id="blockedHostsTableFilter" fx:id="blockedHostsTableFilter" onKeyReleased="#filterBlockedHostsTable" prefHeight="25.0" prefWidth="150.0" promptText="Filter or add domain..." GridPane.halignment="CENTER">
                                  <GridPane.margin>
                                     <Insets left="5.0" right="5.0" />
                                  </GridPane.margin></TextField>
@@ -116,7 +116,7 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <TextField id="customHostsTableFilter" fx:id="customHostsTableFilter" onKeyReleased="#filterCustomHostsTable" prefHeight="25.0" prefWidth="150.0" promptText="Filter..." GridPane.halignment="CENTER">
+                              <TextField id="customHostsTableFilter" fx:id="customHostsTableFilter" onKeyReleased="#filterCustomHostsTable" prefHeight="25.0" prefWidth="150.0" promptText="Filter or add domain" GridPane.halignment="CENTER">
                                  <GridPane.margin>
                                     <Insets left="5.0" right="5.0" />
                                  </GridPane.margin></TextField>
