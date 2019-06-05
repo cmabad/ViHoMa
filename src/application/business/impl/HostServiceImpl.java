@@ -49,7 +49,7 @@ public class HostServiceImpl implements HostService{
 
 	@Override
 	public List<Host> findAllActive() {
-		return Factory.repository.forHost().findAllActive();
+		return findByStatus(Host.STATUS_OK);
 	}
 
 	@Override
@@ -74,15 +74,24 @@ public class HostServiceImpl implements HostService{
 
 	@Override
 	public List<Host> updateDatabaseFromWeb() {
-		List<Host> hosts = getHostsFromWeb();
+		List<Host> hosts = WebUtil.getHostsFromWeb(0);
 		if (null != hosts && !hosts.isEmpty()) {
 			List<Host> userAdded = findByCategory(Host.CATEGORY_VIHOMA);
+			List<Host> deactivatedList = findByStatus(Host.STATUS_DELETED);
 			deleteAll();
 			addHosts(hosts);
 			for (Host custom : userAdded)
 				addHost(custom.getDomain(), custom.getCategory());
+			for (Host deactivated : deactivatedList)
+				toggleStatus(deactivated.getDomain());
 			Factory.service.forConfiguration().setLastUpdateTime();
 		}
 		return hosts;
+	}
+
+	
+	@Override
+	public List<Host> findByStatus(int status) {
+		return Factory.repository.forHost().findByStatus(status);
 	}
 }

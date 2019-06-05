@@ -10,11 +10,12 @@ public interface HostService {
 	int addHosts(List<Host> hostsList);
 	int getHostsCount();
 	List<Host> findAll();
-	void toggleStatus(String domain);
 	List<Host> findAllActive();
+	void toggleStatus(String domain);
 	List<Host> findByDomain(String filter);
 	void deleteAll();
 	List<Host> findByCategory(int categoryVihoma);
 	List<Host> getHostsFromWeb();
 	List<Host> updateDatabaseFromWeb();
+	List<Host> findByStatus(int status);
 }

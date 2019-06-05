@@ -135,30 +135,6 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 	}
 
 	@Override
-	public List<Host> findAllActive() {
-		List<Host> hosts = new ArrayList<Host>();
-		try {
-			conn = SQLiteJDBC.connect();
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(Settings.get("sqlSelectHostsActive"));
-			while (rs.next())
-				hosts.add(new Host(
-						(String) rs.getString("domain")
-						, rs.getInt("category")
-						, rs.getInt("status")
-						, (String) rs.getString("comment")
-						, rs.getInt("updated_at")
-						));
-			
-		} catch (SQLException e) {
-			//ignored
-		} finally {
-			SQLiteJDBC.close(rs, stmt, conn);
-		}
-		return hosts;
-	}
-
-	@Override
 	public List<Host> findByDomain(String domain) {
 		List<Host> hosts = new ArrayList<Host>();
 		try {
@@ -202,8 +178,7 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 		List<Host> hosts = new ArrayList<Host>();
 		try {
 			conn = SQLiteJDBC.connect();
-			pstmt = conn.prepareStatement(
-					Settings.get("sqlSelectHostsByCategory"));
+			pstmt = conn.prepareStatement(Settings.get("sqlSelectHostsByCategory"));
 			pstmt.setInt(1, category);
 			rs = pstmt.executeQuery();
 			while (rs.next())
@@ -219,6 +194,31 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 			//ignored		
 		} finally {
 			SQLiteJDBC.close(rs, pstmt, conn);
+		}
+		return hosts;
+	}
+
+	@Override
+	public List<Host> findByStatus(int status) {
+		List<Host> hosts = new ArrayList<Host>();
+		try {
+			conn = SQLiteJDBC.connect();
+			pstmt = conn.prepareStatement(Settings.get("sqlSelectHostsByStatus"));
+			pstmt.setInt(1, status);
+			rs = pstmt.executeQuery();
+			while (rs.next())
+				hosts.add(new Host(
+						(String) rs.getString("domain")
+						, rs.getInt("category")
+						, rs.getInt("status")
+						, (String) rs.getString("comment")
+						, rs.getInt("updated_at")
+						));
+			
+		} catch (SQLException e) {
+			//ignored
+		} finally {
+			SQLiteJDBC.close(rs, stmt, conn);
 		}
 		return hosts;
 	}
