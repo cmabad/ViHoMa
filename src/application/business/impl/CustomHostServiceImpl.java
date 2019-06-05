@@ -11,8 +11,17 @@ public class CustomHostServiceImpl implements CustomHostService {
 
 	@Override
 	public int add(String domain, String address) {
+		try {
+			new CustomHost(domain, address);
+		}  catch (IllegalArgumentException e){
+			// the address is not valid; avoid addition
+			Logger.err("ERROR ADDING DOMAIN " + domain + "  with address " 
+					+ address);
+			return -1;
+		}
+		
 		int count = Factory.repository.forCustomHost()
-				.add(new CustomHost(domain,address));
+					.add(new CustomHost(domain,address));	
 		if (0 == count)
 			Logger.err("ERROR ADDING DOMAIN " + domain + "  with address " 
 					+ address);

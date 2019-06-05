@@ -298,21 +298,22 @@ public class MainViewController {
 			valid = false;
 			errorMessage += "No valid IP!\n";
 		}
-
+		
 		if (valid) {
-			try {
-				if (0 == Factory.service.forCustomHost().add(domain, address)) {
-					drawStatusBar(Messages.get("errorExistingDomain"), STATUS_ERROR);
-					updateMainTab();
-					return;
-				}
-			} catch (IllegalArgumentException e){
-				drawStatusBar(e.getMessage(), STATUS_ERROR);
+			int count = Factory.service.forCustomHost().add(domain, address);
+			if (0 >= count) {
+				drawStatusBar(count<0? Messages.get("errorCustomAddress"):Messages.get("errorExistingDomain"), STATUS_ERROR);
+				updateMainTab();
+				customHostsTableFilter.setText("");
+				newCustomAddressField.setDisable(true);
+				return;
 			}
+			
 			persistHostsFile();
 			main.fillCustomHostObservableList();
 			updateMainTab();
 			customHostsTableFilter.setText("");
+			newCustomAddressField.setDisable(true);
 			drawStatusBar(domain + " " + Messages.get("newCustomHostSuccess"), STATUS_OK);
 		} else
 			drawStatusBar("error adding new host: " + errorMessage, STATUS_ERROR);
