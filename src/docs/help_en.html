@@ -12,6 +12,7 @@
 	<body>
 		<h1>Vihoma help guide</h1>
 		<ul>
+			<li><a href=".#restartNetwork">A hosts is blocked but I can still connect to it</a></li>
 			<li>Settings
 				<ul>
 					<li><a href=".#dnsclient">DNS Client</a></li>
@@ -22,6 +23,32 @@
 				</ul>
 			</li>
 		</ul>
+		<article id="restartNetwork">
+			<h2>A host is blocked but I can still connect to it</h2>
+			
+			<p>Once Vihoma has updated its hosts list or you have manually added one, it is necessary to restart the operating system or your network's manager so the changes can take effect.</p>
+			<p>If you opt for restarting your network instead of your computer, you may do it following these steps:</p>
+			<ul>
+				<li>If you are using Windows, open a command prompt with administrator privileges and run this command:
+					<ul>
+						<li>ipconfig /flushdns</li>
+					</ul>
+				</li>
+				<li>If you are using GNU/Linux, open a Terminal and run with root privileges:
+					<ul>
+						<li><strong>Debian/Ubuntu</strong> sudo service network-manager restart</li>
+						<li><strong>Linux Mint</strong> sudo /etc/init.d/dns-clean start</li>
+						<li><strong>Linux with</strong> systemd: sudo systemctl restart network.service</li>
+					</ul>
+				</li>
+				<li>If you are using MacOS X, open a Terminal and run:
+					<ul>
+						<li>sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder</li>
+					</ul>
+				</li>
+			</ul>
+			<p>If your operating system is not listed here, check the guide provided on Steven Black's Github hosts <a href="https://github.com/StevenBlack/hosts#reloading-hosts-file">repository</a></p>
+		</article>
 		<article id="dnsclient">
 			<h2>DNS Client</h2>
 			<p>This is applicable only to Windows operating systems.</p>
