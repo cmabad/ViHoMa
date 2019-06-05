@@ -266,6 +266,7 @@ public class MainViewController {
 			
 			if (0 == Factory.service.forHost().addHost(domain, Host.CATEGORY_VIHOMA)) {
 				drawStatusBar(Messages.get("errorExistingDomain"), STATUS_ERROR);
+				updateMainTab();
 				return;
 			}
 
@@ -302,6 +303,7 @@ public class MainViewController {
 			try {
 				if (0 == Factory.service.forCustomHost().add(domain, address)) {
 					drawStatusBar(Messages.get("errorExistingDomain"), STATUS_ERROR);
+					updateMainTab();
 					return;
 				}
 			} catch (IllegalArgumentException e){
