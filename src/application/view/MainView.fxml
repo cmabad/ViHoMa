@@ -73,7 +73,7 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <TextField id="blockedHostsTableFilter" fx:id="blockedHostsTableFilter" onKeyReleased="#filterBlockedHostsTable" prefHeight="25.0" prefWidth="150.0" promptText="Filter or add domain..." GridPane.halignment="CENTER">
+                              <TextField id="blockedHostsTableFilter" fx:id="blockedHostsTableFilter" onInputMethodTextChanged="#filterBlockedHostsTable" onKeyReleased="#filterBlockedHostsTable" prefHeight="25.0" prefWidth="150.0" promptText="Filter or add domain..." GridPane.halignment="CENTER">
                                  <GridPane.margin>
                                     <Insets left="5.0" right="5.0" />
                                  </GridPane.margin></TextField>
@@ -116,7 +116,7 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <TextField id="customHostsTableFilter" fx:id="customHostsTableFilter" onKeyReleased="#filterCustomHostsTable" prefHeight="25.0" prefWidth="150.0" promptText="Filter or add domain" GridPane.halignment="CENTER">
+                              <TextField id="customHostsTableFilter" fx:id="customHostsTableFilter" onInputMethodTextChanged="#filterCustomHostsTable" onKeyReleased="#filterCustomHostsTable" prefHeight="25.0" prefWidth="150.0" promptText="Filter or add domain" GridPane.halignment="CENTER">
                                  <GridPane.margin>
                                     <Insets left="5.0" right="5.0" />
                                  </GridPane.margin></TextField>
@@ -139,8 +139,8 @@
                         </GridPane>
                         <TableView fx:id="customHostsTable" onMouseClicked="#changeCustomHostsActivationButton" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="33.0">
                           <columns>
-                            <TableColumn fx:id="customIpColumn" prefWidth="75.0" text="Custom IP" />
-                            <TableColumn fx:id="customDomainColumn" prefWidth="70.0" text="Custom Domain" />
+                            <TableColumn fx:id="customDomainColumn" prefWidth="75.0" text="Custom Domain" />
+                            <TableColumn fx:id="customIpColumn" prefWidth="70.0" text="Custom IP" />
                               <TableColumn fx:id="customActiveColumn" prefWidth="70.0" text="Active" />
                           </columns>
                            <columnResizePolicy>

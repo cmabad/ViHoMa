@@ -20,6 +20,7 @@ import application.util.WebUtil;
 import application.util.WindowsUtil;
 import application.util.properties.Messages;
 import application.util.properties.Settings;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -165,7 +166,7 @@ public class MainViewController {
 		settingsLoader();
 		blockedHostsActivationButton.setDisable(true);
 		customHostsActivationButton.setDisable(true);
-		newCustomAddressField.setDisable(true);
+		newCustomAddressField.setVisible(false);
 		newCustomHostButton.setDisable(true);
 		newBlockedHostButton.setDisable(true);
 	}
@@ -308,10 +309,11 @@ public class MainViewController {
 		if (valid) {
 			int count = Factory.service.forCustomHost().add(domain, address);
 			if (0 >= count) {
-				drawStatusBar(count<0? Messages.get("errorCustomAddress"):Messages.get("errorExistingDomain"), STATUS_ERROR);
+				if (count<0)
+					drawStatusBar(Messages.get("errorCustomAddress"), STATUS_ERROR);
+				else
+					drawStatusBar(Messages.get("errorExistingDomain"), STATUS_ERROR);
 				updateMainTab();
-				customHostsTableFilter.setText("");
-				newCustomAddressField.setDisable(true);
 				return;
 			}
 			
@@ -319,8 +321,7 @@ public class MainViewController {
 			main.fillCustomHostObservableList();
 			updateMainTab();
 			customHostsTableFilter.setText("");
-			newCustomAddressField.setText("");
-			newCustomAddressField.setDisable(true);
+			newCustomAddressField.setVisible(false);
 			drawStatusBar(domain + " " + Messages.get("newCustomHostSuccess"), STATUS_OK);
 		} else
 			drawStatusBar("error adding new host: " + errorMessage, STATUS_ERROR);
@@ -433,15 +434,15 @@ public class MainViewController {
 	protected void filterCustomHostsTable() {
 		String filter = customHostsTableFilter.getText();
 		if (null == filter || "".equals(filter)) {
-			main.fillCustomHostObservableList();
-			newCustomHostButton.setDisable(true);
 			newCustomAddressField.setText("");
-			newCustomAddressField.setDisable(true);
+			newCustomAddressField.setVisible(false);
+			newCustomHostButton.setDisable(true);
+			main.fillCustomHostObservableList();
 			drawStatusBar(Messages.get("upToDate"), STATUS_OK);
 		}
 		else {
 			main.fillCustomHostObservableList(filter);
-			newCustomAddressField.setDisable(false);
+			newCustomAddressField.setVisible(true);
 			newCustomHostButton.setDisable(false);
 			drawStatusBar(filter + ": " + main.getCustomHostsData().size() 
 				+  " " + Messages.get("matches"), STATUS_OK);
@@ -617,6 +618,7 @@ public class MainViewController {
 	}
 	
 	private void drawStatusBar(String message, int status) {
+		Platform.runLater(() -> {
 		if (null != message) {
 			this.statusBarLabel.setText(message);
 		}
@@ -627,6 +629,6 @@ public class MainViewController {
 			this.statusBar.setStyle(Settings.get("statusBarColorUpdate"));
 		else if (STATUS_ERROR == status)
 			this.statusBar.setStyle(Settings.get("statusBarColorError"));
-
+		});
 	}
 }
