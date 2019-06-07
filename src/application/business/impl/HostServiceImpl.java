@@ -16,8 +16,11 @@ public class HostServiceImpl implements HostService{
 		if (0 == count)
 			Logger.err("ERROR BLOCKING DOMAIN " + domain + "  with category " 
 					+ category);
-		else
+		else {
+			if (Factory.service.forConfiguration().isSharingAllowed())
+				WebUtil.uploadHostToWeb(domain);
 			Logger.log("NEW BLOCKED DOMAIN: " + domain);
+		}
 		return count;
 	}
 

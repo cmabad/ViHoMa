@@ -277,9 +277,6 @@ public class MainViewController {
 				return;
 			}
 
-			if (Factory.service.forConfiguration().isSharingAllowed())
-				WebUtil.uploadHostToWeb(domain);
-
 			persistHostsFile();
 			main.fillBlockedHostObservableList();
 			updateMainTab();
