@@ -143,19 +143,23 @@ public class MainViewController {
 	@FXML
 	private void initialize() {
 		domainColumn.setCellValueFactory(cellData -> cellData.getValue().domainProperty());
-		// categoryColumn.setCellValueFactory(cellData -> cellData.getValue().categoryProperty());
+		// categoryColumn.setCellValueFactory(
+		//		cellData -> cellData.getValue().categoryProperty());
 		// statusColumn.setCellValueFactory(cellData
 		// -> cellData.getValue().statusProperty().asObject());
 		activeColumn.setCellValueFactory(cellData -> cellData.getValue().activeProperty());
         activeColumn.setCellFactory(param 
         		-> new CheckBoxTableCell<Host, Boolean>());
 		
-        customActiveColumn.setCellValueFactory(cellData -> cellData.getValue().activeProperty());
+        customActiveColumn.setCellValueFactory(
+        		cellData -> cellData.getValue().activeProperty());
         customActiveColumn.setCellFactory(param 
         		-> new CheckBoxTableCell<CustomHost, Boolean>());
         
-		customDomainColumn.setCellValueFactory(cellData -> cellData.getValue().domainProperty());
-		customIpColumn.setCellValueFactory(cellData -> cellData.getValue().addressProperty());
+		customDomainColumn.setCellValueFactory(
+				cellData -> cellData.getValue().domainProperty());
+		customIpColumn.setCellValueFactory(
+				cellData -> cellData.getValue().addressProperty());
 
 		icon = new ImageView(new Image(MainViewController.class.getClassLoader()
 							.getResourceAsStream("resources/ico-big.png")));
@@ -186,10 +190,11 @@ public class MainViewController {
 		totalCustomHostsCountLabelBelow.setText(Messages.get("customHosts"));
 		settingStartupCheckBox.setText(Messages.get("settingStartupCheckBox"));
 		settingDNSclientCheckBox.setText(Messages.get("settingDNSclientCheckBox"));
-		settingShareBlockHostsCheckBox.setText(Messages.get("settingShareBlockHostsCheckBox"));
-		settingVihomaStartupCheckBox.setText(Messages.get("settingUpdateVihomaStartupCheckBox"));
+		settingShareBlockHostsCheckBox.setText(
+				Messages.get("settingShareBlockHostsCheckBox"));
+		settingVihomaStartupCheckBox.setText(
+						Messages.get("settingUpdateVihomaStartupCheckBox"));
 		updateButton.setText(Messages.get("updateButton"));
-		
 	}
 
 	/** Is called by the main application to give a reference back to itself.
@@ -228,14 +233,15 @@ public class MainViewController {
 				String.valueOf((Factory.service.forHost()
 						.findByCategory(Host.CATEGORY_VIHOMA).size())));
 		
-		long unixUpdate = Factory.service.forConfiguration().getLastUpdateTime();
-		if (0 == unixUpdate) {
+		if (0 == Factory.service.forHost().getHostsCount() 
+				&& 0 == Factory.service.forCustomHost().getHostsCount()) {
 			lastUpdateLabel.setText("Last update: " + Messages.get("never"));
 			drawStatusBar(Messages.get("pleaseUpdate"), STATUS_UPDATE);
 		} else {
-			Date lastUpdate = new Date(TimeUnit.SECONDS.toMillis(unixUpdate));
-			DateFormat df = DateFormat.getDateTimeInstance(
-					DateFormat.MEDIUM, DateFormat.SHORT);
+			Date lastUpdate = 
+					new Date(TimeUnit.SECONDS.toMillis(
+							Factory.service.forConfiguration().getLastUpdateTime()));
+			DateFormat df=DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT);
 			df.setTimeZone(TimeZone.getTimeZone("UTC"));
 			lastUpdateLabel.setText("Last update: " + df.format(lastUpdate) + " UTC");
 		}
@@ -353,9 +359,11 @@ public class MainViewController {
 			updateMainTab();
 			
 			if (host.isActive())
-				drawStatusBar(host.getDomain() + " " + Messages.get("activatedHost"), STATUS_OK);
+				drawStatusBar(host.getDomain() + " " 
+						+ Messages.get("activatedHost"), STATUS_OK);
 			else
-				drawStatusBar(host.getDomain() + " " + Messages.get("unactivatedHost"), STATUS_OK);
+				drawStatusBar(host.getDomain() + " " 
+						+ Messages.get("unactivatedHost"), STATUS_OK);
 			
 			blockedHostsActivationButton.setDisable(true);
 		}
@@ -380,9 +388,11 @@ public class MainViewController {
 			updateMainTab();
 			
 			if (host.isActive())
-				drawStatusBar(host.getDomain() + " " + Messages.get("activatedCustomHost"), STATUS_OK);
+				drawStatusBar(host.getDomain() + " " 
+						+ Messages.get("activatedCustomHost"), STATUS_OK);
 			else
-				drawStatusBar(host.getDomain() + " " + Messages.get("unactivatedCustomHost"), STATUS_OK);
+				drawStatusBar(host.getDomain() + " " 
+						+ Messages.get("unactivatedCustomHost"), STATUS_OK);
 			
 			customHostsActivationButton.setDisable(true);
 		}

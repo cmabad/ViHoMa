@@ -23,6 +23,7 @@
 			<li><a href="#hostslocation">Where is my <i>hosts</i> file?</a></li>
 			<li><a href="#restartNetwork">A host is blocked but I can still connect to it</a></li>
 			<li><a href="#validIP">Valid IPs</a></li>
+			<li><a href="#httpsLimitation">HTTPS security risk warning</a></li>
 			<li>Settings
 				<ul>
 					<li><a href="#startup">Running Vihoma at system startup</a></li>
@@ -103,6 +104,13 @@
 				<li>\A((?:[0-9A-Fa-f]{1,4}(?::[0-9A-Fa-f]{1,4})*)?)::((?:[0-9A-Fa-f]{1,4}(?::[0-9A-Fa-f]{1,4})*)?)\z</li>
 				<li>\A(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}\z</li>
 			</ul>
+		</article>
+		
+		<article id="httpsLimitation">
+			<h2>HTTPS security risk warning</h2>
+			
+			<p>If you change the blocking target address to a personal web server to monitor your blocked requests, you may find on your browser some https potential risk warnings. This will happen because the HTTPS specification <a href="https://tools.ietf.org/html/rfc2818#section-3.1">section 3.1</a> obligates the https client (e. g. the web browser) to compare the website hostname and the final server's Certificate message domain. As you won't probably have a SSL Certificate for <i>https://google.com</i>, trying to redirect that domain to your personal web server will make the web browser think that a man-in-the-middle attack is taking place.</p>
+			<p>You can feel safe, the web browser won't send any personal information if you don't explicitly accept the risk; it will just show you a flashy warning. HTTP connections may be redirected without problems.</p>
 		</article>
 		
 		<article id="startup">
