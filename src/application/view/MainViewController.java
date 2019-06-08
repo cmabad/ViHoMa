@@ -169,8 +169,18 @@ public class MainViewController {
 		newCustomAddressField.setVisible(false);
 		newCustomHostButton.setDisable(true);
 		newBlockedHostButton.setDisable(true);
+		
+		updateAtStartup();
 	}
 		
+	private void updateAtStartup() {
+		Configuration update = Factory.service.forConfiguration()
+				.findByParameter("updateAtVihomaStartup");
+		if (null != update && "yes".equals(update.getValue())) {
+			updateDatabaseFromWeb();
+		}
+	}
+
 	private void setText() {
 		totalBlockedHostsCountLabelBelow.setText(Messages.get("blockedHosts"));
 		totalCustomHostsCountLabelBelow.setText(Messages.get("customHosts"));
@@ -205,7 +215,7 @@ public class MainViewController {
 				throw new IllegalStateException();
 		} catch (Exception e) {
 			//an anomaly has been detected with the database, exit
-			main.errorExit();
+			errorExit();
 		}
 		
 		totalBlockedHostsCountLabel.setText(
@@ -608,10 +618,15 @@ public class MainViewController {
 	 * COMMON
 	 */
 	private void persistHostsFile() {
-		HostsFileManager.persistHostsFile(
-				Factory.service.forHost().findAllActive()
-				, Factory.service.forConfiguration().getBlockedAddress()
-				, Factory.service.forCustomHost().findAllActive());
+		try {
+			HostsFileManager.persistHostsFile(
+					Factory.service.forHost().findAllActive()
+					, Factory.service.forConfiguration().getBlockedAddress()
+					, Factory.service.forCustomHost().findAllActive());
+			//if windows -> ipconfig /flushdns
+		} catch (IOException e) {
+			errorExit();
+		}
 	}
 	
 	private void drawStatusBar(String message, int status) {
@@ -627,5 +642,9 @@ public class MainViewController {
 		else if (STATUS_ERROR == status)
 			this.statusBar.setStyle(Settings.get("statusBarColorError"));
 		});
+	}
+
+	private void errorExit() {
+		main.errorExit();
 	}
 }

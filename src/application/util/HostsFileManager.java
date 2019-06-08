@@ -14,7 +14,7 @@ public class HostsFileManager {
 
 	private static String path = "";
 	
-	public static void persistHostsFile(List<Host> blockedHostsList, String blockedAddress, List<CustomHost> customHostsList) {
+	public static void persistHostsFile(List<Host> blockedHostsList, String blockedAddress, List<CustomHost> customHostsList) throws IOException {
 		if ("".equals(path))
 			path = SystemUtil.getHostsPath();
 		
@@ -37,13 +37,14 @@ public class HostsFileManager {
 					.append("\r\n");
 			
 			writer.write(sb.toString());
-			writer.close();			
+			writer.close();
 		} catch (FileNotFoundException e) {
 			Logger.err("HOST FILE NOT FOUND: " + e.getMessage());
 			path = SystemUtil.getVihomaFolderPath() + "hosts";
 			persistHostsFile(blockedHostsList, blockedAddress, customHostsList);
 		} catch (IOException e) {
-			e.printStackTrace();
+			Logger.err(e.getMessage());
+			throw e;
 		}
 		
 	}

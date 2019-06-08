@@ -4,25 +4,54 @@
 		<meta charset="utf-8">
 		<title>Vihoma help</title>
 		<style>
-			html{background-color:#ddd;font-family:"Georgia",serif;padding:2em;}
-			body{max-width:75em;}
-			article{border:1px solid black;background-color:#eee;padding:0 2em;margin:1em auto;}
+			html{background-color:#eee;font-family:"Georgia",serif;padding:2em;}
+			body{max-width:60em;margin:auto;}
+			/*article{border:1px solid black;background-color:#eee;padding:0 2em;margin:1em auto;}*/
+			article h2{border-bottom:1px solid #777;margin-top:2em;}
 		</style>
 	</head>
 	<body>
-		<h1>Vihoma help guide</h1>
+		<h1>Vihoma<br><span style="font-size:60%;">your Visual Hosts Manager</span></h1>
+		<p>Thanks for downloading and using Vihoma. This is a help guide which will be opened the first time you run the program, but it can be accessed at any time through the <i>help</i> link you'll find at the program's <i>About</i> tab.</p>
+		<p>Vihoma is a program that will protect your computer from connecting to unwanted webpages. It works by updating a system file, <i>hosts</i>, which contains a list of domains, like <i>www.virus.com</i>. The connections to the webpages listed here will be automatically blocked by your operating system, keeping you away from threats.</p>
+		<p>If you are not so familiar with computers, you'll use this program as a security solution. Once Vihoma is run, just click on the update button. It is not needed to keep the program running <u>once it is updated</u>. If your are an advanced user, you may manually block domains, add custom hosts (custom domain and IP address) and even run the program without a graphical interface.</p>
+		<br>
+		
+		<p><strong>Content list</strong></p>
 		<ul>
-			<li><a href=".#restartNetwork">A hosts is blocked but I can still connect to it</a></li>
+			<li><a href="#what">A History lesson and what does Vihoma do</a></li>
+			<li><a href="#hostslocation">Where is my <i>hosts</i> file?</a></li>
+			<li><a href="#restartNetwork">A host is blocked but I can still connect to it</a></li>
+			<li><a href="#validIP">Valid IPs</a></li>
 			<li>Settings
 				<ul>
-					<li><a href=".#dnsclient">DNS Client</a></li>
-					<li><a href=".#validIP">Valid IPs</a></li>
-					<li><a href=".#startup">Running Vihoma at system startup</a></li>
-					<li><a href=".#targetAddress">Custom target address</a></li>
-					<li><a href=".#shareDomains">Help Vihoma to block more domains</a></li>
+					<li><a href="#startup">Running Vihoma at system startup</a></li>
+					<li><a href="#shareDomains">Help Vihoma to block more domains</a></li>
+					<li><a href="#dnsclient">Make network start faster (Windows DNS Client))</a></li>
+					<li><a href="#targetAddress">Custom target address</a></li>
 				</ul>
 			</li>
 		</ul>
+		
+		<article id="what">
+			<h2>A history lesson and what does Vihoma do</h2>
+			
+			<p>The World Wide Web is composed of millions of computers distributed all around the world. In order to visit a webpage, the web browser needs to know where the page is located in that huge net.<br> Just like people and ordinary mail, there are addresses (named IP (Internet Protocol) addresses) that help us reach those external computers. As they are a secuence of numbers difficult to remember, they where replaced by Domain Names, which were texts easily rememberable by humans (like <i>localhost</i> or <i>www.google.com</i>) and which were translated by computers to IPs. This was long ago done locally (on each computer), but the huge expansion of the internet made it impossible to register every new webpage so this was externalized.</p>
+			<p>That local translations were stored on a system file called <i>hosts</i>, which Vihoma fills with a big list of malicious domain names and redirect them to nowhere; this is, block their connections. It is like having an ad-blocker which affects the whole computer instead of acting only on the web browser.</p>
+		</article>
+		
+		<article id="hostsLocation">
+			<h2>Where is my <i>hosts</i> file?</h2>
+			
+			<p>The location of the <i>hosts</i> file changes with the operating system.</p>
+			<ul>
+				<li><strong>Windows</strong>: %SystemRoot%\Windows\System32\drivers\etc\hosts</li>
+				<li><strong>GNU/Linux</strong>:  /etc/hosts</li>
+				<li><strong>MacOS X</strong>:  /etc/hosts</li>
+			</ul>
+			<p>You may see its content with a text editor. Any external change will be overwritten by Vihoma.</p>
+		</article>
+		
 		<article id="restartNetwork">
 			<h2>A host is blocked but I can still connect to it</h2>
 			
@@ -49,12 +78,7 @@
 			</ul>
 			<p>If your operating system is not listed here, check the guide provided on Steven Black's Github hosts <a href="https://github.com/StevenBlack/hosts#reloading-hosts-file">repository</a></p>
 		</article>
-		<article id="dnsclient">
-			<h2>DNS Client</h2>
-			<p>This is applicable only to Windows operating systems.</p>
-			<p>The World Wide Web is composed of millions of computers distributed all around the world. In order to visit a webpage, the web browser needs to know where the page is located in that huge net. Just like people and ordinary mail, there are addresses that help us reach those external computers, which are named IP (Internet Protocol) addresses. As they are a secuence of numbers difficult to remember, they where replaced by Domain Names, which were texts easily rememberable by humans and which were translated by computers to IPs. This was long ago done locally (on each computer), but the huge expansion of the internet made it impossible to register every new webpage so this was externalized.</p>
-			<p>Windows has a built-in registry of domains which is no longer needed, and you can just disable it in most of the cases. If it is enabled, you may have to wait several minutes at Windows startup to have internet access. Once it is loaded, you can safely surf the internet.</p>
-		</article>
+		
 		
 		<article id="validIP">
 			<h2>Valid IPs</h2>
@@ -74,7 +98,7 @@
 			<p>Here are the patterns used in the program to check if an IP is valid:</p>
 			<ul>
 				<li>\A(25[0-5]|2[0-4]\d|[0-1]?\d?\\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}\z</li>
-				<li>\\A(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}\\z</li>
+				<li>\A(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\\d|[0-1]?\d?\d)){3}\z</li>
 				<li>\A((?:[0-9A-Fa-f]{1,4}:){6,6})(25[0-5]|2[0-4]\d|[0-1]?\d?\\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}\z</li>
 				<li>\A((?:[0-9A-Fa-f]{1,4}(?::[0-9A-Fa-f]{1,4})*)?)::((?:[0-9A-Fa-f]{1,4}(?::[0-9A-Fa-f]{1,4})*)?)\z</li>
 				<li>\A(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}\z</li>
@@ -89,16 +113,23 @@
 			<p>If you have enabled the program startup but it doesn't work, disable and enable it again. Do this each time you change the program location.</p>
 		</article>
 		
-		<article id="targetAddress">
-			<h2>Custom target Address</h2>
-			
-			<p>By default, all the blocked hosts will be redirected to the address 0.0.0.0. You can change this if you want, for example, redirect everything to a personal server and log statistics about the domains which are being blocked in real time.</p>
-		</article>
-		
 		<article id="shareDomains">
 			<h2>Help Vihoma to block more domains</h2>
 			
 			<p>You can contribute to make the web safer if you allow us to collect your manually blocked hostnames. Each time you add a domain to the blocked list, it will be sent to the Vihoma central database. No personal information will be sent.</p>
+		</article>
+		
+		<article id="dnsclient">
+			<h2>DNS Client</h2>
+			<p>This is applicable only to Windows operating systems.</p>
+			
+			<p>Windows has a built-in registry of domains which is no longer needed, and you can just disable it in most of the cases. If it is enabled, you may have to wait several minutes at Windows startup to have internet access. Once it is loaded, you can safely surf the internet.</p>
+		</article>
+		
+		<article id="targetAddress">
+			<h2>Custom target Address</h2>
+			
+			<p>By default, all the blocked hosts will be redirected to the address 0.0.0.0. You can change this if you want, for example, redirect everything to a personal server and log statistics about the domains which are being blocked in real time.</p>
 		</article>
 	</body>
 </html>

@@ -13,6 +13,7 @@ import application.persistence.sqlite.SQLiteRepositoryFactory;
 import application.persistence.sqlite.util.SQLiteJDBC;
 import application.util.HostsFileManager;
 import application.util.SystemUtil;
+import application.util.WebUtil;
 import application.util.WindowsUtil;
 import application.util.properties.Messages;
 import application.view.ErrorAdminController;
@@ -59,10 +60,14 @@ public class Main extends Application {
     	}
     		
     	Factory.service.forHost().updateDatabaseFromWeb();
-		HostsFileManager.persistHostsFile(
-				Factory.service.forHost().findAllActive()
-				, Factory.service.forConfiguration().getBlockedAddress()
-				, Factory.service.forCustomHost().findAllActive());		
+		try {
+			HostsFileManager.persistHostsFile(
+					Factory.service.forHost().findAllActive()
+					, Factory.service.forConfiguration().getBlockedAddress()
+					, Factory.service.forCustomHost().findAllActive());
+		} catch (IOException e) {
+			System.out.println(Messages.get("oops"));
+		}
 	}
 
 	public ObservableList<Host> getBlockedHostsData() {
@@ -107,10 +112,9 @@ public class Main extends Application {
         					.getResourceAsStream("resources/ico.png")));
 
         initRootLayout();
-        if (isAdmin) {
+        if (isAdmin) 
 	        showMainOverview();
-	        updateAtStartup();
-        } else {
+        else {
         	showErrorAdminRightsDialog();
         	SystemUtil.removeVihomaFolderPath();
     		System.exit(0);
@@ -121,13 +125,6 @@ public class Main extends Application {
     	showErrorDialog();
     	System.exit(0);
     }
-    
-    private void updateAtStartup() {
-    	Configuration update = Factory.service.forConfiguration()
-				.findByParameter("updateAtVihomaStartup");
-		if (null != update && "yes".equals(update.getValue()))
-				quietRun();
-	}
 
 	/**
      * Initializes the root layout.
@@ -146,7 +143,7 @@ public class Main extends Application {
             primaryStage.setMinWidth(400);
             primaryStage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            errorExit();
         }
     }
 
@@ -164,7 +161,7 @@ public class Main extends Application {
             MainViewController controller = loader.getController();
             controller.setMainApp(this);
         } catch (IOException e) {
-            e.printStackTrace();
+            errorExit();
         }
     }
     
@@ -236,14 +233,14 @@ public class Main extends Application {
     	Factory.service = new ServiceFactoryImpl();
     	Factory.repository = new SQLiteRepositoryFactory();
     	SQLiteJDBC.getManager(); //sets the database up
-    	firstRunDisableDNS();
+    	firstRun();
     	//Messages.setLanguage("enEN");
     }
     
-   private static void firstRunDisableDNS() {
+   private static void firstRun() {
 	   Configuration first = 
    			Factory.service.forConfiguration().findByParameter("firstRun");
-		if (null == first || "yes".equals(first.getValue()))
+		if (null == first || "yes".equals(first.getValue())) {
 			try {
 				if (WindowsUtil.isDNSClientActivated())
 					WindowsUtil.toggleWindowsDNSClient();
@@ -252,5 +249,7 @@ public class Main extends Application {
 //				Logger.err(e.getMessage());
 				//logging here may cause errors on unix-like systems 
 			}
+			WebUtil.openHelp();
+		}
     }
 }
