@@ -173,17 +173,7 @@ public class MainViewController {
 		newCustomAddressField.setVisible(false);
 		newCustomHostButton.setDisable(true);
 		newBlockedHostButton.setDisable(true);
-		
-		updateAtStartup();
-	}
-		
-	private void updateAtStartup() {
-		Configuration update = Factory.service.forConfiguration()
-				.findByParameter("updateAtVihomaStartup");
-		if (null != update && "yes".equals(update.getValue())) {
-			updateDatabaseFromWeb();
 		}
-	}
 
 	private void setText() {
 		totalBlockedHostsCountLabelBelow.setText(Messages.get("blockedHosts"));

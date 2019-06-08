@@ -58,7 +58,8 @@ public class Main extends Application {
     		SystemUtil.removeVihomaFolderPath();
     		System.exit(0);
     	}
-    		
+    	
+    	System.out.println(Messages.get("updating"));
     	Factory.service.forHost().updateDatabaseFromWeb();
 		try {
 			HostsFileManager.persistHostsFile(
@@ -112,14 +113,24 @@ public class Main extends Application {
         					.getResourceAsStream("resources/ico.png")));
 
         initRootLayout();
-        if (isAdmin) 
+        if (isAdmin) {
 	        showMainOverview();
+	        updateAtStartup();
+        }
         else {
         	showErrorAdminRightsDialog();
         	SystemUtil.removeVihomaFolderPath();
     		System.exit(0);
         }
     }
+    
+    private void updateAtStartup() {
+		Configuration update = Factory.service.forConfiguration()
+				.findByParameter("updateAtVihomaStartup");
+		if (null != update && "yes".equals(update.getValue())) {
+			quietRun();
+		}
+	}
     
     public void errorExit() {
     	showErrorDialog();
