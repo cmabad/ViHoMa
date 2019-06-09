@@ -30,7 +30,6 @@ import application.Main;
 
 import application.model.Host;
 import application.util.properties.Settings;
-import application.view.MainViewController;
 
 public class WebUtil {
 
@@ -201,7 +200,7 @@ public class WebUtil {
 							.getLocation().getPath()+"-help.html");
 			tempHelp.deleteOnExit();
 			Files.copy(
-					MainViewController.class.getResourceAsStream(
+					WebUtil.class.getResourceAsStream(
 							Settings.get("helpPathLocationEN"))
 					, tempHelp.toPath()
 					, StandardCopyOption.REPLACE_EXISTING);
