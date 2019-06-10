@@ -11,6 +11,11 @@ import application.util.WebUtil;
 public class HostServiceImpl implements HostService{
 
 	@Override
+	public int addHost(String domain) {
+		return addHost(domain, Host.CATEGORY_VIHOMA);
+	}
+	
+	@Override
 	public int addHost(String domain, Integer category) {
 		int count =  Factory.repository.forHost().add(new Host(domain,category));
 		if (0 == count)
@@ -99,4 +104,5 @@ public class HostServiceImpl implements HostService{
 	public List<Host> findByStatus(int status) {
 		return Factory.repository.forHost().findByStatus(status);
 	}
+
 }

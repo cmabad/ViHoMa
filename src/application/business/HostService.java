@@ -6,6 +6,7 @@ import application.model.Host;
 
 public interface HostService {
 
+	int addHost(String domain);
 	int addHost(String domain, Integer category);
 	int addHosts(List<Host> hostsList);
 	int getHostsCount();

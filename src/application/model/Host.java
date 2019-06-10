@@ -26,12 +26,17 @@ public class Host {
 		
 	}
 	
-	public Host(String domain, Integer category) {
+	public Host(String domain) {
 		this.domain = new SimpleStringProperty(domain.trim());
-		this.category = new SimpleIntegerProperty(category);
+		this.category = new SimpleIntegerProperty(CATEGORY_VIHOMA);
 		this.status = new SimpleIntegerProperty(1);
 		this.updatedAt = new SimpleLongProperty(System.currentTimeMillis()/1000);
 		this.comment = new SimpleStringProperty("Blocked by user");
+	}
+	
+	public Host(String domain, Integer category) {
+		this(domain);
+		this.category = new SimpleIntegerProperty(category);
 	}
 	
 	public Host(String domain, Integer category, int status, String comment, long utime) {

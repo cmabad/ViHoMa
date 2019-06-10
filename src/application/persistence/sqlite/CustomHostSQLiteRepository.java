@@ -148,4 +148,18 @@ public class CustomHostSQLiteRepository extends BaseSQLiteRepository implements 
 		return -1;
 	}
 
+	
+	@Override
+	public void deleteAll() {
+		try {
+			conn = SQLiteJDBC.connect();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(Settings.get("sqlDeleteAllCustomHosts"));
+		} catch (SQLException e) {
+			//ignored
+		} finally {
+			SQLiteJDBC.close(rs, stmt, conn);
+		}
+	}
+
 }

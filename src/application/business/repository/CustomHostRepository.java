@@ -10,5 +10,5 @@ public interface CustomHostRepository extends Repository<CustomHost>{
 	List<CustomHost> findAllActive();
 	List<CustomHost> findByDomainOrIp(String filter);
 	int getHostsCount();
-
+	void deleteAll();
 }

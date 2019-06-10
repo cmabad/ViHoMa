@@ -238,7 +238,12 @@ public class Main extends Application {
         return primaryStage;
     }
     
-    private static void configure() {
+    /**
+     * creates the local Vihoma folder where the logs and database will be stored,
+     * initializes the database and does some configuration settings if it is 
+     * run for the first time. 
+     */
+    public static void configure() {
     	File file = new File(SystemUtil.getVihomaFolderPath());
     	file.mkdirs();
     	Factory.service = new ServiceFactoryImpl();

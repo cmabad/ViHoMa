@@ -277,7 +277,7 @@ public class MainViewController {
 		if (valid) {
 			drawStatusBar(Messages.get("blockNewHostStart") + " " + domain, STATUS_UPDATE);
 			
-			if (0 == Factory.service.forHost().addHost(domain, Host.CATEGORY_VIHOMA)) {
+			if (0 == Factory.service.forHost().addHost(domain)) {
 				drawStatusBar(Messages.get("errorExistingDomain"), STATUS_ERROR);
 				updateMainTab();
 				return;

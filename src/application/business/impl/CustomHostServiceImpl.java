@@ -58,4 +58,10 @@ public class CustomHostServiceImpl implements CustomHostService {
 		return Factory.repository.forCustomHost().getHostsCount();
 	}
 
+	@Override
+	public void deleteAll() {
+		Factory.repository.forCustomHost().deleteAll();
+		
+	}
+
 }

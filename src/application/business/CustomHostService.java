@@ -12,5 +12,5 @@ public interface CustomHostService {
 	List<CustomHost> findAllActive();
 	List<CustomHost> findByDomainOrIp(String filter);
 	int getHostsCount();
-
+	void deleteAll();
 }
