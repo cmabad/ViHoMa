@@ -134,6 +134,7 @@ public class Main extends Application {
     
     public void errorExit() {
     	showErrorDialog();
+    	new File(SystemUtil.getVihomaFolderPath() + "vihoma.sqlite").delete();
     	System.exit(0);
     }
 

@@ -56,6 +56,11 @@
                            </image>
                         </ImageView>
                         <Label id="totalBlockedHostsCountLabel" fx:id="vihomaLabelBelow" layoutX="119.0" layoutY="35.0" text="your Visual Hosts Manager" />
+                        <Label id="totalBlockedHostsCountLabel" fx:id="versionLabel" layoutX="178.0" layoutY="14.0" text="version">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                        </Label>
                      </children></AnchorPane>
             </content>
           </Tab>
@@ -169,7 +174,7 @@
                   </ScrollPane>
                </content>
             </Tab>
-            <Tab text="About">
+            <Tab text="About / (?)">
                <content>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>

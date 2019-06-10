@@ -117,6 +117,9 @@ public class MainViewController {
 	private CheckBox settingDNSclientCheckBox;
 	
 	@FXML
+	private Label versionLabel;
+	
+	@FXML
 	private Hyperlink githubLink;
 	
 	@FXML
@@ -163,8 +166,6 @@ public class MainViewController {
 
 		icon = new ImageView(new Image(MainViewController.class.getClassLoader()
 							.getResourceAsStream("resources/ico-big.png")));
-		vihomaLabel.setText(Messages.get("vihomaLabel"));
-		vihomaLabelBelow.setText(Messages.get("vihomaLabelBelow"));
 		updateMainTab();
 		setText();
 		settingsLoader();
@@ -175,7 +176,16 @@ public class MainViewController {
 		newBlockedHostButton.setDisable(true);
 		}
 
+	/**
+	 * refreshes all the i18ned text of the GUI
+	 */
 	private void setText() {
+		vihomaLabel.setText(Messages.get("vihomaLabel"));
+		vihomaLabelBelow.setText(Messages.get("vihomaLabelBelow"));
+		settingTargetDomainLabel.setText(Messages.get("settingBlockAddressLabel"));
+		settingTargetDomainField.setText(Factory.service.forConfiguration()
+				.getBlockedAddress());
+		settingHelpLabel.setText(Messages.get("help"));
 		totalBlockedHostsCountLabelBelow.setText(Messages.get("blockedHosts"));
 		totalCustomHostsCountLabelBelow.setText(Messages.get("customHosts"));
 		settingStartupCheckBox.setText(Messages.get("settingStartupCheckBox"));
@@ -185,6 +195,7 @@ public class MainViewController {
 		settingVihomaStartupCheckBox.setText(
 						Messages.get("settingUpdateVihomaStartupCheckBox"));
 		updateButton.setText(Messages.get("updateButton"));
+		versionLabel.setText(Settings.get("vihomaVersion"));
 	}
 
 	/** Is called by the main application to give a reference back to itself.
@@ -587,10 +598,7 @@ public class MainViewController {
 						Factory.service.forConfiguration().isUpdateAtVihomaStartupEnabled());
 			} catch (IOException e) {
 				Logger.err(e.getMessage());
-			}
-			settingTargetDomainLabel.setText(Messages.get("settingBlockAddressLabel"));
-			settingTargetDomainField.setText(Factory.service.forConfiguration()
-					.getBlockedAddress());
+			}			
 		}
 	}
 	
