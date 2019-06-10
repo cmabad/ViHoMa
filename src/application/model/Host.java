@@ -19,7 +19,7 @@ public class Host {
 	
 	public final static int STATUS_OK = 1;
 	public final static int STATUS_DELETED = 0;
-	public final static int STATUS_APPROVED = 2;
+	public final static int STATUS_ACTIVE = 2;
 	public final static int CATEGORY_VIHOMA = 8;
 	
 	public Host() {

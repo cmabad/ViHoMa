@@ -36,11 +36,11 @@ public class CustomHostServiceImpl implements CustomHostService {
 	}
 
 	@Override
-	public void toggleStatus(String domain) {
+	public void toggleStatus(String domain, String address) {
 		if (null == domain)
 			throw new RuntimeException("no host provided");
 		
-		Factory.repository.forCustomHost().toggleStatus(domain);
+		Factory.repository.forCustomHost().toggleStatus(domain, address);
 	}
 
 	@Override

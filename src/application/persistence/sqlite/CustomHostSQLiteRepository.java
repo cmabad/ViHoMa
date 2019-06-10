@@ -64,7 +64,7 @@ public class CustomHostSQLiteRepository extends BaseSQLiteRepository implements 
 	}
 
 	@Override
-	public void toggleStatus(String domain) {
+	public void toggleStatus(String domain, String address) {
 		try {
 			conn = SQLiteJDBC.connect();
 			pstmt = conn.prepareStatement(
@@ -72,6 +72,7 @@ public class CustomHostSQLiteRepository extends BaseSQLiteRepository implements 
 			pstmt.setString(1, domain);
 			pstmt.setString(2, domain);
 			pstmt.setString(3, domain);
+			pstmt.setString(4, address);
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {

@@ -369,7 +369,7 @@ public class MainViewController {
 		if (null == host)
 			drawStatusBar(Messages.get("noHostSelected"),STATUS_ERROR);
 		else {			
-			Factory.service.forCustomHost().toggleStatus(host.getDomain());
+			Factory.service.forCustomHost().toggleStatus(host.getDomain(), host.getAddress());
 			
 			host.setActive(!host.isActive());
 			

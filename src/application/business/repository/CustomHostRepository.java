@@ -6,7 +6,7 @@ import application.model.CustomHost;
 
 public interface CustomHostRepository extends Repository<CustomHost>{
 
-	void toggleStatus(String domain);
+	void toggleStatus(String domain, String address);
 	List<CustomHost> findAllActive();
 	List<CustomHost> findByDomainOrIp(String filter);
 	int getHostsCount();
