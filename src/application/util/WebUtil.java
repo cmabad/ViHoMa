@@ -24,7 +24,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 
-import application.Main;
 
 //import javax.net.ssl.HttpsURLConnection;
 
@@ -195,9 +194,11 @@ public class WebUtil {
 
 	public static boolean openHelp() {
 		try {
+			String base =//WebUtil.class.getProtectionDomain().getCodeSource()
+					//.getLocation().getPath()
+					SystemUtil.getHostsPath().split("hosts")[0] +".vihomahelp.html";
 			File tempHelp = 
-					new File(Main.class.getProtectionDomain().getCodeSource()
-							.getLocation().getPath()+"-help.html");
+					new File(base);
 			tempHelp.deleteOnExit();
 			Files.copy(
 					WebUtil.class.getResourceAsStream(
