@@ -47,6 +47,11 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 	}
 
 	@Override
+	public void setBlockedAddress(String newBlockingAddress) {
+		set("blockedAddress", newBlockingAddress);
+	}
+	
+	@Override
 	public Configuration findByParameter(String parameter) {
 		return Factory.repository.forConfiguration().findByParameter(parameter);
 	}
@@ -86,6 +91,22 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 		if (null == conf || "no".equals(conf.getValue()))
 			return false;
 		return true;
+	}
+
+	@Override
+	public void toggleSharing() {
+		if (Factory.service.forConfiguration().isSharingAllowed())
+			Factory.service.forConfiguration().set("shareHosts", "no");
+		else
+			Factory.service.forConfiguration().set("shareHosts", "yes");
+	}
+
+	@Override
+	public void toggleUpdateAtVihomaStart() {
+		if (isUpdateAtVihomaStartupEnabled()) 
+			Factory.service.forConfiguration().set("updateAtVihomaStartup", "no");
+		else
+			Factory.service.forConfiguration().set("updateAtVihomaStartup", "yes");
 	}
 
 }

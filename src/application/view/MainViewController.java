@@ -11,7 +11,6 @@ import java.util.concurrent.TimeUnit;
 
 import application.Main;
 import application.conf.Factory;
-import application.model.Configuration;
 import application.model.CustomHost;
 import application.model.Host;
 import application.util.HostsFileManager;
@@ -535,43 +534,37 @@ public class MainViewController {
 	}
 	
 	@FXML
-	protected void toggleVihomaStartup() {
-		String updateSetting = "updateAtVihomaStartup";
-		Configuration update = Factory.service.forConfiguration()
-				.findByParameter(updateSetting);
+	protected void toggleVihomaStartup() {	
+		Factory.service.forConfiguration().toggleUpdateAtVihomaStart();
 		
-		if (null != update && "yes".equals(update.getValue())) {
-			Factory.service.forConfiguration().set(updateSetting, "no");
-			drawStatusBar(Messages.get("updateAtVihomaStartupDeactivated"), STATUS_OK);
-		} else {
-			Factory.service.forConfiguration().set(updateSetting, "yes");
+		if (Factory.service.forConfiguration().isUpdateAtVihomaStartupEnabled())
 			drawStatusBar(Messages.get("updateAtVihomaStartupActivated"), STATUS_OK);
-		}
+		else
+			drawStatusBar(Messages.get("updateAtVihomaStartupDeactivated"), STATUS_OK);
 	}
 	
 	@FXML
 	protected void toggleShareHosts() {
-		if (Factory.service.forConfiguration().isSharingAllowed()) {
-			Factory.service.forConfiguration().set("shareHosts", "no");
-			drawStatusBar(Messages.get("shareHostsDisabled"), STATUS_OK);
-		} else {
-			Factory.service.forConfiguration().set("shareHosts", "yes");
+		Factory.service.forConfiguration().toggleSharing();
+		if (Factory.service.forConfiguration().isSharingAllowed()) 
 			drawStatusBar(Messages.get("shareHostsEnabled"), STATUS_OK);
-		}
+		else
+			drawStatusBar(Messages.get("shareHostsDisabled"), STATUS_OK);
 	}
 
 	@FXML
 	protected void changeTargetAddress() {
 		String newAddress = settingTargetDomainField.getText();
 		if (null == newAddress || "".equals(newAddress)) {
-			Factory.service.forConfiguration().set("blockedAddress", "");
+			Factory.service.forConfiguration().setBlockedAddress("");
 		}
 		else {
 			try {
 				new CustomHost("237441", newAddress);
-				Factory.service.forConfiguration().set("blockedAddress", newAddress);
+				Factory.service.forConfiguration().setBlockedAddress(newAddress);
 			}  catch (IllegalArgumentException e){
-				// the address is not valid; do nothing
+				// the address is not valid
+				drawStatusBar(Messages.get("errorCustomAddress"), STATUS_ERROR);
 				return;
 			}
 		}

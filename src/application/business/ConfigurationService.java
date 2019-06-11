@@ -15,6 +15,9 @@ public interface ConfigurationService {
 	long getLastUpdateTime();
 	void setLastUpdateTime();
 	String getBlockedAddress();
+	void setBlockedAddress(String newBlockingAddress);
 	boolean isSharingAllowed();
+	void toggleSharing();
 	boolean isUpdateAtVihomaStartupEnabled();
+	void toggleUpdateAtVihomaStart();
 }

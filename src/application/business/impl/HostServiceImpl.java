@@ -57,7 +57,7 @@ public class HostServiceImpl implements HostService{
 
 	@Override
 	public List<Host> findAllActive() {
-		return findByStatus(Host.STATUS_OK);
+		return findByStatus(Host.STATUS_ACTIVE);
 	}
 
 	@Override

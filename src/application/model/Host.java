@@ -17,9 +17,9 @@ public class Host {
 	private LongProperty updatedAt;
 	private StringProperty comment;
 	
-	public final static int STATUS_OK = 1;
+	public final static int STATUS_ACTIVE = 1;
 	public final static int STATUS_DELETED = 0;
-	public final static int STATUS_ACTIVE = 2;
+	//public final static int STATUS_ACTIVE = 2;
 	public final static int CATEGORY_VIHOMA = 8;
 	
 	public Host() {
@@ -29,7 +29,7 @@ public class Host {
 	public Host(String domain) {
 		this.domain = new SimpleStringProperty(domain.trim());
 		this.category = new SimpleIntegerProperty(CATEGORY_VIHOMA);
-		this.status = new SimpleIntegerProperty(1);
+		this.status = new SimpleIntegerProperty(Host.STATUS_ACTIVE);
 		this.updatedAt = new SimpleLongProperty(System.currentTimeMillis()/1000);
 		this.comment = new SimpleStringProperty("Blocked by user");
 	}
