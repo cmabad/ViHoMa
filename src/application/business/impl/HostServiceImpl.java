@@ -77,13 +77,13 @@ public class HostServiceImpl implements HostService{
 
 	@Override
 	public List<Host> getHostsFromWeb() {
-		return WebUtil.getHostsFromWeb(0);
+		return WebUtil.getHostsFromWebSource(
+				Factory.service.forConfiguration().getWebSource());
 	}
 
 	@Override
 	public List<Host> updateDatabaseFromWeb() {
-		List<Host> hosts = WebUtil.getHostsFromWebSource(
-				Factory.service.forConfiguration().getWebSource());
+		List<Host> hosts = getHostsFromWeb();
 		if (null != hosts && !hosts.isEmpty()) {
 			List<Host> userAdded = findByCategory(Host.CATEGORY_VIHOMA);
 			List<Host> deactivatedList = findByStatus(Host.STATUS_DELETED);
