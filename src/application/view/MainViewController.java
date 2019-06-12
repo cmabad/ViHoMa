@@ -105,8 +105,7 @@ public class MainViewController {
 	private CheckBox settingStartupCheckBox;
 	@FXML
 	private CheckBox settingVihomaStartupCheckBox;
-	@FXML
-	private CheckBox settingShareBlockHostsCheckBox;
+
 	@FXML
 	private Label settingTargetDomainLabel; 
 	@FXML
@@ -205,8 +204,6 @@ public class MainViewController {
 		totalCustomHostsCountLabelBelow.setText(Messages.get("customHosts"));
 		settingStartupCheckBox.setText(Messages.get("settingStartupCheckBox"));
 		settingDNSclientCheckBox.setText(Messages.get("settingDNSclientCheckBox"));
-		settingShareBlockHostsCheckBox.setText(
-				Messages.get("settingShareBlockHostsCheckBox"));
 		settingVihomaStartupCheckBox.setText(
 						Messages.get("settingUpdateVihomaStartupCheckBox"));
 		settingWebSourceFieldLabel.setText(
@@ -567,15 +564,7 @@ public class MainViewController {
 		else
 			drawStatusBar(Messages.get("updateAtVihomaStartupDeactivated"), STATUS_OK);
 	}
-	
-	@FXML
-	protected void toggleShareHosts() {
-		Factory.service.forConfiguration().toggleSharing();
-		if (Factory.service.forConfiguration().isSharingAllowed()) 
-			drawStatusBar(Messages.get("shareHostsEnabled"), STATUS_OK);
-		else
-			drawStatusBar(Messages.get("shareHostsDisabled"), STATUS_OK);
-	}
+
 
 	@FXML
 	protected void changeTargetAddress() {
@@ -647,8 +636,6 @@ public class MainViewController {
 						!WindowsUtil.isDNSClientActivated());
 				settingStartupCheckBox.setSelected(
 						WindowsUtil.isRunAtStartup());
-				settingShareBlockHostsCheckBox.setSelected(
-						Factory.service.forConfiguration().isSharingAllowed());
 				settingVihomaStartupCheckBox.setSelected(
 						Factory.service.forConfiguration().isUpdateAtVihomaStartupEnabled());
 			} catch (IOException e) {

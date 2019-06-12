@@ -4,7 +4,6 @@ import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -14,16 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
-
 
 //import javax.net.ssl.HttpsURLConnection;
 
@@ -84,37 +73,6 @@ public class WebUtil {
     	
 	}
 	
-	/**
-	 * uploads a domain name to the Vihoma central database
-	 * @param domain 
-	 * @return true if the domain was successfully uploaded, false otherwise
-	 */
-	public static boolean uploadHostToWeb(String domain) {
-		HttpClient httpclient = HttpClients.createDefault();
-		HttpPost httppost = new HttpPost(Settings.get("urlApiHosts"));
-
-		List<NameValuePair> params = new ArrayList<NameValuePair>(1);
-		params.add(new BasicNameValuePair("domain", domain));
-		try {
-			httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
-		
-			HttpResponse response = httpclient.execute(httppost);
-			HttpEntity entity = response.getEntity();
-
-			if (entity != null) {
-			    try (InputStream instream = entity.getContent()) {
-			       if(response.toString().indexOf("200 OK")==-1)
-			    	   throw new IOException();
-			    }
-			}
-			Logger.log(domain + " " + Settings.get("blockedHostUploadSuccess"));
-			return true;
-	 
-		} catch (IOException e) {
-			Logger.err(domain + " " + Settings.get("blockedHostUploadError"));
-			return false;
-		}
-	}
 
 	public static boolean checkIpValidity(String address) {
 		List<String> regex = new ArrayList<String>();
