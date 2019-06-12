@@ -602,17 +602,7 @@ public class MainViewController {
 	protected void changeWebSource() {
 		String newWebSource = settingWebSourceField.getText();
 		Factory.service.forConfiguration().setWebSource(newWebSource);
-		if ("".equals(newWebSource)) {
-			settingStevenBlackCategoryFakenewsCheckBox.setDisable(false);
-			settingStevenBlackCategoryGamblingCheckBox.setDisable(false);
-			settingStevenBlackCategoryPornCheckBox.setDisable(false);
-			settingStevenBlackCategorySocialCheckBox.setDisable(false);
-		} else {
-			settingStevenBlackCategoryFakenewsCheckBox.setDisable(true);
-			settingStevenBlackCategoryGamblingCheckBox.setDisable(true);
-			settingStevenBlackCategoryPornCheckBox.setDisable(true);
-			settingStevenBlackCategorySocialCheckBox.setDisable(true);
-		}
+		updateCategoryCheckboxes();
 		drawStatusBar(Messages.get("newWebSource") + " "
 				+ Factory.service.forConfiguration().getWebSource(), STATUS_OK);
 	}
@@ -667,6 +657,10 @@ public class MainViewController {
 		}
 		String webSource = Factory.service.forConfiguration().getWebSource();
 		settingWebSourceField.setText("".equals(webSource)? "":webSource);
+		updateCategoryCheckboxes();
+	}
+	
+	private void updateCategoryCheckboxes() {
 		int categories = Factory.service.forConfiguration().getStevenBlackCategories();
 		settingStevenBlackCategoryFakenewsCheckBox.setSelected(
 				(categories&Host.CATEGORY_STEVENBLACK_FAKENEWS) 
@@ -680,6 +674,17 @@ public class MainViewController {
 		settingStevenBlackCategorySocialCheckBox.setSelected(
 				(categories&Host.CATEGORY_STEVENBLACK_SOCIAL) 
 					== Host.CATEGORY_STEVENBLACK_SOCIAL);
+		if (settingWebSourceField.getText().startsWith(Settings.get("defaultWebSourceDomain"))) {
+			settingStevenBlackCategoryFakenewsCheckBox.setDisable(false);
+			settingStevenBlackCategoryGamblingCheckBox.setDisable(false);
+			settingStevenBlackCategoryPornCheckBox.setDisable(false);
+			settingStevenBlackCategorySocialCheckBox.setDisable(false);
+		} else {
+			settingStevenBlackCategoryFakenewsCheckBox.setDisable(true);
+			settingStevenBlackCategoryGamblingCheckBox.setDisable(true);
+			settingStevenBlackCategoryPornCheckBox.setDisable(true);
+			settingStevenBlackCategorySocialCheckBox.setDisable(true);
+		}
 	}
 	
 	@FXML
