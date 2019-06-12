@@ -141,6 +141,58 @@ public class WebUtil {
 	}
 	
 	/**
+	 * reads a standard hosts file and adds its domains to the database.
+	 * The file should have 0.0.0.0 as the blocked address.
+	 * @param source the HTTP URL from where the host file is downloaded. If null
+	 * or blank (""), it takes the default value, sbc.io/hosts/hosts
+	 * @return a list of Hosts. If the connection fails, null.
+	 */
+	public static List<Host> getHostsFromWebSource(String source) {
+		URL url;
+		try {
+			url = new URL(source);
+			HttpURLConnection con = (HttpURLConnection) url.openConnection();
+	    	con.setRequestProperty("Accept-Encoding", "gzip");
+	    	con.setRequestMethod("GET");
+	    	con.setConnectTimeout(4000);
+	    	
+	    	List<Host> hosts = new ArrayList<Host>();
+	    	
+	    	if (200 == con.getResponseCode()) {
+	    		BufferedReader in;
+	    		if ("gzip".equals(con.getContentEncoding()))
+	    			in = new BufferedReader(new InputStreamReader(
+	    					new GZIPInputStream(con.getInputStream())));
+	    		else
+	    			in = new BufferedReader(
+						  new InputStreamReader(con.getInputStream()));
+				String inputLine;
+				String domain = "";
+				while (null != (inputLine = in.readLine())) {					
+					if (inputLine.trim().startsWith("0.0.0.0")) {
+						domain = inputLine.trim().split("0.0.0.0 ")[1];
+						if (!" ".equals(domain) && !"".equals(domain))
+							hosts.add(new Host((String)domain.split("#")[0].trim()
+								, 0
+								, Host.STATUS_ACTIVE
+								,""
+								, 0));
+					}
+				}
+				in.close();
+				con.disconnect();
+				return hosts;
+	    	} else {
+	    		throw new IOException();
+	    	}
+		} catch (IOException e) {
+			Logger.err(Settings.get("webSourceConnectionError") + "(" + source + ")");
+			return null;
+		}
+    	
+	}
+	
+	/**
 	 * uploads a domain name to the Vihoma central database
 	 * @param domain 
 	 * @return true if the domain was successfully uploaded, false otherwise

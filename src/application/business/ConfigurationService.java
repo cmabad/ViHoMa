@@ -20,4 +20,8 @@ public interface ConfigurationService {
 	void toggleSharing();
 	boolean isUpdateAtVihomaStartupEnabled();
 	void toggleUpdateAtVihomaStart();
+	String getWebSource();
+	void setWebSource(String newSource);
+	void setStevenBlackCategories(int categories);
+	int getStevenBlackCategories();
 }

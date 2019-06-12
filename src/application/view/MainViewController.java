@@ -99,7 +99,6 @@ public class MainViewController {
 	@FXML
 	private Label lastUpdateLabel;
 
-	
 	@FXML
 	private Label settingHelpLabel;
 	@FXML
@@ -114,6 +113,21 @@ public class MainViewController {
 	private TextField settingTargetDomainField;
 	@FXML
 	private CheckBox settingDNSclientCheckBox;
+	@FXML
+	private Label settingWebSourceFieldLabel;
+	@FXML
+	private TextField settingWebSourceField;
+
+	@FXML
+	private Label settingStevenBlackCategoryLabel;
+	@FXML
+	private CheckBox settingStevenBlackCategoryFakenewsCheckBox;
+	@FXML
+	private CheckBox settingStevenBlackCategoryGamblingCheckBox;
+	@FXML
+	private CheckBox settingStevenBlackCategoryPornCheckBox;
+	@FXML
+	private CheckBox settingStevenBlackCategorySocialCheckBox;
 	
 	@FXML
 	private Label versionLabel;
@@ -131,11 +145,13 @@ public class MainViewController {
 	private final int STATUS_UPDATE = 1;
 	public final int STATUS_OK = 0;
 	private final int STATUS_ERROR = 2;
-
+	private boolean startNotification;
+	
 	/**
 	 * The constructor. The constructor is called before the initialize() method.
 	 */
 	public MainViewController() {
+		startNotification = true;
 	}
 
 	/**
@@ -193,6 +209,13 @@ public class MainViewController {
 				Messages.get("settingShareBlockHostsCheckBox"));
 		settingVihomaStartupCheckBox.setText(
 						Messages.get("settingUpdateVihomaStartupCheckBox"));
+		settingWebSourceFieldLabel.setText(
+				Messages.get("settingHostsFileSourceLabel"));
+		settingStevenBlackCategoryLabel.setText(Messages.get("StevenBlackCategoryLabel"));
+		settingStevenBlackCategoryFakenewsCheckBox.setText(Messages.get("fakenews"));
+		settingStevenBlackCategoryGamblingCheckBox.setText(Messages.get("gambling"));
+		settingStevenBlackCategoryPornCheckBox.setText(Messages.get("porn"));
+		settingStevenBlackCategorySocialCheckBox.setText(Messages.get("social"));
 		updateButton.setText(Messages.get("updateButton"));
 		versionLabel.setText(Settings.get("vihomaVersion"));
 	}
@@ -233,10 +256,12 @@ public class MainViewController {
 				String.valueOf((Factory.service.forHost()
 						.findByCategory(Host.CATEGORY_VIHOMA).size())));
 		
-		if (0 == Factory.service.forHost().getHostsCount() 
+		if (startNotification
+				&& 0 == Factory.service.forHost().getHostsCount() 
 				&& 0 == Factory.service.forCustomHost().getHostsCount()) {
 			lastUpdateLabel.setText("Last update: " + Messages.get("never"));
 			drawStatusBar(Messages.get("pleaseUpdate"), STATUS_UPDATE);
+			startNotification = false;
 		} else {
 			Date lastUpdate = 
 					new Date(TimeUnit.SECONDS.toMillis(
@@ -569,9 +594,56 @@ public class MainViewController {
 			}
 		}
 		persistHostsFile();
-		drawStatusBar(Messages.get("newBlockedAddress") + 
-				Factory.service.forConfiguration().getBlockedAddress()
-				, STATUS_OK);
+		drawStatusBar(Messages.get("newBlockedAddress")
+				+ Factory.service.forConfiguration().getBlockedAddress(), STATUS_OK);
+	}
+	
+	@FXML
+	protected void changeWebSource() {
+		String newWebSource = settingWebSourceField.getText();
+		Factory.service.forConfiguration().setWebSource(newWebSource);
+		if ("".equals(newWebSource)) {
+			settingStevenBlackCategoryFakenewsCheckBox.setDisable(false);
+			settingStevenBlackCategoryGamblingCheckBox.setDisable(false);
+			settingStevenBlackCategoryPornCheckBox.setDisable(false);
+			settingStevenBlackCategorySocialCheckBox.setDisable(false);
+		} else {
+			settingStevenBlackCategoryFakenewsCheckBox.setDisable(true);
+			settingStevenBlackCategoryGamblingCheckBox.setDisable(true);
+			settingStevenBlackCategoryPornCheckBox.setDisable(true);
+			settingStevenBlackCategorySocialCheckBox.setDisable(true);
+		}
+		drawStatusBar(Messages.get("newWebSource") + " "
+				+ Factory.service.forConfiguration().getWebSource(), STATUS_OK);
+	}
+	
+	@FXML
+	protected void changeStevenBlackCategories() {
+		int categories = 0;
+		StringBuilder chosenCategories = new StringBuilder();
+		chosenCategories
+			.append(Messages.get("categoriesListStart")+" ")
+			.append(Messages.get("unifiedHosts"));
+		
+		if (settingStevenBlackCategoryFakenewsCheckBox.isSelected()) {
+			categories += Host.CATEGORY_STEVENBLACK_FAKENEWS;
+			chosenCategories.append(", ").append(Messages.get("fakenews"));
+		}
+		if (settingStevenBlackCategoryGamblingCheckBox.isSelected()) {
+			categories += Host.CATEGORY_STEVENBLACK_GAMBLING;
+			chosenCategories.append(", ").append(Messages.get("gambling"));
+		}
+		if (settingStevenBlackCategoryPornCheckBox.isSelected()) {
+			categories += Host.CATEGORY_STEVENBLACK_PORN;
+			chosenCategories.append(", ").append(Messages.get("porn"));
+		}
+		if (settingStevenBlackCategorySocialCheckBox.isSelected()) {
+			categories += Host.CATEGORY_STEVENBLACK_SOCIAL;
+			chosenCategories.append(", ").append(Messages.get("social"));
+		}
+		
+		Factory.service.forConfiguration().setStevenBlackCategories(categories);
+		drawStatusBar(chosenCategories.toString(), STATUS_OK);
 	}
 	
 	private void settingsLoader() {
@@ -591,8 +663,23 @@ public class MainViewController {
 						Factory.service.forConfiguration().isUpdateAtVihomaStartupEnabled());
 			} catch (IOException e) {
 				Logger.err(e.getMessage());
-			}			
+			}
 		}
+		String webSource = Factory.service.forConfiguration().getWebSource();
+		settingWebSourceField.setText("".equals(webSource)? "":webSource);
+		int categories = Factory.service.forConfiguration().getStevenBlackCategories();
+		settingStevenBlackCategoryFakenewsCheckBox.setSelected(
+				(categories&Host.CATEGORY_STEVENBLACK_FAKENEWS) 
+					== Host.CATEGORY_STEVENBLACK_FAKENEWS);
+		settingStevenBlackCategoryGamblingCheckBox.setSelected(
+				(categories&Host.CATEGORY_STEVENBLACK_GAMBLING) 
+					== Host.CATEGORY_STEVENBLACK_GAMBLING);
+		settingStevenBlackCategoryPornCheckBox.setSelected(
+				(categories&Host.CATEGORY_STEVENBLACK_PORN) 
+					== Host.CATEGORY_STEVENBLACK_PORN);
+		settingStevenBlackCategorySocialCheckBox.setSelected(
+				(categories&Host.CATEGORY_STEVENBLACK_SOCIAL) 
+					== Host.CATEGORY_STEVENBLACK_SOCIAL);
 	}
 	
 	@FXML

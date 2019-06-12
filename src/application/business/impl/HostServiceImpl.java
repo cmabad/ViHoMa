@@ -82,7 +82,8 @@ public class HostServiceImpl implements HostService{
 
 	@Override
 	public List<Host> updateDatabaseFromWeb() {
-		List<Host> hosts = WebUtil.getHostsFromWeb(0);
+		List<Host> hosts = WebUtil.getHostsFromWebSource(
+				Factory.service.forConfiguration().getWebSource());
 		if (null != hosts && !hosts.isEmpty()) {
 			List<Host> userAdded = findByCategory(Host.CATEGORY_VIHOMA);
 			List<Host> deactivatedList = findByStatus(Host.STATUS_DELETED);

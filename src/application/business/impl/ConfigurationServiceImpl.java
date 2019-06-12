@@ -109,4 +109,31 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 			Factory.service.forConfiguration().set("updateAtVihomaStartup", "yes");
 	}
 
+	@Override
+	public String getWebSource() {
+		Configuration conf = this.findByParameter("webSource");
+		
+		return (null == conf || "".equals(conf.getValue()))?
+			Settings.get("StevenBlack"+getStevenBlackCategories())
+			:conf.getValue();
+	}
+
+	@Override
+	public void setWebSource(String newSource) {
+		set("webSource", newSource);
+	}
+
+	
+	@Override
+	public void setStevenBlackCategories(int categories) {
+		set("StevenBlackCategories", String.valueOf(categories));
+	}
+
+	@Override
+	public int getStevenBlackCategories() {
+		Configuration categories = this.findByParameter("StevenBlackCategories");
+		return (null == categories || "".equals(categories.getValue()))?
+			0:Integer.parseInt(categories.getValue());
+	}
+	
 }
