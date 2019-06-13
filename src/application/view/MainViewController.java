@@ -671,7 +671,8 @@ public class MainViewController {
 		settingStevenBlackCategorySocialCheckBox.setSelected(
 				(categories&Host.CATEGORY_STEVENBLACK_SOCIAL) 
 					== Host.CATEGORY_STEVENBLACK_SOCIAL);
-		if (settingWebSourceField.getText().startsWith(Settings.get("defaultWebSourceDomain"))) {
+		if (settingWebSourceField.getText().startsWith(Settings.get("defaultWebSourceDomain"))
+				|| "".equals(settingWebSourceField.getText())) {
 			settingStevenBlackCategoryFakenewsCheckBox.setDisable(false);
 			settingStevenBlackCategoryGamblingCheckBox.setDisable(false);
 			settingStevenBlackCategoryPornCheckBox.setDisable(false);

@@ -20,7 +20,7 @@ import javafx.beans.property.StringProperty;
  * @attribute comment additional information
  * @attribute STATUS_ACTIVE 1
  * @attribute STATUS_DELETED 0
- * @attribute CATEGORY_VIHOMA 0
+ * @attribute CATEGORY_VIHOMA -1
  * @attribute CATEGORY_STEVENBLACK_FAKENEWS 1 
  * @attribute CATEGORY_STEVENBLACK_GAMBLING 2
  * @attribute CATEGORY_STEVENBLACK_PORN 4
@@ -36,7 +36,7 @@ public class Host {
 	
 	public final static int STATUS_ACTIVE = 1;
 	public final static int STATUS_DELETED = 0;
-	public final static int CATEGORY_VIHOMA = 0;
+	public final static int CATEGORY_VIHOMA = -1;
 	public final static int CATEGORY_STEVENBLACK_FAKENEWS = 1;
 	public final static int CATEGORY_STEVENBLACK_GAMBLING = 2;
 	public final static int CATEGORY_STEVENBLACK_PORN = 4;
