@@ -124,6 +124,9 @@ public class MainViewController {
 
 	@FXML
 	private Label settingStevenBlackCategoryLabel;
+
+	@FXML
+	private CheckBox settingStevenBlackCategoryBasic;
 	@FXML
 	private CheckBox settingStevenBlackCategoryFakenewsCheckBox;
 	@FXML
@@ -188,6 +191,8 @@ public class MainViewController {
 		updateMainTab();
 		setText();
 		settingsLoader();
+		settingStevenBlackCategoryBasic.setSelected(true);
+		settingStevenBlackCategoryBasic.setDisable(true);
 		blockedHostsActivationButton.setDisable(true);
 		customHostsActivationButton.setDisable(true);
 		newCustomAddressField.setVisible(false);

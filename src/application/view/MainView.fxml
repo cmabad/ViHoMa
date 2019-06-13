@@ -33,19 +33,19 @@
                            <font>
                               <Font name="Calibri Bold Italic" size="17.0" />
                            </font></Label>
-                        <Label id="totalBlockedHostsCountLabel" fx:id="totalCustomHostsCountLabel" layoutX="246.0" layoutY="105.0" text="5" textAlignment="CENTER" textFill="#1634c9">
+                        <Label id="totalBlockedHostsCountLabel" fx:id="totalCustomHostsCountLabel" layoutX="285.0" layoutY="105.0" text="5" textAlignment="CENTER" textFill="#1634c9">
                            <font>
                               <Font name="Calibri Bold Italic" size="16.0" />
                            </font></Label>
                         <Label id="totalBlockedHostsCountLabel" fx:id="lastUpdateLabel" layoutX="14.0" layoutY="173.0" text="Last update:" />
                         <Label fx:id="totalBlockedHostsCountLabelBelow" layoutX="14.0" layoutY="132.0" text="blocked hosts" textAlignment="CENTER" />
-                        <Label id="totalBlockedHostsCountLabel" fx:id="totalCustomHostsCountLabelBelow" layoutX="214.0" layoutY="132.0" text="custom hosts" textAlignment="CENTER" />
-                        <Label id="totalBlockedHostsCountLabel" fx:id="totalUserBlockedHostsCountLabel" layoutX="141.0" layoutY="105.0" text="5" textAlignment="CENTER" textFill="#1634c9">
+                        <Label id="totalBlockedHostsCountLabel" fx:id="totalCustomHostsCountLabelBelow" layoutX="254.0" layoutY="132.0" text="custom hosts" textAlignment="CENTER" />
+                        <Label id="totalBlockedHostsCountLabel" fx:id="totalUserBlockedHostsCountLabel" layoutX="165.0" layoutY="105.0" text="5" textAlignment="CENTER" textFill="#1634c9">
                            <font>
                               <Font name="Calibri Bold Italic" size="16.0" />
                            </font>
                         </Label>
-                        <Label id="totalBlockedHostsCountLabel" fx:id="totalUserBlockedHostsCountLabelBelow" layoutX="109.0" layoutY="132.0" text="blocked by you" textAlignment="CENTER" />
+                        <Label id="totalBlockedHostsCountLabel" fx:id="totalUserBlockedHostsCountLabelBelow" layoutX="134.0" layoutY="132.0" text="blocked by you" textAlignment="CENTER" />
                         <Label id="totalBlockedHostsCountLabel" fx:id="vihomaLabel" layoutX="119.0" layoutY="14.0" text="VIHOMA">
                            <font>
                               <Font name="System Bold" size="12.0" />
@@ -158,9 +158,9 @@
             </Tab>
             <Tab text="Settings">
                <content>
-                  <ScrollPane prefHeight="340.0" prefWidth="500.0">
+                  <ScrollPane>
                     <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="340.0" prefWidth="427.0">
+                      <AnchorPane minHeight="0.0" minWidth="0.0">
                            <children>
                               <CheckBox id="settingStartupCheckbox" fx:id="settingStartupCheckBox" disable="true" layoutX="14.0" layoutY="20.0" mnemonicParsing="false" onAction="#toggleWindowsStartup" text="startup" />
                               <CheckBox id="settingDNSclientCheckBox" fx:id="settingDNSclientCheckBox" layoutX="14.0" layoutY="50.0" mnemonicParsing="false" onAction="#toggleWindowsDNSClient" text="dns client" />
@@ -168,23 +168,32 @@
                               <Label fx:id="settingTargetDomainLabel" layoutX="14.0" layoutY="110.0" text="Custom blocked address:" />
                               <TextField fx:id="settingTargetDomainField" layoutX="12.0" layoutY="135.0" onKeyReleased="#changeTargetAddress" promptText="If left blank, 0.0.0.0" />
                               <Label fx:id="settingWebSourceFieldLabel" layoutX="14.0" layoutY="165.0" text="Custom hosts file source:" />
-                              <TextField fx:id="settingWebSourceField" layoutX="12.0" layoutY="190.0" onKeyReleased="#changeWebSource" promptText="If blank, http://sbc.io/hosts" />
+                              <TextField fx:id="settingWebSourceField" layoutX="12.0" layoutY="190.0" onKeyReleased="#changeWebSource" prefHeight="25.0" prefWidth="252.0" promptText="If blank, http://sbc.io/hosts" />
                               <Label fx:id="settingStevenBlackCategoryLabel" layoutX="14.0" layoutY="230.0" text="Categories" />
-                              <GridPane layoutX="14.0" layoutY="250.0" prefHeight="30.0" prefWidth="420.0">
+                              <GridPane layoutX="14.0" layoutY="250.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="10.0">
                                 <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                 </columnConstraints>
                                 <rowConstraints>
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <CheckBox fx:id="settingStevenBlackCategoryFakenewsCheckBox" mnemonicParsing="false" onAction="#changeStevenBlackCategories" text="Fakenews" />
-                                    <CheckBox fx:id="settingStevenBlackCategoryGamblingCheckBox" mnemonicParsing="false" onAction="#changeStevenBlackCategories" text="Gambling" GridPane.columnIndex="1" />
-                                    <CheckBox fx:id="settingStevenBlackCategoryPornCheckBox" mnemonicParsing="false" onAction="#changeStevenBlackCategories" text="Porn" GridPane.columnIndex="2" />
-                                    <CheckBox fx:id="settingStevenBlackCategorySocialCheckBox" mnemonicParsing="false" onAction="#changeStevenBlackCategories" text="Social" GridPane.columnIndex="3" />
+                                    <CheckBox fx:id="settingStevenBlackCategoryBasic" disable="true" mnemonicParsing="false" selected="true" text="basic">
+                                       <GridPane.margin>
+                                          <Insets />
+                                       </GridPane.margin>
+                                    </CheckBox>
+                                    <CheckBox fx:id="settingStevenBlackCategoryFakenewsCheckBox" mnemonicParsing="false" onAction="#changeStevenBlackCategories" text="Fakenews" GridPane.columnIndex="1" />
+                                    <CheckBox fx:id="settingStevenBlackCategoryGamblingCheckBox" mnemonicParsing="false" onAction="#changeStevenBlackCategories" text="Gambling" GridPane.columnIndex="2" />
+                                    <CheckBox fx:id="settingStevenBlackCategoryPornCheckBox" mnemonicParsing="false" onAction="#changeStevenBlackCategories" text="Porn" GridPane.rowIndex="1">
+                                       <GridPane.margin>
+                                          <Insets />
+                                       </GridPane.margin></CheckBox>
+                                    <CheckBox fx:id="settingStevenBlackCategorySocialCheckBox" mnemonicParsing="false" onAction="#changeStevenBlackCategories" text="Social" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                  </children>
                               </GridPane>
                            </children>
