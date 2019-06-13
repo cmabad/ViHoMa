@@ -107,7 +107,8 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 	public String getWebSource() {
 		Configuration conf = this.findByParameter("webSource");
 		
-		return (null == conf || "".equals(conf.getValue()))?
+		return (null == conf || "".equals(conf.getValue()) 
+				|| conf.getValue().startsWith(Settings.get("defaultWebSourceDomain")))?
 			Settings.get("StevenBlack"+getStevenBlackCategories())
 			:conf.getValue();
 	}
