@@ -64,16 +64,6 @@ public interface ConfigurationService {
 	 */
 	void setBlockedAddress(String newBlockingAddress);
 	/**
-	 * syntax sugar for findByParameter("shareHosts").
-	 * @return false if no value is found, or it is "no". True otherwise.
-	 */
-	boolean isSharingAllowed();
-	/**
-	 * syntax sugar for toggling the value of "shareHosts" Configuration through
-	 * the set method. Values can be "yes" or "no".
-	 */
-	void toggleSharing();
-	/**
 	 * syntax sugar for findByParameter("updateAtVihomaStartup").
 	 * @return false if no value is found, or it is "no". True otherwise.
 	 */

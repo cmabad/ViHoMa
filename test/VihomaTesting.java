@@ -1,4 +1,6 @@
 
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -15,6 +17,7 @@ import application.model.Host;
 import application.util.HostsFileManager;
 import application.util.SystemUtil;
 import application.util.WindowsUtil;
+import application.util.properties.Settings;
 
 /**
  * This test cases will check the functionalities of the program.
@@ -26,12 +29,12 @@ import application.util.WindowsUtil;
 public class VihomaTesting {
 
 	private Host testBlockedHost;
-//	private CustomHost testCustomHost;
 	
 	@BeforeClass
 	public static void initialSetup() {
 		Main.configure();
 	}
+	
 	@Before
 	public void dbSetup() {
 		Factory.service.forHost().deleteAll();
@@ -39,8 +42,8 @@ public class VihomaTesting {
 		Factory.service.forHost().addHost("VihomaBlockedHost");
 		testBlockedHost = Factory.service.forHost().findByDomain("VihomaBlockedHost").get(0);
 		Factory.service.forCustomHost().add("VihomaCustomHost", "1.2.3.4");
-//		testCustomHost = Factory.service.forCustomHost().findByDomainOrIp("VihomaCustomHost").get(0);
 		Factory.service.forConfiguration().setBlockedAddress("");
+		Factory.service.forConfiguration().setWebSource("");
 		persistHostsFile();
 	}
 	
@@ -62,8 +65,6 @@ public class VihomaTesting {
 			scanner.close();
 			return false;
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			return false;
 		} 
 	}
@@ -75,7 +76,6 @@ public class VihomaTesting {
 					, Factory.service.forConfiguration().getBlockedAddress()
 					, Factory.service.forCustomHost().findAllActive());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -143,7 +143,7 @@ public class VihomaTesting {
 	
 	@Test
 	/**
-	 * Use cases 4, 8, 10
+	 * Use cases 4, 8, 10, 12
 	 */
 	public void configurationManagement() {
 		// change blocking address
@@ -153,13 +153,16 @@ public class VihomaTesting {
 		persistHostsFile();
 		assert(existsInHostsFile(newBlockingAddress));
 
-		// change sharing
-		boolean sharingOptionValue = 
-				Factory.service.forConfiguration().isSharingAllowed();
-		Factory.service.forConfiguration().toggleSharing();
-		assert(sharingOptionValue
-				^Factory.service.forConfiguration().isSharingAllowed());
-		Factory.service.forConfiguration().toggleSharing();
+		// change categories
+		int oldCategories = Factory.service.forConfiguration().getStevenBlackCategories();
+		Factory.service.forConfiguration()
+			.setStevenBlackCategories(Host.CATEGORY_STEVENBLACK_BASICS);
+		Factory.service.forConfiguration()
+			.setStevenBlackCategories(Host.CATEGORY_STEVENBLACK_PORN);
+		assert(oldCategories 
+				!= Factory.service.forConfiguration().getStevenBlackCategories());
+		Factory.service.forConfiguration()
+			.setStevenBlackCategories(oldCategories);
 		
 		// update at start
 		boolean updateAtStart = 
@@ -168,6 +171,15 @@ public class VihomaTesting {
 		assert(updateAtStart
 				^Factory.service.forConfiguration().isUpdateAtVihomaStartupEnabled());
 		Factory.service.forConfiguration().toggleUpdateAtVihomaStart();
+		
+		// change web source
+		String defaultDomain = Settings.get("defaultWebSourceDomain");
+		String oldSource = Factory.service.forConfiguration().getWebSource();
+		Factory.service.forConfiguration().setWebSource("");
+		assert(Factory.service.forConfiguration().getWebSource().startsWith(defaultDomain));
+		Factory.service.forConfiguration().setWebSource("testingSourceVihoma");
+		assert(!Factory.service.forConfiguration().getWebSource().startsWith(defaultDomain));
+		Factory.service.forConfiguration().setWebSource(oldSource);
 	}
 	
 	@Test
@@ -220,7 +232,8 @@ public class VihomaTesting {
 			WindowsUtil.toggleWindowsDNSClient();
 			
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			fail();
 		}
 		
 	}

@@ -87,29 +87,12 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 	}
 
 	@Override
-	public boolean isSharingAllowed() {
-		Configuration conf = this.findByParameter("shareHosts");
-		
-		if (null == conf || "no".equals(conf.getValue()))
-			return false;
-		return true;
-	}
-
-	@Override
 	public boolean isUpdateAtVihomaStartupEnabled() {
 		Configuration conf = this.findByParameter("updateAtVihomaStartup");
 		
 		if (null == conf || "no".equals(conf.getValue()))
 			return false;
 		return true;
-	}
-
-	@Override
-	public void toggleSharing() {
-		if (Factory.service.forConfiguration().isSharingAllowed())
-			Factory.service.forConfiguration().set("shareHosts", "no");
-		else
-			Factory.service.forConfiguration().set("shareHosts", "yes");
 	}
 
 	@Override

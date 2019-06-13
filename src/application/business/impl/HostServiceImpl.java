@@ -87,10 +87,13 @@ public class HostServiceImpl implements HostService{
 			List<Host> deactivatedList = findByStatus(Host.STATUS_DELETED);
 			deleteAll();
 			addHosts(hosts);
-			addHosts(userAdded);
-			addHosts(deactivatedList);
-			for (Host deactivated : deactivatedList)
+			for (Host user : userAdded)
+				addHost(user.getDomain(), user.getCategory());
+			for (Host deactivated : deactivatedList) {
+				addHost(deactivated.getDomain(), deactivated.getCategory());
 				toggleStatus(deactivated.getDomain());
+			}
+			
 			Factory.service.forConfiguration().setLastUpdateTime();
 		}
 		return hosts;

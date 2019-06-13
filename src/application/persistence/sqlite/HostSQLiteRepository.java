@@ -201,7 +201,6 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 			conn = SQLiteJDBC.connect();
 			pstmt = conn.prepareStatement(Settings.get("sqlSelectHostsByStatus"));
 			pstmt.setInt(1, status);
-			pstmt.setInt(2, status);
 			rs = pstmt.executeQuery();
 			while (rs.next())
 				hosts.add(new Host(

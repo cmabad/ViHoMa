@@ -121,7 +121,8 @@ public class MainViewController {
 	private Label settingWebSourceFieldLabel;
 	@FXML
 	private TextField settingWebSourceField;
-
+	@FXML
+	private Button settingSetDefaultWebSourceButton;
 	@FXML
 	private Label settingStevenBlackCategoryLabel;
 
@@ -225,6 +226,7 @@ public class MainViewController {
 		settingStevenBlackCategorySocialCheckBox.setText(Messages.get("social"));
 		updateButton.setText(Messages.get("updateButton"));
 		versionLabel.setText(Settings.get("vihomaVersion"));
+		settingSetDefaultWebSourceButton.setText(Messages.get("defaultSourceButton"));
 	}
 
 	/** Is called by the main application to give a reference back to itself.
@@ -291,6 +293,7 @@ public class MainViewController {
 	protected void updateDatabaseFromWeb() {
 		drawStatusBar(Messages.get("updating"), STATUS_UPDATE);
 		System.out.println(Messages.get("updating"));
+		updateButton.setDisable(true);
 		updateMainTab();
 		List<Host> hosts = Factory.service.forHost().updateDatabaseFromWeb();
 
@@ -303,6 +306,7 @@ public class MainViewController {
 		updateMainTab();
 		persistHostsFile();
 		drawStatusBar(Messages.get("upToDate"), STATUS_OK);
+		updateButton.setDisable(false);
 	}
 
 	@FXML
@@ -612,6 +616,12 @@ public class MainViewController {
 	}
 	
 	@FXML
+	protected void changeWebSourceToDefault() {
+		settingWebSourceField.setText(Settings.get("defaultWebSourceDomain"));
+		changeWebSource();
+	}
+	
+	@FXML
 	protected void changeStevenBlackCategories() {
 		int categories = 0;
 		StringBuilder chosenCategories = new StringBuilder();
@@ -676,7 +686,7 @@ public class MainViewController {
 		settingStevenBlackCategorySocialCheckBox.setSelected(
 				(categories&Host.CATEGORY_STEVENBLACK_SOCIAL) 
 					== Host.CATEGORY_STEVENBLACK_SOCIAL);
-		if (settingWebSourceField.getText().startsWith(Settings.get("defaultWebSourceDomain"))
+		if (settingWebSourceField.getText().equals(Settings.get("defaultWebSourceDomain"))
 				|| "".equals(settingWebSourceField.getText())) {
 			settingStevenBlackCategoryFakenewsCheckBox.setDisable(false);
 			settingStevenBlackCategoryGamblingCheckBox.setDisable(false);

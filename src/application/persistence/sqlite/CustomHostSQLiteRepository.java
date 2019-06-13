@@ -149,7 +149,6 @@ public class CustomHostSQLiteRepository extends BaseSQLiteRepository implements 
 			conn = SQLiteJDBC.connect();
 			pstmt = conn.prepareStatement(Settings.get("sqlSelectCustomHostsByStatus"));
 			pstmt.setInt(1, status);
-			pstmt.setInt(2, status);
 			rs = pstmt.executeQuery();
 			while (rs.next())
 				hosts.add(new CustomHost(

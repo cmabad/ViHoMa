@@ -196,6 +196,7 @@
                                     <CheckBox fx:id="settingStevenBlackCategorySocialCheckBox" mnemonicParsing="false" onAction="#changeStevenBlackCategories" text="Social" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                  </children>
                               </GridPane>
+                              <Button fx:id="settingSetDefaultWebSourceButton" layoutX="271.0" layoutY="190.0" mnemonicParsing="false" onAction="#changeWebSourceToDefault" text="Use default" />
                            </children>
                         </AnchorPane>
                     </content>

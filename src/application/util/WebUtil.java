@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 
-//import javax.net.ssl.HttpsURLConnection;
-
 import application.model.Host;
 import application.util.properties.Settings;
 
