@@ -24,12 +24,14 @@
 			<li><a href="#restartNetwork">A host is blocked but I can still connect to it</a></li>
 			<li><a href="#validIP">Valid IPs</a></li>
 			<li><a href="#httpsLimitation">HTTPS security risk warning</a></li>
+			<li><a href="#localFolder">Vihoma local files</a></li>
 			<li>Settings
 				<ul>
 					<li><a href="#startup">Running Vihoma at system startup</a></li>
-					<li><a href="#shareDomains">Help Vihoma to block more domains</a></li>
 					<li><a href="#dnsclient">Make network start faster (Windows DNS Client))</a></li>
 					<li><a href="#targetAddress">Custom target address</a></li>
+					<li><a href="#monitoring">Monitoring the blocked connections</a></li>
+					<li><a href="#customSource">Custom hosts file source</a></li>
 				</ul>
 			</li>
 		</ul>
@@ -114,18 +116,24 @@
 			<p>You can feel safe, the web browser won't send any personal information if you don't explicitly accept the risk; it will just show you a flashy warning. HTTP connections may be redirected without problems.</p>
 		</article>
 		
+		<article id="localFolder">
+			<h2>Vihoma local files</h2>
+			
+			<p>Vihoma saves some files into your computer in order to run. Those are found inside the Vihoma folder, which may be found in:</p>
+			<ul>
+				<li>Windows: %administrator personal folder%\AppData\Local\Vihoma\</li>
+				<li>GNU/Linux: /etc/Vihoma/</li>
+			</ul>
+			<p>Files stored there are: the local database and log files</p>
+			<p>If the program detects an internal inconsistency and has to restart the database, a hosts security copy is saved here, so you can recover your custom hosts list.</p>
+		</article>
+		
 		<article id="startup">
 			<h2>Running Vihoma at system startup</h2>
 
 			<p>You can automate the system host management if you allow Vihoma to update its database at system startup. It will run silently and will keep your system up to date. This option is only available on Windows, but you can configure your specific operating system to run Vihoma at the startup. To do it silently, pass to the jar file the argument <i>quiet</i>.</p>
 			
 			<p>If you have enabled the program startup but it doesn't work, disable and enable it again. Do this each time you change the program location.</p>
-		</article>
-		
-		<article id="shareDomains">
-			<h2>Help Vihoma to block more domains</h2>
-			
-			<p>You can contribute to make the web safer if you allow us to collect your manually blocked hostnames. Each time you add a domain to the blocked list, it will be sent to the Vihoma central database. No personal information will be sent.</p>
 		</article>
 		
 		<article id="dnsclient">
@@ -139,6 +147,18 @@
 			<h2>Custom target Address</h2>
 			
 			<p>By default, all the blocked hosts will be redirected to the address 0.0.0.0. You can change this if you want, for example, redirect everything to a personal server and log statistics about the domains which are being blocked in real time.</p>
+		</article>
+		
+		<article id="monitoring">
+			<h2>Monitoring the blocked connections</h2>
+			
+			<p>The <i>hosts</i> file does not provide a built-in feature of counting or logging which hosts has been blocked. Nevertheless, you can monitor the HTTP connections your operating system has blocked if you redirect the unwanted websites to a custom web server. There, just listen to the incoming HTTP requests and check their header values, like that of <i>hostname</i> or <i>referer</i>.</p>
+		</article>
+		
+		<article id="customSource">
+			<h2>Custom hosts file source</h2>
+			
+			<p>By default, Vihoma downloads the list of blocked hosts from <a href="http://sbc.io/hosts/hosts">http://sbc.io/hosts/hosts</a>, but you can change the input <i>hosts</i> file location. Just make sure that you add a valid HTTP URL (URL parameters are OK).</p>
 		</article>
 	</body>
 </html>

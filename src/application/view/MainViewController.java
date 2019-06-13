@@ -35,6 +35,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * This MainViewController is in charge of responding to the user started events and
+ * changing the Graphical User Interface texts and notifications.
+ * It depends on the business and util layers to complete the operations asked by the user.
+ */
 public class MainViewController {
 
 	@FXML
@@ -347,7 +352,7 @@ public class MainViewController {
 				if (count<0)
 					drawStatusBar(Messages.get("errorCustomAddress"), STATUS_ERROR);
 				else
-					drawStatusBar(Messages.get("errorExistingDomain"), STATUS_ERROR);
+					drawStatusBar(Messages.get("errorExisitingCustomHost"), STATUS_ERROR);
 				updateMainTab();
 				return;
 			}
@@ -401,8 +406,12 @@ public class MainViewController {
 		if (null == host)
 			drawStatusBar(Messages.get("noHostSelected"),STATUS_ERROR);
 		else {			
-			Factory.service.forCustomHost().toggleStatus(host.getDomain(), host.getAddress());
+			int updated = Factory.service.forCustomHost().toggleStatus(host.getDomain(), host.getAddress());
 			
+			if (updated != 1) {
+				drawStatusBar("something went wrong", STATUS_ERROR);
+				return;
+			}
 			host.setActive(!host.isActive());
 			
 			persistHostsFile();
@@ -411,10 +420,12 @@ public class MainViewController {
 			
 			if (host.isActive())
 				drawStatusBar(host.getDomain() + " " 
-						+ Messages.get("activatedCustomHost"), STATUS_OK);
+						+ Messages.get("activatedCustomHost") + " "
+						+ host.getAddress(), STATUS_OK);
 			else
 				drawStatusBar(host.getDomain() + " " 
-						+ Messages.get("unactivatedCustomHost"), STATUS_OK);
+						+ Messages.get("unactivatedCustomHost") + " "
+						+ host.getAddress(), STATUS_OK);
 			
 			customHostsActivationButton.setDisable(true);
 		}
@@ -564,7 +575,6 @@ public class MainViewController {
 		else
 			drawStatusBar(Messages.get("updateAtVihomaStartupDeactivated"), STATUS_OK);
 	}
-
 
 	@FXML
 	protected void changeTargetAddress() {

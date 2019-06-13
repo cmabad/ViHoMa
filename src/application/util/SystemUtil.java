@@ -2,9 +2,16 @@ package application.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
+import java.net.URLDecoder;
 
 import application.util.properties.Settings;
 
+/**
+ * This class provides filesystem related methods and the administrator permission
+ * checker.
+ */
 public class SystemUtil {
 
 	/**
@@ -61,10 +68,29 @@ public class SystemUtil {
 		}
 	}
 
+	/**
+	 * removes the Vihoma system folder and its contents.
+	 */
 	public static void removeVihomaFolderPath() {
 		File vihomaFolder = new File(getVihomaFolderPath());
 		for (File f : vihomaFolder.listFiles())
 			f.delete();
 		vihomaFolder.delete();
+	}
+	
+	/**
+	 * returns the system path to the running Vihoma jar.
+	 * @return the path to the Vihoma.jar file, an empty string if some error 
+	 * occurs
+	 */
+	public static String getVihomaJarPath() {
+		try {
+			return URLDecoder.decode(SystemUtil.class.getProtectionDomain()
+					.getCodeSource().getLocation().toURI().getPath(), "UTF-8")
+					.substring(1);
+		} catch (URISyntaxException | UnsupportedEncodingException e) {
+			Logger.err(e.getMessage());
+			return "";
+		}
 	}
 }

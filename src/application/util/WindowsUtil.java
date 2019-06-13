@@ -3,12 +3,18 @@ package application.util;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
-import java.net.URLDecoder;
 
+/**
+ * This class provides some Windows Operating System auxiliary methods.
+ *
+ */
 public class WindowsUtil {
 
+	/**
+	 * Queries the value of the DNScache start Windows registry.
+	 * @return true if the query does not return '0x4', false otherwise
+	 * @throws IOException if the query cannot be done
+	 */
 	public static boolean isDNSClientActivated() throws IOException {
 		Process process = Runtime.
 				   getRuntime().
@@ -28,7 +34,12 @@ public class WindowsUtil {
 	    
 	    return false;
 	}
-	
+
+	/**
+	 * updates the value of the DNScache start Windows registry. If the start
+	 * is disabled (0x4), it is changed to automatic (0x2), and otherwise.
+	 * @return true if the DNScache start Windows registry has changed
+	 */
 	public static boolean toggleWindowsDNSClient() {
 		try {
 			boolean wasActivated = isDNSClientActivated();
@@ -48,6 +59,12 @@ public class WindowsUtil {
 		} 
 	}
 	
+	/**
+	 * checks if the Windows registry has an entry to run the program at the 
+	 * operating system startup
+	 * @return true if the entry is found, false otherwise
+	 * @throws IOException
+	 */
 	public static boolean isRunAtStartup() throws IOException {
 		Process process = Runtime.
 				   getRuntime().
@@ -68,23 +85,16 @@ public class WindowsUtil {
 	    return true;
 	}
 	
-	public static String getPath() {
-		try {
-			return URLDecoder.decode(WindowsUtil.class.getProtectionDomain()
-					.getCodeSource().getLocation().toURI().getPath(), "UTF-8")
-					.substring(1);
-		} catch (URISyntaxException | UnsupportedEncodingException e) {
-			Logger.err(e.getMessage());
-			System.exit(1);
-			return "";
-		}
-	}
-	
+	/**
+	 * toggles the start of Vihoma at the windows start. It adds or removes an 
+	 * entry to the Windows registry.
+	 * @return true if the Windows registry changed
+	 */
 	public static boolean toggleWindowsStartup() {
 		try {
 			boolean wasSetUp = isRunAtStartup();
 			if (!wasSetUp) {
-				String path = (getPath().split("vihoma.jar")[0]).replace('/', '\\')
+				String path = (SystemUtil.getVihomaJarPath().split("vihoma.jar")[0]).replace('/', '\\')
 						+"vihomaAdmin.bat quiet";
 				Runtime.
 				   getRuntime().

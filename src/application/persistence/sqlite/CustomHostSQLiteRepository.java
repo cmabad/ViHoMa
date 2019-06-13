@@ -64,43 +64,24 @@ public class CustomHostSQLiteRepository extends BaseSQLiteRepository implements 
 	}
 
 	@Override
-	public void toggleStatus(String domain, String address) {
+	public int toggleStatus(String domain, String address) {
 		try {
 			conn = SQLiteJDBC.connect();
 			pstmt = conn.prepareStatement(
 				Settings.get("sqlUpdateCustomHostToggleStatus"));
 			pstmt.setString(1, domain);
-			pstmt.setString(2, domain);
+			pstmt.setString(2, address);
 			pstmt.setString(3, domain);
 			pstmt.setString(4, address);
-			pstmt.executeUpdate();
+			pstmt.setString(5, domain);
+			pstmt.setString(6, address);
+			return pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
 			// ignored
 		} finally {
 			SQLiteJDBC.close(pstmt, conn);
-}		
-	}
-
-	@Override
-	public List<CustomHost> findAllActive() {
-		List<CustomHost> hosts = new ArrayList<CustomHost>();
-		try {
-			conn = SQLiteJDBC.connect();
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(Settings.get("sqlSelectCustomHostsActive"));
-			while (rs.next())
-				hosts.add(new CustomHost(
-						(String) rs.getString("domain")
-						, (String) rs.getString("address")
-						, (int) rs.getInt("status"))
-						);
-		} catch (SQLException e) {
-			// ignored
-		} finally {
-			SQLiteJDBC.close(rs, stmt, conn);
-		}
-		return hosts;
+}		return -1;
 	}
 
 	@Override
@@ -148,7 +129,6 @@ public class CustomHostSQLiteRepository extends BaseSQLiteRepository implements 
 		return -1;
 	}
 
-	
 	@Override
 	public void deleteAll() {
 		try {
@@ -160,6 +140,29 @@ public class CustomHostSQLiteRepository extends BaseSQLiteRepository implements 
 		} finally {
 			SQLiteJDBC.close(rs, stmt, conn);
 		}
+	}
+
+	@Override
+	public List<CustomHost> findByStatus(int status) {
+		List<CustomHost> hosts = new ArrayList<CustomHost>();
+		try {
+			conn = SQLiteJDBC.connect();
+			pstmt = conn.prepareStatement(Settings.get("sqlSelectCustomHostsByStatus"));
+			pstmt.setInt(1, status);
+			pstmt.setInt(2, status);
+			rs = pstmt.executeQuery();
+			while (rs.next())
+				hosts.add(new CustomHost(
+						(String) rs.getString("domain")
+						, (String) rs.getString("address")
+						, (int) rs.getInt("status"))
+						);
+		} catch (SQLException e) {
+			// ignored
+		} finally {
+			SQLiteJDBC.close(rs, stmt, conn);
+		}
+		return hosts;
 	}
 
 }

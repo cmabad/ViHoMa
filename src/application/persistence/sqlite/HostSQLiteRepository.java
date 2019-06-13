@@ -11,10 +11,6 @@ import application.util.properties.Settings;
 
 public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRepository{
 	
-	/**
-	 * 
-	 * @param newHosts
-	 */
 	public int addHosts(List<Host> newHostsList) {
 		try {
 			conn = SQLiteJDBC.connect();
@@ -205,6 +201,7 @@ public class HostSQLiteRepository extends BaseSQLiteRepository implements HostRe
 			conn = SQLiteJDBC.connect();
 			pstmt = conn.prepareStatement(Settings.get("sqlSelectHostsByStatus"));
 			pstmt.setInt(1, status);
+			pstmt.setInt(2, status);
 			rs = pstmt.executeQuery();
 			while (rs.next())
 				hosts.add(new Host(

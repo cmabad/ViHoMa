@@ -3,6 +3,11 @@ package application.util.properties;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * This class manages the file storing the internal text that will be used
+ * in logs, system and web paths, and SQl queries.
+ *
+ */
 public class Settings {
 
 	private static final String CONF_FILE = "configuration.properties";

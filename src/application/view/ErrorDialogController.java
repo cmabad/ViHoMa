@@ -5,6 +5,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
+/**
+ * This controller will be used to show the user a screen notifying that an
+ * unrecoverable error has been produced and that it is necessary to close the
+ * application.
+ */
 public class ErrorDialogController {
 
 	@FXML

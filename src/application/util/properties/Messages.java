@@ -3,6 +3,11 @@ package application.util.properties;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * This class manages the file storing the messages that will be shown in the UI
+ * layer to the user. If i18ned, the language file is changed here.
+ *
+ */
 public class Messages{
 	
 	private static String CONF_FILE = "messages_en.properties";

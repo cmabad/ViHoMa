@@ -5,6 +5,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
+/**
+ * This controller will be used to show the user a screen requiring to run the
+ * program with admin privileges.
+ */
 public class ErrorAdminController {
 
 	@FXML

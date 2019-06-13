@@ -5,6 +5,7 @@ import java.util.List;
 import application.business.CustomHostService;
 import application.conf.Factory;
 import application.model.CustomHost;
+import application.model.Host;
 import application.util.Logger;
 
 public class CustomHostServiceImpl implements CustomHostService {
@@ -36,16 +37,16 @@ public class CustomHostServiceImpl implements CustomHostService {
 	}
 
 	@Override
-	public void toggleStatus(String domain, String address) {
+	public int toggleStatus(String domain, String address) {
 		if (null == domain)
 			throw new RuntimeException("no host provided");
 		
-		Factory.repository.forCustomHost().toggleStatus(domain, address);
+		return Factory.repository.forCustomHost().toggleStatus(domain, address);
 	}
 
 	@Override
 	public List<CustomHost> findAllActive() {
-		return Factory.repository.forCustomHost().findAllActive();
+		return findByStatus(Host.STATUS_ACTIVE);
 	}
 
 	@Override
@@ -64,4 +65,8 @@ public class CustomHostServiceImpl implements CustomHostService {
 		
 	}
 
+	@Override
+	public List<CustomHost> findByStatus(int status) {
+		return Factory.repository.forCustomHost().findByStatus(status);
+	}
 }

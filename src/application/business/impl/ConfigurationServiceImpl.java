@@ -25,13 +25,15 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 	}
 
 	@Override
-	public void add(String parameter, String value) {
+	public int add(String parameter, String value) {
 		int count = Factory.repository.forConfiguration()
 			.add(new Configuration(parameter,value));
 		if (0 == count)
 			Logger.err("ERROR ADDING CONFIGURATION: " + parameter + " = " + value);
 		else
 			Logger.log("NEW CONFIGURATION: " + parameter + " = " + value);
+		
+		return count;
 	}
 
 	@Override
@@ -52,12 +54,18 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 	}
 	
 	@Override
-	public Configuration findByParameter(String parameter) {
+	public Configuration findByParameter(String parameter) throws IllegalArgumentException{
+		if (null == parameter)
+			throw new IllegalArgumentException("no parameter provided");
+		
 		return Factory.repository.forConfiguration().findByParameter(parameter);
 	}
 
 	@Override
-	public int update(String parameter, String value) {
+	public int update(String parameter, String value) throws IllegalArgumentException{
+		if (null == parameter || null == value || "".equals(parameter))
+			throw new IllegalArgumentException("at least a non-empty parameter is needed");
+		
 		int count = Factory.repository.forConfiguration().update(parameter, value); 
 		
 		if (0 < count)
@@ -67,12 +75,15 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 	}
 
 	@Override
-	public void set(String parameter, String value) {
+	public void set(String parameter, String newValue) throws IllegalArgumentException{
+		if (null == parameter || null == newValue || "".equals(parameter))
+			throw new IllegalArgumentException("at least a non-empty parameter is needed");
+		
 		Configuration conf = this.findByParameter(parameter);
 		if (null == conf)
-			add(parameter,value);
+			add(parameter,newValue);
 		else
-			update(parameter,value);
+			update(parameter,newValue);
 	}
 
 	@Override
@@ -123,7 +134,6 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 		set("webSource", newSource);
 	}
 
-	
 	@Override
 	public void setStevenBlackCategories(int categories) {
 		set("StevenBlackCategories", String.valueOf(categories));

@@ -73,7 +73,12 @@ public class WebUtil {
     	
 	}
 	
-
+	/**
+	 * validates an address with the IPv4 and IPv6 specification formats.
+	 * @param address the address to be validated
+	 * @return true if the address follows at least one of the specifications, 
+	 * false otherwise.
+	 */
 	public static boolean checkIpValidity(String address) {
 		List<String> regex = new ArrayList<String>();
 //		IPV4_REGEX
@@ -94,11 +99,17 @@ public class WebUtil {
 		return false;
 	}
 
+	/**
+	 * creates a temporal file with the HTML user guide and opens the browser to
+	 * show it to the user.
+	 * @return true if the file can be opened in the browser, false otherwise
+	 * (file not found, browser opening operation not supported..)
+	 */
 	public static boolean openHelp() {
 		try {
 			String base =//WebUtil.class.getProtectionDomain().getCodeSource()
 					//.getLocation().getPath()
-					SystemUtil.getHostsPath().split("hosts")[0] +".vihomahelp.html";
+					SystemUtil.getHostsPath().split("hosts")[0] +".vihomahelp.tmp.html";
 			File tempHelp = 
 					new File(base);
 			tempHelp.deleteOnExit();
@@ -110,7 +121,7 @@ public class WebUtil {
 			
 			Desktop.getDesktop().browse(tempHelp.toURI());
 			return true;
-		} catch (IOException e) {
+		} catch (UnsupportedOperationException | IOException e) {
 			Logger.err(e.getMessage());
 			return false;
 		}

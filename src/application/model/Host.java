@@ -9,6 +9,23 @@ import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+/**
+ * This class represents a blocked Host entity. 
+ * @attribute domain the domain name of the host
+ * @attribute category the category to which the host belongs (only CATEGORY_VIHOMA
+ * available)
+ * @attribute status each domain can be active (default) or deleted. If active, it
+ * will be persisted to the hosts file.
+ * @attribute updatedAt the unix time in which the host was added
+ * @attribute comment additional information
+ * @attribute STATUS_ACTIVE 1
+ * @attribute STATUS_DELETED 0
+ * @attribute CATEGORY_VIHOMA 0
+ * @attribute CATEGORY_STEVENBLACK_FAKENEWS 1 
+ * @attribute CATEGORY_STEVENBLACK_GAMBLING 2
+ * @attribute CATEGORY_STEVENBLACK_PORN 4
+ * @attribute CATEGORY_STEVENBLACK_SOCIAL 8
+ */
 public class Host {
 
 	private StringProperty domain;
@@ -19,7 +36,7 @@ public class Host {
 	
 	public final static int STATUS_ACTIVE = 1;
 	public final static int STATUS_DELETED = 0;
-	public final static int CATEGORY_VIHOMA = 8;
+	public final static int CATEGORY_VIHOMA = 0;
 	public final static int CATEGORY_STEVENBLACK_FAKENEWS = 1;
 	public final static int CATEGORY_STEVENBLACK_GAMBLING = 2;
 	public final static int CATEGORY_STEVENBLACK_PORN = 4;

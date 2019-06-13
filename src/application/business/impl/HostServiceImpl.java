@@ -11,12 +11,18 @@ import application.util.WebUtil;
 public class HostServiceImpl implements HostService{
 
 	@Override
-	public int addHost(String domain) {
+	public int addHost(String domain){
+		if (null == domain || "".equals(domain))
+			return -1;
+		
 		return addHost(domain, Host.CATEGORY_VIHOMA);
 	}
 	
 	@Override
 	public int addHost(String domain, Integer category) {
+		if (null == domain || "".equals(domain) || null == category)
+			return -1;
+		
 		int count =  Factory.repository.forHost().add(new Host(domain,category));
 		if (0 == count)
 			Logger.err("ERROR BLOCKING DOMAIN " + domain + "  with category " 
@@ -45,9 +51,9 @@ public class HostServiceImpl implements HostService{
 	}
 
 	@Override
-	public void toggleStatus(String domain) {
+	public void toggleStatus(String domain) throws IllegalArgumentException{
 		if (null == domain)
-			throw new RuntimeException("no host provided");
+			throw new IllegalArgumentException("no host provided");
 		
 		Factory.repository.forHost().toggleHostStatus(domain);
 	}
@@ -73,14 +79,9 @@ public class HostServiceImpl implements HostService{
 	}
 
 	@Override
-	public List<Host> getHostsFromWeb() {
-		return WebUtil.getHostsFromWebSource(
-				Factory.service.forConfiguration().getWebSource());
-	}
-
-	@Override
 	public List<Host> updateDatabaseFromWeb() {
-		List<Host> hosts = getHostsFromWeb();
+		List<Host> hosts = WebUtil.getHostsFromWebSource(
+				Factory.service.forConfiguration().getWebSource());
 		if (null != hosts && !hosts.isEmpty()) {
 			List<Host> userAdded = findByCategory(Host.CATEGORY_VIHOMA);
 			List<Host> deactivatedList = findByStatus(Host.STATUS_DELETED);
@@ -97,7 +98,6 @@ public class HostServiceImpl implements HostService{
 		return hosts;
 	}
 
-	
 	@Override
 	public List<Host> findByStatus(int status) {
 		return Factory.repository.forHost().findByStatus(status);

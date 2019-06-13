@@ -30,6 +30,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * This class sets up some initial documentation and launches the different 
+ * interface modes depending on the user parameters.
+ *
+ */
 public class Main extends Application {
 	
 	private static Stage primaryStage;
@@ -134,6 +139,16 @@ public class Main extends Application {
     
     public void errorExit() {
     	showErrorDialog();
+    	try {
+			HostsFileManager.persistHostsFile(
+					SystemUtil.getVihomaFolderPath() + ".hosts.vihoma." 
+							+ System.currentTimeMillis()/1000 + ".crash"
+					,Factory.service.forHost().findAll()
+					, Factory.service.forConfiguration().getBlockedAddress()
+					, Factory.service.forCustomHost().findAll());
+		} catch (IOException e) {
+			System.out.println(Messages.get("oops"));
+		}
     	new File(SystemUtil.getVihomaFolderPath() + "vihoma.sqlite").delete();
     	System.exit(0);
     }
