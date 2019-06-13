@@ -72,10 +72,16 @@ public class SystemUtil {
 	 * removes the Vihoma system folder and its contents.
 	 */
 	public static void removeVihomaFolderPath() {
+		try {
 		File vihomaFolder = new File(getVihomaFolderPath());
 		for (File f : vihomaFolder.listFiles())
 			f.delete();
 		vihomaFolder.delete();
+		} catch (NullPointerException e) {
+			// the vihoma folder cannot be removed, probably because of user
+			// permissions. Logging here would re-create the files it is trying
+			// to delete: do nothing
+		}
 	}
 	
 	/**
