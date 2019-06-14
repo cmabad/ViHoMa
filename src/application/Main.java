@@ -135,6 +135,7 @@ public class Main extends Application {
 		if (null != update && "yes".equals(update.getValue())) {
 			quietRun();
 		}
+		fillBlockedHostObservableList();
 	}
     
     public void errorExit() {
