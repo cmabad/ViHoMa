@@ -20,6 +20,7 @@ You will find .zip files containing the program executable on [this](https://www
 
 ### How do i run it?
 If you are on **Windows**, double click on the vihoma.bat file.
+
 If a **GNU/Linux**-based system is used, execute vihoma.sh. Make sure that you have an OpenJRE 8 instance installed. The JavaFX library is not included, so you must manually install openjfx too. *For example, using apt install openjfx*.
 
-*NOTE 2: Vihoma overwrites your system's hosts file. If you have previously modified it with custom hosts, you may want to backup the file first.*
+*NOTE: Vihoma overwrites your system's hosts file. If you have previously modified it with custom hosts, you may want to backup the file first.*
