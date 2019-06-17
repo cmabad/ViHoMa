@@ -1,12 +1,11 @@
 # ViHoMa
-----
-<img src="https://raw.githubusercontent.com/cmabad/ViHoMa/master/src/resources/ico-big.png" alt="Vihoma logo" height="4em"/>
+<img src="https://raw.githubusercontent.com/cmabad/ViHoMa/master/src/resources/ico-big.png" alt="Vihoma logo" height="130em"/>
 Hi! You have reached the GIT repository for Vihoma, a Visual Hosts file Manager. 
 
 ### What is Vihoma?
 Vihoma is a program that runs on your computer and helps the operating system to block connections to malicious websites. It's like an adblocker, but system-wide. You may manually block domains through its graphical interface, or let the program automatically do it for you. 
 For more advanced users, Vihoma also lets adding domains with custom addresses.
-![Vihoma main tab](https://raw.githubusercontent.com/cmabad/ViHoMa/master/src/resources/main-tab.png)
+![Vihoma main tab](https://raw.githubusercontent.com/cmabad/ViHoMa/master/src/resources/main-tab.PNG)
 
 ### How does it protect me?
 This app will download a list of hosts that are considered malicious, and tells your computer to avoid the connection to them by adding that list to a local file called `hosts`.
