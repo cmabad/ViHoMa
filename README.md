@@ -16,7 +16,7 @@ It uses a consolidated hosts list provided by **Steven Black**. You can check hi
 Vihoma is built with Java 8 and JavaFX. You'll need to have **JRE 8** installed on your computer. Given that a system file is modified, **administration privileges** are required too.
 
 ### Where can I download it?
-You will find .zip files containing the program executable on [this](https://www.dropbox.com/sh/fs6pz5nhim62oj0/AAAvIwUTKPrRaSUB5iNtcGLIa?dl=0) dropbox folder.
+You will find .zip files containing the program executable on [this](https://www.dropbox.com/sh/tdtitqzdbm6ij1z/AADVGZw6w4lVZM6lmipe7hDma?dl=0) dropbox folder.
 
 ### How do i run it?
 If you are on **Windows**, double click on the vihoma.bat file.
