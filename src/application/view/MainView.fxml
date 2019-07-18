@@ -214,7 +214,7 @@
                         </Label>
                         <Hyperlink layoutX="12.0" layoutY="137.0" onAction="#openGithubLink" text="Github" />
                         <Label layoutX="14.0" layoutY="68.0" text="Christian M. Abad" />
-                        <Label layoutX="131.0" layoutY="68.0" text="cma.29@outlook.com" />
+                        <Label layoutX="131.0" layoutY="68.0" text="cmab.29@outlook.com" />
                         <Label layoutX="131.0" layoutY="140.0" text="GPL-3.0" />
                         <Label layoutX="14.0" layoutY="43.0" text="Author">
                            <font>
